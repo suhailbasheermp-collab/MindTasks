@@ -1,16 +1,23 @@
 {
-  "name": "Priority Journal",
-  "short_name": "Journal",
-  "start_url": "index.html",
+  "name": "Priority Insights",
+  "short_name": "Insights",
+  "description": "A minimal journaling tool",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#333333",
-  "orientation": "portrait",
   "icons": [
     {
-      "src": "bg.jpg",
+      "src": "https://raw.githubusercontent.com/google-developer-training/pwa-training-labs/master/pwa-03-service-workers/solution/images/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/google-developer-training/pwa-training-labs/master/pwa-03-service-workers/solution/images/icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

@@ -6,8 +6,8 @@
     "start_url": "./index.html",
     "display": "standalone",
     "orientation": "portrait",
-    "background_color": "#ffffff",
-    "theme_color": "#000000",
+    "background_color": "#121212",
+    "theme_color": "#121212",
     "categories": ["productivity", "lifestyle", "utilities"],
     "icons": [
         {
@@ -37,15 +37,33 @@
     ],
     "screenshots": [
         {
-            "src": "screenshot.png",
-            "sizes": "1024x1024",
-            "type": "image/png",
-            "form_factor": "wide"
+            "src": "screen1.jpg",
+            "sizes": "1043x1920",
+            "type": "image/jpeg",
+            "form_factor": "narrow"
         },
         {
-            "src": "screenshot.png",
-            "sizes": "1024x1024",
-            "type": "image/png",
+            "src": "screen2.jpg",
+            "sizes": "1043x1920",
+            "type": "image/jpeg",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "screen3.jpg",
+            "sizes": "1043x1920",
+            "type": "image/jpeg",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "screen4.jpg",
+            "sizes": "1043x1920",
+            "type": "image/jpeg",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "screen5.jpg",
+            "sizes": "1043x1920",
+            "type": "image/jpeg",
             "form_factor": "narrow"
         }
     ]

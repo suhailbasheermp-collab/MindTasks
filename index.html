@@ -7,7 +7,6 @@
     
     <link rel="manifest" href="./manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
-    
     <meta name="theme-color" content="#0b0c15">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,7 +75,6 @@
             box-shadow: 0 4px 30px rgba(0,0,0,0.1);
         }
 
-        /* BRAND LOGO */
         .brand-logo {
             display: flex; align-items: center; gap: 8px;
             font-family: 'Rajdhani', sans-serif;
@@ -94,26 +92,51 @@
         @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
 
         .header-actions { display: flex; align-items: center; gap: 20px; }
-        
-        /* Header Icons */
         .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.7; transition: 0.3s; color: white; display: flex; align-items: center; justify-content: center; }
         .icon-btn:hover { opacity: 1; transform: scale(1.1); text-shadow: 0 0 10px white; }
-
-        /* MAGICAL SCROLL ICON */
-        .scroll-icon-svg {
-            width: 24px; height: 24px;
-            fill: none; stroke: var(--aurora-blue); stroke-width: 2;
-            filter: drop-shadow(0 0 3px var(--aurora-blue));
-            animation: scroll-glow 3s infinite ease-in-out;
-        }
-        @keyframes scroll-glow {
-            0%, 100% { filter: drop-shadow(0 0 2px var(--aurora-blue)); transform: translateY(0); }
-            50% { filter: drop-shadow(0 0 8px var(--aurora-blue)); transform: translateY(-2px); }
-        }
 
         /* --- MAIN CONTENT --- */
         .container { padding: 24px; padding-bottom: 100px; max-width: 600px; margin: 0 auto; }
         
+        /* NEW QUOTE BANNER */
+        .quote-banner {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .quote-banner:active { transform: scale(0.98); background: rgba(255,255,255,0.08); }
+        .quote-banner::before {
+            content: '❝'; position: absolute; top: -10px; left: 10px; font-size: 4rem; color: rgba(255,255,255,0.03); font-family: serif;
+        }
+        .banner-text {
+            font-family: 'Merriweather', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #eee;
+            margin-bottom: 8px;
+            min-height: 45px; /* Prevent jumpiness */
+            display: flex; align-items: center; justify-content: center;
+        }
+        .banner-author {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--aurora-blue);
+            opacity: 0.8;
+        }
+        .fade-anim { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Section Labels */
         .section-label {
             font-family: 'Rajdhani', sans-serif;
             font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;
@@ -149,7 +172,6 @@
             position: relative; overflow: hidden;
         }
         
-        /* Neon Indicators */
         .task-item.red { border-left: 3px solid var(--high); box-shadow: -5px 0 15px -5px rgba(255, 0, 85, 0.2); }
         .task-item.yellow { border-left: 3px solid var(--med); box-shadow: -5px 0 15px -5px rgba(0, 210, 255, 0.2); }
         .task-item.green { border-left: 3px solid var(--low); box-shadow: -5px 0 15px -5px rgba(0, 255, 157, 0.2); }
@@ -201,7 +223,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px);
             z-index: 100; display: none; opacity: 0; transition: opacity 0.3s;
-            align-items: flex-end; /* Bottom sheet by default */
+            align-items: flex-end;
         }
         .modal.active { display: flex; opacity: 1; }
         .modal.center { align-items: center; justify-content: center; padding: 20px; }
@@ -215,30 +237,6 @@
             max-height: 90vh; overflow-y: auto;
         }
         .modal.active .modal-sheet { transform: translateY(0); }
-
-        /* QUOTE MODAL CARD */
-        .quote-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px; padding: 40px 30px;
-            max-width: 500px; width: 100%;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            transform: scale(0.9); transition: transform 0.3s;
-        }
-        .modal.active .quote-card { transform: scale(1); }
-        
-        .quote-text {
-            font-family: 'Merriweather', serif;
-            font-style: italic; font-size: 1.4rem; line-height: 1.6;
-            margin-bottom: 20px; color: #fff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        .quote-author {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1rem; text-transform: uppercase; letter-spacing: 2px;
-            color: var(--aurora-blue); display: block; margin-bottom: 30px;
-        }
 
         /* INFO MODAL */
         .info-row { display: flex; align-items: center; margin-bottom: 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; }
@@ -318,20 +316,16 @@
             <div class="header-actions">
                 <button class="icon-btn" onclick="openInfo()">ℹ️</button>
                 <button class="icon-btn" onclick="openTimer()">⌛</button>
-                
-                <button class="icon-btn" onclick="showQuote()">
-                    <svg class="scroll-icon-svg" viewBox="0 0 24 24">
-                        <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M3 7H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M3 17H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M8 3V21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M16 3V21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
             </div>
         </header>
 
         <div class="container">
+            
+            <div id="quote-banner" class="quote-banner" onclick="cycleQuote()">
+                <div id="banner-text" class="banner-text">Loading wisdom...</div>
+                <div id="banner-author" class="banner-author"></div>
+            </div>
+
             <div class="section-label">Mind Space</div>
             <div class="grid">
                 <div class="card" onclick="openList('loop')">
@@ -452,16 +446,10 @@
             </div>
 
             <button class="btn btn-primary" style="margin-top: 20px;" onclick="closeInfo()">Got it</button>
-        </div>
-    </div>
-
-    <div class="modal center" id="quote-modal" onclick="if(event.target === this) closeQuoteModal()">
-        <div class="quote-card">
-            <div style="font-size: 2.5rem; margin-bottom: 10px; opacity: 0.5;">📜</div>
-            <div id="modal-quote-text" class="quote-text"></div>
-            <div id="modal-quote-author" class="quote-author"></div>
-            <button class="btn btn-ghost" onclick="generateQuote()">Another One</button>
-            <button class="btn btn-primary" style="margin-top: 10px;" onclick="closeQuoteModal()">Absorb & Close</button>
+            
+            <div style="margin-top: 15px; font-size: 0.8rem; opacity: 0.5; text-align:center">
+                <a href="privacy.html" target="_blank" style="color: white; text-decoration: none;">Privacy Policy</a>
+            </div>
         </div>
     </div>
 
@@ -702,34 +690,26 @@
         let items = JSON.parse(localStorage.getItem('auroraNotes')) || [];
         let currentCategory = 'red';
         let activePage = null;
+        let quoteInterval;
 
         // RENDER SYSTEM
         function render() {
-            // Render Home Lists
             ['red', 'yellow', 'green'].forEach(cat => renderList(cat, `list-${cat}`));
-            
-            // Update Counters
             document.getElementById('count-loop').innerText = `${items.filter(i => i.cat === 'loop').length} Active`;
             document.getElementById('count-marker').innerText = `${items.filter(i => i.cat === 'marker').length} Truths`;
-
-            // Render Sub-page if open
-            if(activePage) {
-                renderList(activePage, 'page-content-area');
-            }
+            if(activePage) renderList(activePage, 'page-content-area');
         }
 
         function renderList(category, elementId) {
             const container = document.getElementById(elementId);
             if (!container) return;
             container.innerHTML = '';
-            
             const filtered = items.filter(i => i.cat === category);
             
             if (filtered.length === 0) {
                 let msg = "Empty";
                 if(category === 'loop') msg = "No loops detected.";
                 if(category === 'marker') msg = "No truths scribed yet.";
-                
                 container.innerHTML = `<div class="empty-msg" onclick="openModal('${category}')">${msg} <br><span style="font-size:0.8rem; opacity:0.5">(Tap to add)</span></div>`;
                 return;
             }
@@ -737,10 +717,8 @@
             filtered.forEach(item => {
                 const div = document.createElement('div');
                 div.className = `task-item ${category} ${item.done ? 'done' : ''}`;
-                
                 const isTask = ['red','yellow','green'].includes(category);
                 const checkBtn = isTask ? `<div class="check-circle" onclick="toggleDone(${item.id})"></div>` : '';
-                
                 div.innerHTML = `
                     ${checkBtn}
                     <div class="task-text">${item.text}</div>
@@ -757,23 +735,15 @@
             const modal = document.getElementById('input-modal');
             modal.classList.add('active');
             document.getElementById('input-text').focus();
-            
             if(preSelectCat) {
                 const pills = document.querySelectorAll('.pill');
                 pills.forEach(p => {
-                    if(p.innerHTML.toLowerCase().includes(preSelectCat === 'red' ? 'high' : preSelectCat === 'yellow' ? 'flow' : preSelectCat === 'green' ? 'low' : preSelectCat === 'loop' ? 'loop' : 'perma')) {
-                        setCategory(preSelectCat, p);
-                    }
+                    if(p.innerHTML.toLowerCase().includes(preSelectCat === 'red' ? 'high' : preSelectCat === 'yellow' ? 'flow' : preSelectCat === 'green' ? 'low' : preSelectCat === 'loop' ? 'loop' : 'perma')) setCategory(preSelectCat, p);
                 });
-            } else {
-                setCategory('red', document.querySelector('.pill'));
-            }
+            } else { setCategory('red', document.querySelector('.pill')); }
         }
 
-        function closeModal() {
-            document.getElementById('input-modal').classList.remove('active');
-            document.getElementById('input-text').value = '';
-        }
+        function closeModal() { document.getElementById('input-modal').classList.remove('active'); document.getElementById('input-text').value = ''; }
 
         function setCategory(cat, el) {
             currentCategory = cat;
@@ -790,47 +760,23 @@
             closeModal();
         }
 
-        function deleteItem(id) {
-            if(confirm("Dissolve this thought?")) {
-                items = items.filter(i => i.id !== id);
-                save();
-            }
-        }
-
-        function toggleDone(id) {
-            const item = items.find(i => i.id === id);
-            if(item) { item.done = !item.done; save(); }
-        }
-
-        function save() {
-            localStorage.setItem('auroraNotes', JSON.stringify(items));
-            render();
-        }
+        function deleteItem(id) { if(confirm("Dissolve this thought?")) { items = items.filter(i => i.id !== id); save(); } }
+        function toggleDone(id) { const item = items.find(i => i.id === id); if(item) { item.done = !item.done; save(); } }
+        function save() { localStorage.setItem('auroraNotes', JSON.stringify(items)); render(); }
 
         // NAVIGATION
         function openList(type) {
             activePage = type;
             const layer = document.getElementById('page-layer');
             const title = document.getElementById('page-title');
-            
             if(type === 'loop') title.innerHTML = `<span class="logo-mind">MENTAL</span><div class="logo-dot"></div><span class="logo-tasks">LOOPS</span>`;
             else title.innerHTML = `<span class="logo-mind">PERMA</span><div class="logo-dot"></div><span class="logo-tasks">TRUTHS</span>`;
-
-            layer.classList.add('active');
-            render();
+            layer.classList.add('active'); render();
         }
-
-        function closePage() {
-            document.getElementById('page-layer').classList.remove('active');
-            activePage = null;
-            render();
-        }
+        function closePage() { document.getElementById('page-layer').classList.remove('active'); activePage = null; render(); }
 
         // TIMER
-        let timerInt;
-        let seconds = 300;
-        let isRunning = false;
-
+        let timerInt; let seconds = 300; let isRunning = false;
         function openTimer() { document.getElementById('timer-layer').classList.add('active'); }
         function closeTimer() { 
             document.getElementById('timer-layer').classList.remove('active'); 
@@ -838,42 +784,35 @@
             document.getElementById('breath-circle').classList.remove('breathe');
             document.getElementById('timer-btn').innerText = "Start Focus";
         }
-
         function toggleTimer() {
-            const btn = document.getElementById('timer-btn');
-            const circle = document.getElementById('breath-circle');
-            if(isRunning) {
-                clearInterval(timerInt); isRunning = false;
-                btn.innerText = "Resume";
-                circle.classList.remove('breathe');
-            } else {
-                isRunning = true; btn.innerText = "Pause";
-                circle.classList.add('breathe');
+            const btn = document.getElementById('timer-btn'); const circle = document.getElementById('breath-circle');
+            if(isRunning) { clearInterval(timerInt); isRunning = false; btn.innerText = "Resume"; circle.classList.remove('breathe'); } 
+            else {
+                isRunning = true; btn.innerText = "Pause"; circle.classList.add('breathe');
                 timerInt = setInterval(() => {
                     if(seconds > 0) {
-                        seconds--;
-                        const m = Math.floor(seconds / 60);
-                        const s = seconds % 60;
+                        seconds--; const m = Math.floor(seconds / 60); const s = seconds % 60;
                         document.getElementById('timer-display').innerText = `${m < 10 ? '0':''}${m}:${s < 10 ? '0':''}${s}`;
-                    } else {
-                        closeTimer(); alert("Focus session complete."); seconds = 300;
-                    }
+                    } else { closeTimer(); alert("Focus session complete."); seconds = 300; }
                 }, 1000);
             }
         }
         
-        // QUOTE SYSTEM
-        function showQuote() {
-            generateQuote();
-            document.getElementById('quote-modal').classList.add('active');
-        }
-        function closeQuoteModal() {
-            document.getElementById('quote-modal').classList.remove('active');
-        }
-        function generateQuote() {
+        // NEW QUOTE BANNER LOGIC
+        function cycleQuote() {
+            const banner = document.getElementById('quote-banner');
+            const textBox = document.getElementById('banner-text');
+            const authorBox = document.getElementById('banner-author');
+            
+            // Simple animation reset
+            textBox.classList.remove('fade-anim');
+            void textBox.offsetWidth; // trigger reflow
+            
             const random = library[Math.floor(Math.random() * library.length)];
-            document.getElementById('modal-quote-text').innerText = random.t;
-            document.getElementById('modal-quote-author').innerText = random.a;
+            textBox.innerText = `"${random.t}"`;
+            authorBox.innerText = `- ${random.a}`;
+            
+            textBox.classList.add('fade-anim');
         }
 
         // INFO SYSTEM
@@ -882,7 +821,10 @@
 
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 
+        // Init
         render();
+        cycleQuote();
+        setInterval(cycleQuote, 15000); // Change every 15 seconds automatically
     </script>
 </body>
 </html>

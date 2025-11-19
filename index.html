@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priority & Insights</title>
+    <style>
+        :root {
+            --text: #333;
+            --border: #ddd;
+            
+            /* Semi-transparent colors for Glass Effect */
+            --header-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --modal-bg: rgba(255, 255, 255, 0.95);
+            
+            /* Note Colors (slightly transparent) */
+            --red: rgba(255, 235, 238, 0.95); --red-border: #ef5350;
+            --yellow: rgba(255, 248, 225, 0.95); --yellow-border: #ffca28;
+            --green: rgba(232, 245, 233, 0.95); --green-border: #66bb6a;
+            --loop: rgba(236, 239, 241, 0.95); --loop-border: #78909c;
+            --marker: rgba(225, 245, 254, 0.95); --marker-border: #0288d1;
+            
+            /* Title color for readability on image */
+            --section-title-color: #fff;
+            --section-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        body.dark {
+            --text: #e0e0e0;
+            --border: #444;
+            
+            /* Dark Mode Glass */
+            --header-bg: rgba(30, 30, 30, 0.85);
+            --card-bg: rgba(30, 30, 30, 0.85);
+            --modal-bg: rgba(44, 44, 44, 0.95);
+            
+            --red: rgba(74, 15, 15, 0.9); 
+            --yellow: rgba(66, 51, 2, 0.9); 
+            --green: rgba(15, 51, 18, 0.9); 
+            --loop: rgba(38, 50, 56, 0.9); 
+            --marker: rgba(1, 54, 84, 0.9);
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 0 0 100px 0; 
+            transition: 0.3s;
+            color: var(--text);
+
+            /* BACKGROUND IMAGE SETTINGS */
+            background-image: url('bg.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 1rem; 
+            background: var(--header-bg); 
+            backdrop-filter: blur(10px); /* Frosted Glass effect */
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+            position: sticky; 
+            top: 0; 
+            z-index: 10; 
+        }
+        
+        h1 { font-size: 1.2rem; margin: 0; }
+        .header-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 5px; color: var(--text); }
+
+        .section { padding: 10px 15px; }
+        
+        /* Section Titles: White with strong shadow for readability on Aurora */
+        .section-title { 
+            font-size: 0.9rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin-bottom: 8px; 
+            margin-top: 15px; 
+            font-weight: 800; 
+            color: var(--section-title-color);
+            text-shadow: var(--section-shadow);
+        }
+        
+        .section-desc { 
+            font-size: 0.85rem; 
+            margin: 0 0 15px 0; 
+            font-style: italic; 
+            color: #fff; 
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            opacity: 0.9;
+        }
+        
+        .section-desc.caps { 
+            text-transform: uppercase; 
+            font-size: 0.75rem; 
+            font-weight: bold; 
+            letter-spacing: 0.5px; 
+        }
+        
+        .note { 
+            background: var(--card-bg); 
+            border-left: 5px solid #ccc; 
+            padding: 15px; 
+            margin-bottom: 10px; 
+            border-radius: 8px; /* Softer corners */
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15); 
+            backdrop-filter: blur(5px); /* Subtle blur behind cards */
+            transition: 0.2s; 
+            color: var(--text); 
+        }
+        
+        /* Note Colors */
+        .note.red { border-color: var(--red-border); background: var(--red); }
+        .note.yellow { border-color: var(--yellow-border); background: var(--yellow); }
+        .note.green { border-color: var(--green-border); background: var(--green); }
+        
+        /* Loop Animation */
+        .note.loop { border-color: var(--loop-border); background: var(--loop); animation: hover 4s ease-in-out infinite; }
+        @keyframes hover { 0% { transform: translateY(0); } 50% { transform: translateY(-4px); } 100% { transform: translateY(0); } }
+
+        /* Marker Style */
+        .note.marker { border-color: var(--marker-border); background: var(--marker); font-weight: 500; }
+
+        .note.done { opacity: 0.6; text-decoration: line-through; filter: grayscale(100%); animation: none; }
+
+        .actions { display: flex; gap: 15px; }
+        .btn-icon { background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0; opacity: 0.6; color: var(--text); }
+        
+        .fab { position: fixed; bottom: 25px; right: 25px; width: 56px; height: 56px; background: #333; color: white; border-radius: 50%; border: none; font-size: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 90; }
+        body.dark .fab { background: #e0e0e0; color: #121212; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: flex-end; z-index: 100; backdrop-filter: blur(3px); }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--modal-bg); width: 100%; padding: 25px; border-radius: 20px 20px 0 0; animation: slideUp 0.3s ease; color: var(--text); }
+        
+        textarea { width: 100%; border: 1px solid var(--border); background: rgba(0,0,0,0.05); color: var(--text); border-radius: 8px; padding: 12px; font-size: 16px; margin-bottom: 20px; resize: none; height: 100px; box-sizing: border-box; font-family: inherit; outline: none; }
+        
+        .color-picker { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .radio-label { flex: 1 1 30%; text-align: center; padding: 10px 0; border-radius: 8px; cursor: pointer; border: 2px solid transparent; opacity: 0.7; font-weight: bold; font-size: 0.85rem; color: #333; background: rgba(255,255,255,0.8); }
+        body.dark .radio-label { color: #fff; background: rgba(255,255,255,0.1); }
+        
+        .radio-label.selected { opacity: 1; border-color: var(--text); transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        
+        .modal-actions { display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 14px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        .btn-cancel { background: var(--border); color: var(--text); }
+        .btn-save { background: #333; color: white; }
+        body.dark .btn-save { background: #e0e0e0; color: #121212; }
+
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="header-btn" onclick="toggleTheme()">🌙</button>
+        <h1>Mind & Tasks</h1>
+        <button class="header-btn" onclick="clearCompleted()">🧹</button>
+    </header>
+
+    <div class="section">
+        <div class="section-title">High Priority</div>
+        <div id="list-red"></div>
+    </div>
+    <div class="section">
+        <div class="section-title">Medium Priority</div>
+        <div id="list-yellow"></div>
+    </div>
+    <div class="section">
+        <div class="section-title">Relaxed</div>
+        <div id="list-green"></div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title" style="color: #cfd8dc;">Mental Loops</div>
+        <p class="section-desc">Add your loop thoughts that you know is heavy but hover around you.</p>
+        <div id="list-loop"></div>
+    </div>
+
+    <div class="section">
+        <div class="section-title" style="color: #81d4fa;">Permanent Markers</div>
+        <p class="section-desc caps">Add your deepest realisations as you leap</p>
+        <div id="list-marker"></div>
+    </div>
+
+    <button class="fab" onclick="openModal()">+</button>
+
+    <div class="modal" id="noteModal">
+        <div class="modal-content">
+            <h3 style="margin-top:0">New Entry</h3>
+            
+            <div class="color-picker">
+                <label class="radio-label" style="border-left: 5px solid #ef5350;" onclick="selectColor('red')">High</label>
+                <label class="radio-label" style="border-left: 5px solid #ffca28;" onclick="selectColor('yellow')">Med</label>
+                <label class="radio-label" style="border-left: 5px solid #66bb6a;" onclick="selectColor('green')">Low</label>
+                
+                <label class="radio-label" style="border-left: 5px solid #78909c; flex: 1 1 45%;" onclick="selectColor('loop')">Loop</label>
+                <label class="radio-label" style="border-left: 5px solid #0288d1; flex: 1 1 45%;" onclick="selectColor('marker')">Perm</label>
+            </div>
+
+            <textarea id="noteInput" placeholder="Type here..."></textarea>
+
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-save" onclick="saveNote()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let notes = JSON.parse(localStorage.getItem('myNotes')) || [];
+        let editId = null;
+        let selectedColor = 'yellow';
+        
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') document.body.classList.add('dark');
+
+        function render() {
+            ['red', 'yellow', 'green', 'loop', 'marker'].forEach(color => {
+                const list = document.getElementById(`list-${color}`);
+                list.innerHTML = '';
+                const filtered = notes.filter(n => n.color === color);
+                
+                filtered.forEach(note => {
+                    const div = document.createElement('div');
+                    div.className = `note ${note.color} ${note.done ? 'done' : ''}`;
+                    div.innerHTML = `
+                        <span>${note.text}</span>
+                        <div class="actions">
+                            <button class="btn-icon" onclick="toggleDone(${note.id})">${note.done ? '↩' : '✓'}</button>
+                            <button class="btn-icon" onclick="editNote(${note.id})">✎</button>
+                            <button class="btn-icon" onclick="deleteNote(${note.id})">✕</button>
+                        </div>
+                    `;
+                    list.appendChild(div);
+                });
+            });
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        function clearCompleted() {
+            if(confirm(`Clear completed items?`)) {
+                notes = notes.filter(n => !n.done);
+                updateStorage();
+            }
+        }
+
+        function openModal(isEdit = false) {
+            document.getElementById('noteModal').classList.add('active');
+            const input = document.getElementById('noteInput');
+            setTimeout(() => input.focus(), 100);
+            
+            if(!isEdit) { 
+                editId = null; 
+                input.value = '';
+                selectColor('yellow');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('noteModal').classList.remove('active');
+        }
+
+        function selectColor(color) {
+            selectedColor = color;
+            document.querySelectorAll('.radio-label').forEach(l => l.classList.remove('selected'));
+            
+            const buttons = document.querySelectorAll('.radio-label');
+            const map = { 'red': 0, 'yellow': 1, 'green': 2, 'loop': 3, 'marker': 4 };
+            
+            if(buttons[map[color]]) {
+                buttons[map[color]].classList.add('selected');
+            }
+        }
+
+        function saveNote() {
+            const text = document.getElementById('noteInput').value.trim();
+            if (!text) return;
+
+            if (editId) {
+                const note = notes.find(n => n.id === editId);
+                note.text = text;
+                note.color = selectedColor;
+            } else {
+                notes.push({ id: Date.now(), text: text, color: selectedColor, done: false });
+            }
+            updateStorage();
+            closeModal();
+        }
+
+        function deleteNote(id) {
+            if(confirm('Delete this?')) {
+                notes = notes.filter(n => n.id !== id);
+                updateStorage();
+            }
+        }
+
+        function toggleDone(id) {
+            const note = notes.find(n => n.id === id);
+            note.done = !note.done;
+            updateStorage();
+        }
+
+        function editNote(id) {
+            const note = notes.find(n => n.id === id);
+            editId = id;
+            document.getElementById('noteInput').value = note.text;
+            selectColor(note.color);
+            openModal(true);
+        }
+
+        function updateStorage() {
+            localStorage.setItem('myNotes', JSON.stringify(notes));
+            render();
+        }
+
+        render();
+        selectColor('yellow');
+    </script>
+</body>
+</html>

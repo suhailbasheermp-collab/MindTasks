@@ -53,6 +53,18 @@
             "sizes": "1043x1920",
             "type": "image/jpeg",
             "form_factor": "narrow"
+        },
+        {
+            "src": "screen4.jpg",
+            "sizes": "1043x1920",
+            "type": "image/jpeg",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "screen5.jpg",
+            "sizes": "1043x1920",
+            "type": "image/jpeg",
+            "form_factor": "narrow"
         }
     ]
 }

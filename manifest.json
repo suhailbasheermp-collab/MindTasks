@@ -1,0 +1,16 @@
+{
+  "name": "Priority Journal",
+  "short_name": "Journal",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#333333",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "bg.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

@@ -742,6 +742,681 @@
         .sub-page.active { transform: translateX(0); }
 
         .sub-page-content {
+            background: rgba(15, 15, 15, 0.85); 
+            min-height: 100%; padding: 20px; backdrop-filter: blur(8px);
+            display: flex; flex-direction: column;
+        }
+        
+        header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 1rem; background: var(--header-bg); 
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+            position: sticky; top: 0; z-index: 10; 
+        }
+        
+        h1 { font-size: 1.2rem; margin: 0; }
+        .header-left { display: flex; gap: 15px; }
+        .header-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; padding: 5px; color: var(--text); transition: transform 0.2s;}
+        .header-btn:active { transform: scale(0.8); }
+
+        .section-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; margin-top: 20px; font-weight: 800; color: var(--section-title-color); text-shadow: var(--section-shadow); opacity: 0.9; }
+
+        /* MIND GRID CARDS */
+        .mind-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 15px; }
+        .mind-card {
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 15px;
+            padding: 20px 15px; text-align: center; cursor: pointer;
+            transition: transform 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .mind-card:active { transform: scale(0.96); }
+        .mind-card h3 { margin: 10px 0 5px 0; color: #fff; font-size: 1.1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .mind-card span { font-size: 2rem; display: block; }
+        .mind-count { font-size: 0.8rem; color: rgba(255,255,255,0.7); }
+
+        /* TASK MODULES */
+        .task-group {
+            background: rgba(20, 20, 20, 0.4); 
+            backdrop-filter: blur(5px);
+            border-radius: 16px;
+            padding: 15px;
+            margin: 0 15px 20px 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .task-header {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 1.1rem; font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase; letter-spacing: 1px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        
+        /* NOTE STYLES */
+        .note { 
+            background: var(--card-bg); border-left: 5px solid #ccc; padding: 15px; 
+            margin-bottom: 10px; border-radius: 8px; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15); backdrop-filter: blur(5px); 
+            transition: 0.2s; color: var(--text); 
+        }
+        .note.red { border-color: var(--red-border); background: var(--red); }
+        .note.yellow { border-color: var(--yellow-border); background: var(--yellow); }
+        .note.green { border-color: var(--green-border); background: var(--green); }
+        .note.loop, .note.marker { background: rgba(0, 0, 0, 0.4); border: none; border-left: 4px solid; color: #fff; }
+        .note.loop { border-color: #cfd8dc; }
+        .note.marker { border-color: #81d4fa; }
+        .note.done { opacity: 0.6; text-decoration: line-through; filter: grayscale(100%); }
+        
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center; padding: 20px; color: var(--empty-text);
+            font-size: 0.95rem; cursor: pointer;
+            border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .empty-state:active { background: rgba(255,255,255,0.05); }
+
+        .actions { display: flex; gap: 15px; }
+        .btn-icon { background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0; opacity: 0.6; color: inherit; }
+
+        /* === INNOVATIVE JELLY BUTTON === */
+        .fab { 
+            position: fixed; bottom: 25px; right: 25px; 
+            width: 60px; height: 60px; 
+            background: #333; color: white; 
+            border-radius: 50%; border: none; 
+            font-size: 28px; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; 
+            z-index: 90; 
+            /* Physics */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: breathe 3s infinite ease-in-out;
+        }
+        body.dark .fab { background: #e0e0e0; color: #121212; box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); }
+        .fab:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+        .fab:active { animation: jelly 0.5s; }
+
+        /* PAGE HEADERS */
+        .page-header-row { display: flex; align-items: center; margin-bottom: 20px; }
+        .back-btn { background: none; border: none; color: white; font-size: 1.8rem; margin-right: 15px; cursor: pointer; padding: 10px; }
+        .page-desc { font-style: italic; color: #ddd; font-size: 1rem; text-align: center; margin-bottom: 30px; font-weight: 300; line-height: 1.4; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 20px; }
+        
+        /* BOTTOM CLOSE BUTTON FOR CONVENIENCE */
+        .bottom-close {
+            margin-top: auto; width: 100%; padding: 15px;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            color: white; border-radius: 12px; font-size: 1rem; cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+
+        /* MODAL */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: flex-end; z-index: 100; backdrop-filter: blur(3px); }
+        .modal.center { align-items: center; padding: 20px; box-sizing: border-box; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--modal-bg); width: 100%; padding: 25px; border-radius: 20px 20px 0 0; animation: slideUp 0.3s ease; color: var(--text); }
+        .modal-content.rounded { border-radius: 20px; max-width: 400px; text-align: center; animation: popIn 0.3s ease; }
+
+        /* INFO GUIDE STYLES */
+        .info-item { display: flex; align-items: center; margin-bottom: 15px; text-align: left; }
+        .info-item .icon { font-size: 1.5rem; margin-right: 15px; min-width: 30px; text-align: center; }
+        .info-item .dot { width: 15px; height: 15px; border-radius: 50%; margin-right: 15px; margin-left: 8px; display: block; }
+        .info-item .dot.red { background: #ef5350; }
+        .info-item .dot.yellow { background: #ffca28; }
+        .info-item .dot.green { background: #66bb6a; }
+        
+        /* WELCOME OVERLAY STYLES */
+        .welcome-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); /* Very dark bg */
+            backdrop-filter: blur(15px);
+            z-index: 9999; /* Sit on top of everything */
+            display: none; /* Hidden by default, JS turns it on */
+            justify-content: center; align-items: center;
+            padding: 20px; opacity: 1; transition: opacity 0.6s ease;
+        }
+        .welcome-card {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px; padding: 30px; text-align: center;
+            max-width: 500px; width: 100%; color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: popIn 0.5s ease;
+            overflow-y: auto; max-height: 90vh;
+        }
+        .welcome-card h2 { font-size: 2rem; margin-bottom: 10px; }
+        .welcome-card p { line-height: 1.6; margin-bottom: 20px; opacity: 0.9; font-size: 1.1rem; }
+        .feature-list { text-align: left; margin: 20px 0; }
+        .feature-row { display: flex; align-items: center; margin-bottom: 12px; }
+        .feature-icon { font-size: 1.5rem; margin-right: 15px; width: 30px; text-align: center; }
+        .enter-btn {
+            background: white; color: black; border: none;
+            padding: 15px 40px; font-size: 1.2rem; font-weight: bold;
+            border-radius: 50px; cursor: pointer; margin-top: 20px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+            animation: breathe 2s infinite;
+        }
+
+        textarea { width: 100%; border: 1px solid var(--border); background: rgba(0,0,0,0.05); color: var(--text); border-radius: 8px; padding: 12px; font-size: 16px; margin-bottom: 20px; resize: none; height: 100px; box-sizing: border-box; font-family: inherit; outline: none; }
+        .color-picker { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .radio-label { flex: 1 1 30%; text-align: center; padding: 10px 0; border-radius: 8px; cursor: pointer; border: 2px solid transparent; opacity: 0.7; font-weight: bold; font-size: 0.85rem; color: #333; background: rgba(255,255,255,0.8); }
+        body.dark .radio-label { color: #fff; background: rgba(255,255,255,0.1); }
+        .radio-label.selected { opacity: 1; border-color: var(--text); transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .picker-tasks .opt-mind { display: none; }
+        .picker-loop .opt-task, .picker-loop .opt-perma { display: none; }
+        .picker-perma .opt-task, .picker-perma .opt-loop { display: none; }
+
+        .modal-actions { display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 14px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        .btn-cancel { background: var(--border); color: var(--text); }
+        .btn-save { background: #333; color: white; }
+        body.dark .btn-save { background: #e0e0e0; color: #121212; }
+
+        /* QUOTE STYLES */
+        .quote-text { font-size: 1.3rem; font-style: italic; line-height: 1.5; margin-bottom: 20px; font-family: serif; }
+        .quote-author { font-size: 0.9rem; font-weight: bold; text-transform: uppercase; opacity: 0.7; margin-bottom: 30px; display: block;}
+
+        /* TIMER STYLES */
+        .timer-container { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; }
+        .timer-display { font-size: 4.5rem; font-weight: 200; margin: 20px 0; font-variant-numeric: tabular-nums; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .timer-input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
+        .timer-input { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; font-size: 1.5rem; width: 80px; text-align: center; padding: 10px; border-radius: 10px; outline: none; }
+        .timer-controls { display: flex; gap: 20px; }
+        .btn-timer { padding: 15px 30px; font-size: 1.2rem; border-radius: 50px; border: none; cursor: pointer; background: white; color: black; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s; }
+        .btn-timer:active { transform: scale(0.95); }
+        .hourglass-visual { width: 60px; height: 60px; display: block; margin-bottom: 20px; border: 3px solid rgba(255,255,255,0.8); border-radius: 50%; border-top-color: transparent; animation: spin 2s linear infinite; opacity: 0; transition: opacity 0.5s; }
+        .hourglass-visual.active { opacity: 1; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* ANIMATIONS */
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes jelly { 
+            0% { transform: scale(1, 1); } 25% { transform: scale(0.9, 1.1); }
+            50% { transform: scale(1.1, 0.9); } 75% { transform: scale(0.95, 1.05); }
+            100% { transform: scale(1, 1); }
+        }
+        @keyframes breathe {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+            50% { transform: scale(1.03); box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-overlay" class="welcome-overlay">
+        <div class="welcome-content welcome-card">
+            <h2>Welcome 🙏</h2>
+            <p>Balance the doing with the being.<br>Your space for clarity and action.</p>
+            
+            <div class="feature-list">
+                <div class="feature-row">
+                    <span class="feature-icon">🔥</span>
+                    <div><strong>Elemental Tasks</strong><br>Sort by urgency: Fire, Flow, or Gentle.</div>
+                </div>
+                <div class="feature-row">
+                    <span class="feature-icon">➿</span>
+                    <div><strong>Minimal Journal</strong><br>Clear loops & scribe permanent truths.</div>
+                </div>
+                <div class="feature-row">
+                    <span class="feature-icon">⌛️</span>
+                    <div><strong>Zen Focus</strong><br>A timer to center your mind.</div>
+                </div>
+            </div>
+
+            <button class="enter-btn" onclick="closeWelcome()">Enter</button>
+        </div>
+    </div>
+
+    <div id="home-view" class="view">
+        <header>
+            <div class="header-left">
+                <button class="header-btn" onclick="showInfo()">ℹ️</button>
+                <button class="header-btn" onclick="toggleTheme()">🌙</button>
+                <button class="header-btn" onclick="showQuote()">🌞</button>
+                <button class="header-btn" onclick="openPage('timer')">⌛️</button>
+            </div>
+            <h1>Mind & Tasks</h1>
+            <button class="header-btn" onclick="clearCompleted()">🧹</button>
+        </header>
+
+        <div class="section-title" style="padding-left: 15px;">Mind</div>
+        <div class="mind-grid">
+            <div class="mind-card" onclick="openPage('loop')">
+                <span>➿</span>
+                <h3>Loop</h3>
+                <div class="mind-count" id="count-loop">0 Entries</div>
+            </div>
+            <div class="mind-card" onclick="openPage('perma')">
+                <span>✒️</span>
+                <h3>Perma</h3>
+                <div class="mind-count" id="count-marker">0 Entries</div>
+            </div>
+        </div>
+
+        <div class="section-title" style="padding-left: 15px;">Tasks</div>
+        
+        <div class="task-group" style="border-left: 5px solid #ef5350;">
+            <div class="task-header" style="color: #ef5350;">🔥 High Priority</div>
+            <div id="list-red"></div>
+        </div>
+
+        <div class="task-group" style="border-left: 5px solid #ffca28;">
+            <div class="task-header" style="color: #ffca28;">⚡ Medium Priority</div>
+            <div id="list-yellow"></div>
+        </div>
+
+        <div class="task-group" style="border-left: 5px solid #66bb6a;">
+            <div class="task-header" style="color: #66bb6a;">🍃 Relaxed</div>
+            <div id="list-green"></div>
+        </div>
+    </div>
+
+    <div id="loop-view" class="sub-page">
+        <div class="sub-page-content">
+            <div class="page-header-row">
+                <button class="back-btn" onclick="goHome()">←</button>
+                <h1 style="color:white">Mental Loops</h1>
+            </div>
+            <div class="page-desc">Place to hold your uninvited loopy thoughts.</div>
+            <div id="list-loop" style="flex: 1;"></div>
+            <button class="bottom-close" onclick="goHome()">Close</button>
+        </div>
+    </div>
+
+    <div id="perma-view" class="sub-page">
+        <div class="sub-page-content">
+            <div class="page-header-row">
+                <button class="back-btn" onclick="goHome()">←</button>
+                <h1 style="color:white">Permanent Markers</h1>
+            </div>
+            <div class="page-desc">Scribing the words permanently.</div>
+            <div id="list-marker" style="flex: 1;"></div>
+            <button class="bottom-close" onclick="goHome()">Close</button>
+        </div>
+    </div>
+
+    <div id="timer-view" class="sub-page">
+        <div class="sub-page-content" style="justify-content: center;">
+            <div class="page-header-row" style="position: absolute; top: 20px; left: 20px;">
+                <button class="back-btn" onclick="stopAndExitTimer()">←</button>
+            </div>
+            <div class="timer-container">
+                <div class="hourglass-visual" id="hourglassVisual"></div>
+                <div class="timer-input-row" id="timerSetup">
+                    <input type="number" id="timerInput" class="timer-input" placeholder="Min" value="5">
+                    <span style="font-size: 1.2rem">Minutes</span>
+                </div>
+                <div class="timer-display" id="timerDisplay">05:00</div>
+                <div class="timer-controls">
+                    <button class="btn-timer" id="startBtn" onclick="startTimer()">▶ Play</button>
+                    <button class="btn-timer" style="background: rgba(255,255,255,0.3); color:white" onclick="resetTimer()">↺</button>
+                </div>
+            </div>
+            <button class="bottom-close" onclick="stopAndExitTimer()">Close Timer</button>
+        </div>
+    </div>
+
+    <button class="fab" id="mainFab" onclick="handleFabClick()">+</button>
+
+    <div class="modal" id="noteModal">
+        <div class="modal-content">
+            <h3 style="margin-top:0">New Entry</h3>
+            <div class="color-picker" id="colorPickerContainer">
+                <label class="radio-label opt-task" style="border-left: 5px solid #ef5350;" onclick="selectColor('red')">High</label>
+                <label class="radio-label opt-task" style="border-left: 5px solid #ffca28;" onclick="selectColor('yellow')">Med</label>
+                <label class="radio-label opt-task" style="border-left: 5px solid #66bb6a;" onclick="selectColor('green')">Low</label>
+                <label class="radio-label opt-loop" style="border-left: 5px solid #cfd8dc; flex: 1 1 100%;" onclick="selectColor('loop')">Loop Entry</label>
+                <label class="radio-label opt-perma" style="border-left: 5px solid #0288d1; flex: 1 1 100%;" onclick="selectColor('marker')">Perma Entry</label>
+            </div>
+            <textarea id="noteInput" placeholder="Type here..."></textarea>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeModal('noteModal')">Cancel</button>
+                <button class="btn btn-save" onclick="saveNote()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal center" id="quoteModal" onclick="if(event.target === this) closeModal('quoteModal')">
+        <div class="modal-content rounded">
+            <div style="font-size: 2rem; margin-bottom:10px">🌞</div>
+            <div id="quoteDisplay" class="quote-text"></div>
+            <span id="authorDisplay" class="quote-author"></span>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeModal('quoteModal')">Close</button>
+                <button class="btn btn-save" onclick="showQuote()">New Quote</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal center" id="infoModal" onclick="if(event.target === this) closeModal('infoModal')">
+        <div class="modal-content rounded" style="text-align: left; max-width: 350px;">
+            <h3 style="text-align: center; margin-bottom: 20px;">Guide</h3>
+            
+            <div class="info-item">
+                <span class="icon">➿</span>
+                <div><strong>Loop</strong><br><span style="font-size:0.9rem; opacity:0.8">Traps for uninvited, repetitive thoughts. Capture them here to clear the mind.</span></div>
+            </div>
+            <div class="info-item">
+                <span class="icon">✒️</span>
+                <div><strong>Perma</strong><br><span style="font-size:0.9rem; opacity:0.8">Deep truths & realizations you wish to scribe permanently.</span></div>
+            </div>
+            <hr style="opacity: 0.2; margin: 15px 0;">
+            <div class="info-item">
+                <span class="dot red"></span>
+                <div><strong>High</strong> - Urgent fire. Do now.</div>
+            </div>
+            <div class="info-item">
+                <span class="dot yellow"></span>
+                <div><strong>Medium</strong> - Steady flow. Do soon.</div>
+            </div>
+            <div class="info-item">
+                <span class="dot green"></span>
+                <div><strong>Relaxed</strong> - Gentle water. No rush.</div>
+            </div>
+            
+            <div class="modal-actions" style="margin-top: 20px;">
+                <button class="btn btn-save" onclick="closeModal('infoModal')">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+
+        // WELCOME SCREEN LOGIC
+        const hasVisited = localStorage.getItem('hasVisited');
+        if (!hasVisited) {
+            document.getElementById('welcome-overlay').style.display = 'flex';
+        }
+
+        function closeWelcome() {
+            localStorage.setItem('hasVisited', 'true');
+            const overlay = document.getElementById('welcome-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 600);
+        }
+
+        // STATE
+        let notes = JSON.parse(localStorage.getItem('myNotes')) || [];
+        let editId = null;
+        let selectedColor = 'yellow';
+        let currentPage = 'home'; 
+        
+        // TIMER STATE
+        let timerInterval;
+        let totalSeconds = 0;
+        let isRunning = false;
+        const bellSound = new Audio('bell.mp3'); 
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') document.body.classList.add('dark');
+
+        // NAVIGATION
+        function openPage(pageName) {
+            currentPage = pageName;
+            document.querySelectorAll('.sub-page').forEach(el => el.classList.remove('active'));
+
+            if(pageName === 'loop') document.getElementById('loop-view').classList.add('active');
+            if(pageName === 'perma') document.getElementById('perma-view').classList.add('active');
+            if(pageName === 'timer') {
+                document.getElementById('timer-view').classList.add('active');
+                document.getElementById('mainFab').style.display = 'none'; 
+            } else {
+                document.getElementById('mainFab').style.display = 'flex';
+            }
+            render(); 
+        }
+
+        function goHome() {
+            currentPage = 'home';
+            document.querySelectorAll('.sub-page').forEach(el => el.classList.remove('active'));
+            document.getElementById('mainFab').style.display = 'flex';
+            render();
+        }
+        
+        function showInfo() {
+            document.getElementById('infoModal').classList.add('active');
+        }
+
+        // === TIMER LOGIC ===
+        function startTimer() {
+            if (isRunning) { 
+                clearInterval(timerInterval);
+                isRunning = false;
+                document.getElementById('startBtn').innerText = "▶ Play";
+                document.getElementById('hourglassVisual').classList.remove('active');
+                return;
+            }
+
+            const inputMin = parseInt(document.getElementById('timerInput').value) || 0;
+            if (totalSeconds === 0) totalSeconds = inputMin * 60;
+            if (totalSeconds <= 0) return;
+
+            isRunning = true;
+            document.getElementById('startBtn').innerText = "⏸ Pause";
+            document.getElementById('hourglassVisual').classList.add('active');
+            document.getElementById('timerSetup').style.display = 'none'; 
+
+            updateDisplay();
+            timerInterval = setInterval(() => {
+                if (totalSeconds > 0) { totalSeconds--; updateDisplay(); } 
+                else { finishTimer(); }
+            }, 1000);
+        }
+
+        function finishTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            document.getElementById('timerDisplay').innerText = "00:00";
+            document.getElementById('hourglassVisual').classList.remove('active');
+            document.getElementById('startBtn').innerText = "▶ Play";
+            bellSound.play().catch(e => console.log("Audio play failed"));
+            alert("Zen Time Complete");
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            totalSeconds = 0;
+            document.getElementById('startBtn').innerText = "▶ Play";
+            document.getElementById('hourglassVisual').classList.remove('active');
+            document.getElementById('timerSetup').style.display = 'flex'; 
+            const inputMin = document.getElementById('timerInput').value;
+            document.getElementById('timerDisplay').innerText = (inputMin < 10 ? "0" + inputMin : inputMin) + ":00";
+        }
+
+        function updateDisplay() {
+            const m = Math.floor(totalSeconds / 60);
+            const s = totalSeconds % 60;
+            document.getElementById('timerDisplay').innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function stopAndExitTimer() { resetTimer(); goHome(); }
+
+        function handleFabClick() { openModal(false); }
+
+        // RENDERING
+        function render() {
+            ['red', 'yellow', 'green'].forEach(color => renderList(color, true));
+            renderList('loop', false);
+            renderList('marker', false);
+            document.getElementById('count-loop').innerText = notes.filter(n => n.color === 'loop').length + " Entries";
+            document.getElementById('count-marker').innerText = notes.filter(n => n.color === 'marker').length + " Entries";
+        }
+
+        function renderList(color, hasCheckbox) {
+            const list = document.getElementById(`list-${color}`);
+            if(!list) return;
+            list.innerHTML = '';
+            const filtered = notes.filter(n => n.color === color);
+            
+            // Empty State Logic
+            if(filtered.length === 0) {
+                let msg = "Tap + to add an entry.";
+                if(color === 'red') msg = "No fires to put out.<br>Tap + to add.";
+                if(color === 'yellow') msg = "Flow is clear.<br>Tap + to add.";
+                if(color === 'green') msg = "Peaceful mind.<br>Tap + to add.";
+                if(color === 'loop') msg = "No loops found.<br>Tap + to capture a thought.";
+                if(color === 'marker') msg = "No permanent markers.<br>Tap + to scribe a truth.";
+                
+                list.innerHTML = `<div class="empty-state" onclick="handleFabClick()">${msg}</div>`;
+                return;
+            }
+
+            filtered.forEach(note => {
+                const div = document.createElement('div');
+                div.className = `note ${note.color} ${note.done ? 'done' : ''}`;
+                let checkboxHtml = hasCheckbox ? `<button class="btn-icon" onclick="toggleDone(${note.id})">${note.done ? '↩' : '✓'}</button>` : '';
+                div.innerHTML = `<span>${note.text}</span><div class="actions">${checkboxHtml}<button class="btn-icon" onclick="editNote(${note.id})">✎</button><button class="btn-icon" onclick="deleteNote(${note.id})">✕</button></div>`;
+                list.appendChild(div);
+            });
+        }
+
+        // MODAL & INPUT
+        function openModal(isEdit = false) {
+            document.getElementById('noteModal').classList.add('active');
+            const input = document.getElementById('noteInput');
+            const picker = document.getElementById('colorPickerContainer');
+            picker.className = 'color-picker';
+            if(currentPage === 'home') {
+                picker.classList.add('picker-tasks');
+                if(!isEdit) selectColor('yellow');
+            } else if(currentPage === 'loop') {
+                picker.classList.add('picker-loop');
+                if(!isEdit) selectColor('loop');
+            } else if(currentPage === 'perma') {
+                picker.classList.add('picker-perma');
+                if(!isEdit) selectColor('marker');
+            }
+            setTimeout(() => input.focus(), 100);
+            if(!isEdit) { editId = null; input.value = ''; }
+        }
+
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function selectColor(color) {
+            selectedColor = color;
+            document.querySelectorAll('.radio-label').forEach(l => l.classList.remove('selected'));
+            const buttons = document.querySelectorAll('.radio-label');
+            buttons.forEach(btn => { if(btn.getAttribute('onclick').includes(color)) btn.classList.add('selected'); });
+        }
+
+        function saveNote() {
+            const text = document.getElementById('noteInput').value.trim();
+            if (!text) return;
+            if (editId) {
+                const note = notes.find(n => n.id === editId);
+                note.text = text; note.color = selectedColor;
+            } else {
+                notes.push({ id: Date.now(), text: text, color: selectedColor, done: false });
+            }
+            updateStorage(); closeModal('noteModal');
+        }
+
+        function deleteNote(id) { if(confirm('Delete this?')) { notes = notes.filter(n => n.id !== id); updateStorage(); } }
+        function toggleDone(id) { const note = notes.find(n => n.id === id); note.done = !note.done; updateStorage(); }
+        function editNote(id) {
+            const note = notes.find(n => n.id === id); editId = id;
+            document.getElementById('noteInput').value = note.text;
+            selectColor(note.color); openModal(true);
+        }
+        function updateStorage() { localStorage.setItem('myNotes', JSON.stringify(notes)); render(); }
+        function toggleTheme() { document.body.classList.toggle('dark'); localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light'); }
+        function clearCompleted() { if(confirm(`Clear completed items?`)) { notes = notes.filter(n => !n.done); updateStorage(); } }
+
+        // LIBRARY OF LIGHT
+        const library = [
+            { t: "The wound is the place where the Light enters you.", a: "Rumi" },
+            { t: "What you seek is seeking you.", a: "Rumi" },
+            { t: "Stop acting so small. You are the universe in ecstatic motion.", a: "Rumi" },
+            { t: "Don't be satisfied with stories, how things have gone with others. Unfold your own myth.", a: "Rumi" },
+            { t: "Silence is the language of God, all else is poor translation.", a: "Rumi" },
+            { t: "Sell your cleverness and buy bewilderment.", a: "Rumi" },
+            { t: "I wish I could show you when you are lonely or in darkness the astonishing light of your own being.", a: "Hafiz" },
+            { t: "Fear is the cheapest room in the house. I would like to see you living in better conditions.", a: "Hafiz" },
+            { t: "Even after all this time the sun never says to the earth, 'You owe me.' Look what happens with a love like that. It lights the whole sky.", a: "Hafiz" },
+            { t: "Stay where you are. Inside you is a fountain. Don't run around with an empty bucket.", a: "Rumi" },
+            { t: "Knock, And He'll open the door. Vanish, And He'll make you shine like the sun.", a: "Rumi" },
+            { t: "Let yourself be silently drawn by the strange pull of what you really love. It will not lead you astray.", a: "Rumi" },
+            { t: "You were born with wings, why prefer to crawl through life?", a: "Rumi" },
+            { t: "Faith is the bird that feels the light when the dawn is still dark.", a: "Rabindranath Tagore" },
+            { t: "Clouds come floating into my life, no longer to carry rain or usher storm, but to add color to my sunset sky.", a: "Rabindranath Tagore" },
+            { t: "Let your life lightly dance on the edges of Time like dew on the tip of a leaf.", a: "Rabindranath Tagore" },
+            { t: "Love is an endless mystery, for it has nothing else to explain it.", a: "Rabindranath Tagore" },
+            { t: "Everything comes to us that belongs to us if we create the capacity to receive it.", a: "Rabindranath Tagore" },
+            { t: "The butterfly counts not months but moments, and has time enough.", a: "Rabindranath Tagore" },
+            { t: "The mind creates the abyss, the heart crosses it.", a: "Nisargadatta Maharaj" },
+            { t: "Wisdom is knowing I am nothing, Love is knowing I am everything, and between the two my life moves.", a: "Nisargadatta Maharaj" },
+            { t: "Everything happens on its own. You are doing nothing.", a: "Nisargadatta Maharaj" },
+            { t: "Love says 'I am everything'. Wisdom says 'I am nothing'. Between the two, my life flows.", a: "Nisargadatta Maharaj" },
+            { t: "Once you realize that the road is the goal and that you are always on the road, not to reach a goal, but to enjoy its beauty and its wisdom, life ceases to be a task and becomes natural and simple.", a: "Nisargadatta Maharaj" },
+            { t: "Arise, awake, and stop not till the goal is reached.", a: "Swami Vivekananda" },
+            { t: "You have to grow from the inside out. None can teach you, none can make you spiritual. There is no other teacher but your own soul.", a: "Swami Vivekananda" },
+            { t: "All power is within you; you can do anything and everything.", a: "Swami Vivekananda" },
+            { t: "The world is the great gymnasium where we come to make ourselves strong.", a: "Swami Vivekananda" },
+            { t: "In a conflict between the heart and the brain, follow your heart.", a: "Swami Vivekananda" },
+            { t: "Your own Self-Realization is the greatest service you can render the world.", a: "Ramana Maharshi" },
+            { t: "The degree of freedom from unwanted thoughts and the degree of concentration on a single thought are the measures to gauge spiritual progress.", a: "Ramana Maharshi" },
+            { t: "There is no greater mystery than this: that we keep seeking reality though in fact we are reality.", a: "Ramana Maharshi" },
+            { t: "The eye through which I see God is the same eye through which God sees me.", a: "Meister Eckhart" },
+            { t: "Let nothing disturb you, let nothing frighten you. All things are passing away: God never changes.", a: "St. Teresa of Avila" },
+            { t: "In the evening of life, we will be judged on love alone.", a: "St. John of the Cross" },
+            { t: "Preach the Gospel at all times. Use words if necessary.", a: "St. Francis of Assisi" },
+            { t: "To the mind that is still, the whole universe surrenders.", a: "Lao Tzu" },
+            { t: "Nature does not hurry, yet everything is accomplished.", a: "Lao Tzu" }
+        ];
+        
+        function showQuote() {
+            const random = library[Math.floor(Math.random() * library.length)];
+            document.getElementById('quoteDisplay').innerText = `"${random.t}"`;
+            document.getElementById('authorDisplay').innerText = `- ${random.a}`;
+            document.getElementById('quoteModal').classList.add('active');
+        }
+
+        render();
+    </script>
+</body>
+</html>
+            --red: rgba(74, 15, 15, 0.9); 
+            --yellow: rgba(66, 51, 2, 0.9); 
+            --green: rgba(15, 51, 18, 0.9); 
+            --loop: rgba(38, 50, 56, 0.9); 
+            --marker: rgba(1, 54, 84, 0.9);
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; padding: 0; overflow-x: hidden;
+            color: var(--text);
+            background-image: url('bg.jpg'); 
+            background-size: cover; background-position: center; background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        /* LAYOUT & VIEWS */
+        .view { padding-bottom: 100px; transition: transform 0.3s ease-in-out, opacity 0.3s; }
+        #home-view { display: block; }
+        
+        /* Sub-pages start off-screen */
+        .sub-page {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('bg.jpg'); background-size: cover; background-position: center;
+            z-index: 20;
+            transform: translateX(100%); 
+            overflow-y: auto;
+            display: flex; flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        .sub-page.active { transform: translateX(0); }
+
+        .sub-page-content {
             background: rgba(15, 15, 15, 0.85); /* Higher contrast for readability */
             min-height: 100%; padding: 20px; backdrop-filter: blur(8px);
             display: flex; flex-direction: column;

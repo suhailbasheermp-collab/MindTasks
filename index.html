@@ -10,20 +10,17 @@
         :root {
             --text: #333;
             --border: #ddd;
-            
-            /* Semi-transparent colors for Glass Effect */
             --header-bg: rgba(255, 255, 255, 0.85);
             --card-bg: rgba(255, 255, 255, 0.9);
             --modal-bg: rgba(255, 255, 255, 0.95);
             
-            /* Note Colors (slightly transparent) */
+            /* Note Colors */
             --red: rgba(255, 235, 238, 0.95); --red-border: #ef5350;
             --yellow: rgba(255, 248, 225, 0.95); --yellow-border: #ffca28;
             --green: rgba(232, 245, 233, 0.95); --green-border: #66bb6a;
             --loop: rgba(236, 239, 241, 0.95); --loop-border: #78909c;
             --marker: rgba(225, 245, 254, 0.95); --marker-border: #0288d1;
             
-            /* Title color for readability on image */
             --section-title-color: #fff;
             --section-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
@@ -31,8 +28,6 @@
         body.dark {
             --text: #e0e0e0;
             --border: #444;
-            
-            /* Dark Mode Glass */
             --header-bg: rgba(30, 30, 30, 0.85);
             --card-bg: rgba(30, 30, 30, 0.85);
             --modal-bg: rgba(44, 44, 44, 0.95);
@@ -46,32 +41,342 @@
 
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            margin: 0; 
-            padding: 0 0 100px 0; 
-            transition: 0.3s;
+            margin: 0; padding: 0 0 100px 0; transition: 0.3s;
             color: var(--text);
-
-            /* BACKGROUND IMAGE SETTINGS */
             background-image: url('bg.jpg'); 
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-size: cover; background-position: center; background-attachment: fixed;
             min-height: 100vh;
         }
         
         header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 1rem; 
-            background: var(--header-bg); 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 1rem; background: var(--header-bg); 
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-            position: sticky; 
-            top: 0; 
-            z-index: 10; 
+            position: sticky; top: 0; z-index: 10; 
         }
         
         h1 { font-size: 1.2rem; margin: 0; }
-        .header-btn { background: none; border
+        .header-left { display: flex; gap: 15px; }
+        .header-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; padding: 5px; color: var(--text); transition: transform 0.2s; }
+        .header-btn:active { transform: scale(0.9); }
+
+        .section { padding: 10px 15px; }
+        .separator { border-top: 2px dashed rgba(255,255,255,0.4); margin: 30px 15px 10px 15px; }
+        
+        .section-title { 
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; 
+            margin-bottom: 8px; margin-top: 15px; font-weight: 800; 
+            color: var(--section-title-color); text-shadow: var(--section-shadow);
+        }
+        
+        .collapsible-header { display: flex; align-items: center; cursor: pointer; padding: 10px 0; user-select: none; }
+        .arrow { color: white; margin-left: 10px; font-size: 0.8rem; transition: transform 0.2s; text-shadow: var(--section-shadow); }
+        .collapsible-header.active .arrow { transform: rotate(90deg); }
+        .collapsible-content { display: none; padding-top: 5px; animation: fadeIn 0.3s ease; }
+        
+        .section-desc { font-size: 0.85rem; margin: 0 0 15px 0; font-style: italic; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.8); opacity: 0.9; }
+        
+        .note { 
+            background: var(--card-bg); border-left: 5px solid #ccc; padding: 15px; 
+            margin-bottom: 10px; border-radius: 8px; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15); backdrop-filter: blur(5px); 
+            transition: 0.2s; color: var(--text); 
+        }
+        .note.red { border-color: var(--red-border); background: var(--red); }
+        .note.yellow { border-color: var(--yellow-border); background: var(--yellow); }
+        .note.green { border-color: var(--green-border); background: var(--green); }
+        .note.loop { border-color: var(--loop-border); background: var(--loop); animation: hover 4s ease-in-out infinite; }
+        .note.marker { border-color: var(--marker-border); background: var(--marker); font-weight: 500; }
+        .note.done { opacity: 0.6; text-decoration: line-through; filter: grayscale(100%); animation: none; }
+        
+        @keyframes hover { 0% { transform: translateY(0); } 50% { transform: translateY(-4px); } 100% { transform: translateY(0); } }
+
+        .actions { display: flex; gap: 15px; }
+        .btn-icon { background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0; opacity: 0.6; color: var(--text); }
+        
+        .fab { position: fixed; bottom: 25px; right: 25px; width: 56px; height: 56px; background: #333; color: white; border-radius: 50%; border: none; font-size: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 90; }
+        body.dark .fab { background: #e0e0e0; color: #121212; }
+
+        /* MODALS */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: flex-end; z-index: 100; backdrop-filter: blur(3px); }
+        .modal.center { align-items: center; padding: 20px; box-sizing: border-box; } /* For Quote Modal */
+        
+        .modal.active { display: flex; }
+        .modal-content { background: var(--modal-bg); width: 100%; padding: 25px; border-radius: 20px 20px 0 0; animation: slideUp 0.3s ease; color: var(--text); }
+        .modal-content.rounded { border-radius: 20px; max-width: 400px; text-align: center; animation: popIn 0.3s ease; }
+
+        textarea { width: 100%; border: 1px solid var(--border); background: rgba(0,0,0,0.05); color: var(--text); border-radius: 8px; padding: 12px; font-size: 16px; margin-bottom: 20px; resize: none; height: 100px; box-sizing: border-box; font-family: inherit; outline: none; }
+        
+        .color-picker { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .radio-label { flex: 1 1 30%; text-align: center; padding: 10px 0; border-radius: 8px; cursor: pointer; border: 2px solid transparent; opacity: 0.7; font-weight: bold; font-size: 0.85rem; color: #333; background: rgba(255,255,255,0.8); }
+        body.dark .radio-label { color: #fff; background: rgba(255,255,255,0.1); }
+        .radio-label.selected { opacity: 1; border-color: var(--text); transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        
+        .modal-actions { display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 14px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        .btn-cancel { background: var(--border); color: var(--text); }
+        .btn-save { background: #333; color: white; }
+        body.dark .btn-save { background: #e0e0e0; color: #121212; }
+
+        /* QUOTE STYLES */
+        .quote-text { font-size: 1.3rem; font-style: italic; line-height: 1.5; margin-bottom: 20px; font-family: serif; }
+        .quote-author { font-size: 0.9rem; font-weight: bold; text-transform: uppercase; opacity: 0.7; margin-bottom: 30px; display: block;}
+
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <button class="header-btn" onclick="toggleTheme()">🌙</button>
+            <button class="header-btn" onclick="showQuote()">🌞</button>
+        </div>
+        <h1>Mind & Tasks</h1>
+        <button class="header-btn" onclick="clearCompleted()">🧹</button>
+    </header>
+
+    <div class="section">
+        <div class="section-title">High</div>
+        <div id="list-red"></div>
+    </div>
+    <div class="section">
+        <div class="section-title">Medium</div>
+        <div id="list-yellow"></div>
+    </div>
+    <div class="section">
+        <div class="section-title">Relaxed</div>
+        <div id="list-green"></div>
+    </div>
+    
+    <div class="separator"></div>
+
+    <div class="section">
+        <div class="collapsible-header" onclick="toggleSection('loop-content', this)">
+            <div class="section-title" style="color: #cfd8dc; margin: 0;">Loop</div>
+            <div class="arrow">▶</div>
+        </div>
+        <div id="loop-content" class="collapsible-content">
+            <p class="section-desc">List your uninvited looped thoughts here.</p>
+            <div id="list-loop"></div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="collapsible-header" onclick="toggleSection('perma-content', this)">
+            <div class="section-title" style="color: #81d4fa; margin: 0;">Perma</div>
+            <div class="arrow">▶</div>
+        </div>
+        <div id="perma-content" class="collapsible-content">
+            <p class="section-desc">List the words you need to scribe, permanently.</p>
+            <div id="list-marker"></div>
+        </div>
+    </div>
+
+    <button class="fab" onclick="openModal()">+</button>
+
+    <div class="modal" id="noteModal">
+        <div class="modal-content">
+            <h3 style="margin-top:0">New Entry</h3>
+            <div class="color-picker">
+                <label class="radio-label" style="border-left: 5px solid #ef5350;" onclick="selectColor('red')">High</label>
+                <label class="radio-label" style="border-left: 5px solid #ffca28;" onclick="selectColor('yellow')">Medium</label>
+                <label class="radio-label" style="border-left: 5px solid #66bb6a;" onclick="selectColor('green')">Relaxed</label>
+                <label class="radio-label" style="border-left: 5px solid #78909c; flex: 1 1 45%;" onclick="selectColor('loop')">Loop</label>
+                <label class="radio-label" style="border-left: 5px solid #0288d1; flex: 1 1 45%;" onclick="selectColor('marker')">Perma</label>
+            </div>
+            <textarea id="noteInput" placeholder="Type here..."></textarea>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeModal('noteModal')">Cancel</button>
+                <button class="btn btn-save" onclick="saveNote()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal center" id="quoteModal" onclick="if(event.target === this) closeModal('quoteModal')">
+        <div class="modal-content rounded">
+            <div style="font-size: 2rem; margin-bottom:10px">🌞</div>
+            <div id="quoteDisplay" class="quote-text"></div>
+            <span id="authorDisplay" class="quote-author"></span>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeModal('quoteModal')">Close</button>
+                <button class="btn btn-save" onclick="showQuote()">New Quote</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+
+        // --- DATA & STATE ---
+        let notes = JSON.parse(localStorage.getItem('myNotes')) || [];
+        let editId = null;
+        let selectedColor = 'yellow';
+        
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') document.body.classList.add('dark');
+
+        // --- SUFI & MYSTICISM LIBRARY ---
+        const library = [
+            { t: "The wound is the place where the Light enters you.", a: "Rumi" },
+            { t: "What you seek is seeking you.", a: "Rumi" },
+            { t: "Stop acting so small. You are the universe in ecstatic motion.", a: "Rumi" },
+            { t: "Don't be satisfied with stories, how things have gone with others. Unfold your own myth.", a: "Rumi" },
+            { t: "Silence is the language of God, all else is poor translation.", a: "Rumi" },
+            { t: "Sell your cleverness and buy bewilderment.", a: "Rumi" },
+            { t: "I wish I could show you when you are lonely or in darkness the astonishing light of your own being.", a: "Hafiz" },
+            { t: "Fear is the cheapest room in the house. I would like to see you living in better conditions.", a: "Hafiz" },
+            { t: "Even after all this time the sun never says to the earth, 'You owe me.' Look what happens with a love like that. It lights the whole sky.", a: "Hafiz" },
+            { t: "Stay where you are. Inside you is a fountain. Don't run around with an empty bucket.", a: "Rumi" },
+            { t: "The sun is within me, and so is the moon.", a: "Kabir" },
+            { t: "Wherever you stand, be the soul of that place.", a: "Rumi" },
+            { t: "Reason is powerless in the expression of Love.", a: "Rumi" },
+            { t: "I am not this hair, I am not this skin, I am the soul that lives within.", a: "Rumi" },
+            { t: "Be empty of worrying. Think of who created thought.", a: "Rumi" },
+            { t: "Knock, And He'll open the door. Vanish, And He'll make you shine like the sun.", a: "Rumi" },
+            { t: "Let yourself be silently drawn by the strange pull of what you really love. It will not lead you astray.", a: "Rumi" },
+            { t: "You were born with wings, why prefer to crawl through life?", a: "Rumi" },
+            { t: "Your heart is the size of an ocean. Go find yourself in its hidden depths.", a: "Rumi" },
+            { t: "I have found that the only thing that does not lose its flavor is God.", a: "Shams Tabrizi" },
+            { t: "A good traveler has no fixed plans and is not intent on arriving.", a: "Lao Tzu" },
+            { t: "Nature does not hurry, yet everything is accomplished.", a: "Lao Tzu" },
+            { t: "To the mind that is still, the whole universe surrenders.", a: "Lao Tzu" },
+            { t: "Knowing others is intelligence; knowing yourself is true wisdom.", a: "Lao Tzu" },
+            { t: "When you let go of who you are, you become who you might be.", a: "Lao Tzu" },
+            { t: "Out beyond ideas of wrongdoing and rightdoing, there is a field. I'll meet you there.", a: "Rumi" },
+            { t: "If you want to know him, you must be him.", a: "Ibn Arabi" },
+            { t: "The heart is the sanctuary of God.", a: "Sufi Proverb" },
+            { t: "Die before you die.", a: "Prophet Muhammad (Hadith)" },
+            { t: "This place is a dream. Only a sleeper considers it real.", a: "Rumi" },
+            { t: "Do not feel lonely, the entire universe is inside you.", a: "Rumi" },
+            { t: "Travel brings power and love back into your life.", a: "Rumi" },
+            { t: "Respond to every call that excites your spirit.", a: "Rumi" },
+            { t: "Let the beauty of what you love be what you do.", a: "Rumi" },
+            { t: "There is a voice that doesn't use words. Listen.", a: "Rumi" },
+            { t: "Why do you stay in prison, when the door is so wide open?", a: "Rumi" },
+            { t: "Everything in the universe is a pitcher brimming with wisdom and beauty.", a: "Rumi" },
+            { t: "The lion is most handsome when looking for food.", a: "Rumi" },
+            { t: "Raise your words, not voice. It is rain that grows flowers, not thunder.", a: "Rumi" },
+            { t: "Lovers don't finally meet somewhere. They're in each other all along.", a: "Rumi" },
+            { t: "Seek the wisdom that will untie your knot. Seek the path that demands your whole being.", a: "Rumi" },
+            { t: "Be melting snow. Wash yourself of yourself.", a: "Rumi" },
+            { t: "Gamble everything for love, if you are a true human being.", a: "Rumi" },
+            { t: "Observe the wonders as they occur around you. Don't claim them. Feel the artistry moving through and be silent.", a: "Rumi" },
+            { t: "Dance, when you're broken open. Dance, if you've torn the bandage off. Dance in the middle of the fighting.", a: "Rumi" }
+        ];
+
+        // --- FUNCTIONS ---
+
+        function showQuote() {
+            // Pick random quote
+            const random = library[Math.floor(Math.random() * library.length)];
+            document.getElementById('quoteDisplay').innerText = `"${random.t}"`;
+            document.getElementById('authorDisplay').innerText = `- ${random.a}`;
+            document.getElementById('quoteModal').classList.add('active');
+        }
+
+        function toggleSection(id, header) {
+            const content = document.getElementById(id);
+            const isHidden = content.style.display === "none" || content.style.display === "";
+            content.style.display = isHidden ? "block" : "none";
+            header.classList.toggle('active', isHidden);
+        }
+
+        function render() {
+            ['red', 'yellow', 'green', 'loop', 'marker'].forEach(color => {
+                const list = document.getElementById(`list-${color}`);
+                list.innerHTML = '';
+                const filtered = notes.filter(n => n.color === color);
+                filtered.forEach(note => {
+                    const div = document.createElement('div');
+                    div.className = `note ${note.color} ${note.done ? 'done' : ''}`;
+                    div.innerHTML = `
+                        <span>${note.text}</span>
+                        <div class="actions">
+                            <button class="btn-icon" onclick="toggleDone(${note.id})">${note.done ? '↩' : '✓'}</button>
+                            <button class="btn-icon" onclick="editNote(${note.id})">✎</button>
+                            <button class="btn-icon" onclick="deleteNote(${note.id})">✕</button>
+                        </div>
+                    `;
+                    list.appendChild(div);
+                });
+            });
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        function clearCompleted() {
+            if(confirm(`Clear completed items?`)) {
+                notes = notes.filter(n => !n.done);
+                updateStorage();
+            }
+        }
+
+        function openModal(isEdit = false) {
+            document.getElementById('noteModal').classList.add('active');
+            const input = document.getElementById('noteInput');
+            setTimeout(() => input.focus(), 100);
+            if(!isEdit) { 
+                editId = null; input.value = ''; selectColor('yellow');
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function selectColor(color) {
+            selectedColor = color;
+            document.querySelectorAll('.radio-label').forEach(l => l.classList.remove('selected'));
+            const map = { 'red': 0, 'yellow': 1, 'green': 2, 'loop': 3, 'marker': 4 };
+            const buttons = document.querySelectorAll('.radio-label');
+            if(buttons[map[color]]) buttons[map[color]].classList.add('selected');
+        }
+
+        function saveNote() {
+            const text = document.getElementById('noteInput').value.trim();
+            if (!text) return;
+            if (editId) {
+                const note = notes.find(n => n.id === editId);
+                note.text = text; note.color = selectedColor;
+            } else {
+                notes.push({ id: Date.now(), text: text, color: selectedColor, done: false });
+            }
+            updateStorage();
+            closeModal('noteModal');
+        }
+
+        function deleteNote(id) {
+            if(confirm('Delete this?')) { notes = notes.filter(n => n.id !== id); updateStorage(); }
+        }
+
+        function toggleDone(id) {
+            const note = notes.find(n => n.id === id);
+            note.done = !note.done; updateStorage();
+        }
+
+        function editNote(id) {
+            const note = notes.find(n => n.id === id);
+            editId = id;
+            document.getElementById('noteInput').value = note.text;
+            selectColor(note.color);
+            openModal(true);
+        }
+
+        function updateStorage() {
+            localStorage.setItem('myNotes', JSON.stringify(notes));
+            render();
+        }
+
+        render();
+        selectColor('yellow');
+    </script>
+</body>
+</html>

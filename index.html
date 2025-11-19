@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mind & Tasks</title>
+    
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
     <meta name="theme-color" content="#0b0c15">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -875,6 +879,8 @@
         // INFO SYSTEM
         function openInfo() { document.getElementById('info-modal').classList.add('active'); }
         function closeInfo() { document.getElementById('info-modal').classList.remove('active'); }
+
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 
         render();
     </script>

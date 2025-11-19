@@ -1,24 +1,52 @@
 {
-    "name": "Colorapps",
-    "short_name": "Colorapps",
-    "description": "A simple app to explore color themes.",
+    "name": "Mind & Tasks",
+    "short_name": "MindTasks",
+    "id": "/",
+    "description": "One stop to clear your tasks, clear your mind, and Leap forward.",
     "start_url": "./index.html",
     "display": "standalone",
     "orientation": "portrait",
     "background_color": "#ffffff",
     "theme_color": "#000000",
+    "categories": ["productivity", "lifestyle", "utilities"],
     "icons": [
         {
             "src": "icon-192.png",
             "sizes": "192x192",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
+        },
+        {
+            "src": "icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
         },
         {
             "src": "icon.png",
             "sizes": "512x512",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
+        },
+        {
+            "src": "icon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "screenshot.png",
+            "sizes": "1024x1024",
+            "type": "image/png",
+            "form_factor": "wide"
+        },
+        {
+            "src": "screenshot.png",
+            "sizes": "1024x1024",
+            "type": "image/png",
+            "form_factor": "narrow"
         }
     ]
 }

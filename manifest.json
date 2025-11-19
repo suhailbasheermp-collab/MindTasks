@@ -1,13 +1,13 @@
 {
     "name": "Mind & Tasks",
     "short_name": "MindTasks",
-    "id": "/",
+    "id": "./",
     "description": "One stop to clear your tasks, clear your mind, and Leap forward.",
     "start_url": "./index.html",
     "display": "standalone",
     "orientation": "portrait",
-    "background_color": "#121212",
-    "theme_color": "#121212",
+    "background_color": "#0b0c15",
+    "theme_color": "#0b0c15",
     "categories": ["productivity", "lifestyle", "utilities"],
     "icons": [
         {
@@ -50,18 +50,6 @@
         },
         {
             "src": "screen3.jpg",
-            "sizes": "1043x1920",
-            "type": "image/jpeg",
-            "form_factor": "narrow"
-        },
-        {
-            "src": "screen4.jpg",
-            "sizes": "1043x1920",
-            "type": "image/jpeg",
-            "form_factor": "narrow"
-        },
-        {
-            "src": "screen5.jpg",
             "sizes": "1043x1920",
             "type": "image/jpeg",
             "form_factor": "narrow"

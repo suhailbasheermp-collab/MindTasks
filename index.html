@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priority Journal v2</title>
+    <style>
+        :root {
+            --bg: #f4f4f9;
+            --text: #333;
+            --header-bg: #fff;
+            --card-bg: #fff;
+            --modal-bg: #fff;
+            --border: #ddd;
+            
+            /* Priority Colors */
+            --red: #ffebee; --red-border: #ef5350;
+            --yellow: #fff8e1; --yellow-border: #ffca28;
+            --green: #e8f5e9; --green-border: #66bb6a;
+        }
+
+        /* Dark Mode Variables */
+        body.dark {
+            --bg: #121212;
+            --text: #e0e0e0;
+            --header-bg: #1e1e1e;
+            --card-bg: #1e1e1e;
+            --modal-bg: #2c2c2c;
+            --border: #444;
+            
+            /* Dimmer Priority Colors for Dark Mode */
+            --red: #4a0f0f; --red-border: #ef5350;
+            --yellow: #423302; --yellow-border: #ffd54f;
+            --green: #0f3312; --green-border: #66bb6a;
+        }
+
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0 0 80px 0; transition: 0.3s; }
+        
+        /* Header */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--header-bg); box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 10; }
+        h1 { font-size: 1.2rem; margin: 0; }
+        .header-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 5px; border-radius: 50%; }
+        .header-btn:hover { background: rgba(0,0,0,0.1); }
+
+        /* Sections */
+        .section { padding: 10px 15px; }
+        .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; margin-bottom: 10px; margin-top: 10px; }
+        
+        /* Note Cards */
+        .note { background: var(--card-bg); border-left: 5px solid #ccc; padding: 15px; margin-bottom: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: 0.2s; color: var(--text); }
+        .note.red { border-color: var(--red-border); background: var(--red); }
+        .note.yellow { border-color: var(--yellow-border); background: var(--yellow); }
+        .note.green { border-color: var(--green-border); background: var(--green); }
+        .note.done { opacity: 0.5; text-decoration: line-through; filter: grayscale(100%); }
+
+        .actions { display: flex; gap: 15px; }
+        .btn-icon { background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0; opacity: 0.6; color: var(--text); }
+        
+        /* Floating Button */
+        .fab { position: fixed; bottom: 25px; right: 25px; width: 56px; height: 56px; background: #333; color: white; border-radius: 50%; border: none; font-size: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
+        body.dark .fab { background: #e0e0e0; color: #121212; }
+        .fab:active { transform: scale(0.95); }
+
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: flex-end; z-index: 100; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--modal-bg); width: 100%; padding: 25px; border-radius: 20px 20px 0 0; animation: slideUp 0.3s ease; color: var(--text); }
+        
+        textarea { width: 100%; border: 1px solid var(--border); background: var(--bg); color: var(--text); border-radius: 8px; padding: 12px; font-size: 16px; margin-bottom: 20px; resize: none; height: 100px; box-sizing: border-box; font-family: inherit; outline: none; }
+        
+        .color-picker { display: flex; gap: 10px; margin-bottom: 20px; }
+        .radio-label { flex: 1; text-align: center; padding: 12px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; opacity: 0.6; font-weight: bold; color: #333; }
+        .radio-label.selected { opacity: 1; border-color: var(--text); transform: translateY(-2px); }
+        
+        .modal-actions { display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 14px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        .btn-cancel { background: var(--border); color: var(--text); }
+        .btn-save { background: #333; color: white; }
+        body.dark .btn-save { background: #e0e0e0; color: #121212; }
+
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="header-btn" onclick="toggleTheme()" title="Toggle Dark Mode">🌙</button>
+        <h1>Journal</h1>
+        <button class="header-btn" onclick="clearCompleted()" title="Clear Completed">🧹</button>
+    </header>
+
+    <div class="section">
+        <div class="section-title">High Priority</div>
+        <div id="list-red"></div>
+    </div>
+    <div class="section">
+        <div class="section-title">Medium Priority</div>
+        <div id="list-yellow"></div>
+    </div>
+    <div class="section">
+        <div class="section-title">Relaxed</div>
+        <div id="list-green"></div>
+    </div>
+
+    <button class="fab" onclick="openModal()">+</button>
+
+    <div class="modal" id="noteModal">
+        <div class="modal-content">
+            <h3 style="margin-top:0">New Entry</h3>
+            
+            <div class="color-picker">
+                <label class="radio-label" style="background: #ef5350; color: white;" onclick="selectColor('red')">
+                    High
+                </label>
+                <label class="radio-label" style="background: #ffca28; color: black;" onclick="selectColor('yellow')">
+                    Med
+                </label>
+                <label class="radio-label" style="background: #66bb6a; color: white;" onclick="selectColor('green')">
+                    Low
+                </label>
+            </div>
+
+            <textarea id="noteInput" placeholder="What needs to be done?"></textarea>
+
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-save" onclick="saveNote()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load Data & Theme
+        let notes = JSON.parse(localStorage.getItem('myNotes')) || [];
+        let editId = null;
+        let selectedColor = 'yellow';
+        
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') document.body.classList.add('dark');
+
+        // UI Logic
+        function render() {
+            ['red', 'yellow', 'green'].forEach(color => {
+                const list = document.getElementById(`list-${color}`);
+                list.innerHTML = '';
+                const filtered = notes.filter(n => n.color === color);
+                
+                filtered.forEach(note => {
+                    const div = document.createElement('div');
+                    div.className = `note ${note.color} ${note.done ? 'done' : ''}`;
+                    div.innerHTML = `
+                        <span>${note.text}</span>
+                        <div class="actions">
+                            <button class="btn-icon" onclick="toggleDone(${note.id})">${note.done ? '↩' : '✓'}</button>
+                            <button class="btn-icon" onclick="editNote(${note.id})">✎</button>
+                            <button class="btn-icon" onclick="deleteNote(${note.id})">✕</button>
+                        </div>
+                    `;
+                    list.appendChild(div);
+                });
+            });
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        function clearCompleted() {
+            const count = notes.filter(n => n.done).length;
+            if (count === 0) return alert("No completed tasks to clear.");
+            
+            if(confirm(`Clear ${count} completed tasks?`)) {
+                notes = notes.filter(n => !n.done);
+                updateStorage();
+            }
+        }
+
+        function openModal(isEdit = false) {
+            document.getElementById('noteModal').classList.add('active');
+            const input = document.getElementById('noteInput');
+            setTimeout(() => input.focus(), 100); // Delay focus for mobile keyboard
+            
+            if(!isEdit) { 
+                editId = null; 
+                input.value = '';
+                selectColor('yellow');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('noteModal').classList.remove('active');
+        }
+
+        function selectColor(color) {
+            selectedColor = color;
+            document.querySelectorAll('.radio-label').forEach(l => l.classList.remove('selected'));
+            // Match by background color logic or index. Simplified here:
+            const map = { 'red': 0, 'yellow': 1, 'green': 2 };
+            document.querySelectorAll('.radio-label')[map[color]].classList.add('selected');
+        }
+
+        function saveNote() {
+            const text = document.getElementById('noteInput').value.trim();
+            if (!text) return;
+
+            if (editId) {
+                const note = notes.find(n => n.id === editId);
+                note.text = text;
+                note.color = selectedColor;
+            } else {
+                notes.push({ id: Date.now(), text: text, color: selectedColor, done: false });
+            }
+            updateStorage();
+            closeModal();
+        }
+
+        function deleteNote(id) {
+            if(confirm('Delete this note?')) {
+                notes = notes.filter(n => n.id !== id);
+                updateStorage();
+            }
+        }
+
+        function toggleDone(id) {
+            const note = notes.find(n => n.id === id);
+            note.done = !note.done;
+            updateStorage();
+        }
+
+        function editNote(id) {
+            const note = notes.find(n => n.id === id);
+            editId = id;
+            document.getElementById('noteInput').value = note.text;
+            selectColor(note.color);
+            openModal(true);
+        }
+
+        function updateStorage() {
+            localStorage.setItem('myNotes', JSON.stringify(notes));
+            render();
+        }
+
+        // Initial Render
+        render();
+        selectColor('yellow');
+    </script>
+</body>
+</html>

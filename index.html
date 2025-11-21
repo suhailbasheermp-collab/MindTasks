@@ -38,8 +38,8 @@
         .blob-3 { top: 40%; left: 30%; width: 50vw; height: 50vw; background: var(--gold); opacity: 0.15; animation-duration: 22s; }
         @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(20px, 40px) scale(1.1); } }
 
-        /* FIREFLIES (Z-Index Fixed: Now appears ABOVE the timer page background) */
-        .firefly-container { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 99; display: none; }
+        /* FIREFLIES (Z-Index High to show over timer) */
+        .firefly-container { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 999; display: none; }
         .firefly-container.active { display: block; }
         .firefly {
             position: absolute; width: 3px; height: 3px; background: #ffd700;
@@ -105,26 +105,14 @@
         .sub-content { padding: 20px; flex: 1; overflow-y: auto; }
         .close-bar { width: 100%; padding: 15px; text-align: center; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; opacity: 0.7; margin-top: auto; cursor: pointer;}
 
-        /* TIMER (Fixed Centering) */
-        .timer-wrapper { 
-            flex: 1; 
-            width: 100%;
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center; 
-            position: absolute; 
-            top: 0; left: 0; height: 100%;
-        }
+        /* TIMER CENTERED */
+        .timer-wrapper { flex: 1; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: absolute; top: 0; left: 0; height: 100%; }
         .zen-circle { width: 220px; height: 220px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center; margin-bottom: 30px; position: relative; transition: all 0.5s; z-index: 10; }
         .zen-circle.active { animation: zen-breathe 8s infinite ease-in-out; border-color: var(--gold); background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, rgba(0,0,0,0) 70%); }
         .timer-text { font-size: 4.5rem; font-family: var(--font-ui); font-weight: 200; color: #fff; text-shadow: 0 0 20px rgba(0,0,0,0.5); z-index: 11; }
         
-        /* Input Styling */
         .timer-input-area { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px; z-index: 10; }
         .t-input { background: transparent; border: none; border-bottom: 1px solid var(--gold); color: white; font-size: 2.5rem; width: 80px; text-align: center; font-family: var(--font-ui); outline: none; padding-bottom: 5px; }
-        
         @keyframes zen-breathe { 0% { transform: scale(1); box-shadow: 0 0 0 0 var(--gold-glow); } 40% { transform: scale(1.1); box-shadow: 0 0 60px 20px var(--gold-glow); } 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--gold-glow); } }
 
         /* MODALS */
@@ -133,7 +121,6 @@
         .modal.center { align-items: center; padding: 20px; }
         .sheet { background: #15151a; width: 100%; padding: 30px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-top: 1px solid rgba(255,255,255,0.1); animation: slideUp 0.3s ease; }
         .card-modal { background: #15151a; border: 1px solid var(--gold); padding: 30px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; animation: popIn 0.3s ease; box-shadow: 0 0 40px rgba(0,0,0,0.5); }
-        
         .pill-container { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
         .pill { padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2); color: var(--text-muted); font-size: 0.9rem; cursor: pointer; white-space: nowrap; }
         .pill.selected { background: var(--gold); color: black; border-color: var(--gold); font-weight: bold; }
@@ -142,7 +129,6 @@
         .btn-primary { background: var(--text-main); color: black; }
         .btn-gold { background: var(--gold); color: black; }
         .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); }
-
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .hidden { display: none !important; }
@@ -248,8 +234,17 @@
     </div>
 
     <script>
+        /* --- CACHE KILLER --- */
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) { registration.unregister(); } 
+            });
+        }
+
         let notes = JSON.parse(localStorage.getItem('auroraNotes')) || [];
         let currentCat = 'red';
+        
+        // --- FULL LIBRARY (EXPANDED) ---
         const library = [
             {t:"The wound is the place where the Light enters you.",a:"Rumi"},
             {t:"What you seek is seeking you.",a:"Rumi"},
@@ -261,6 +256,7 @@
             {t:"Don't be satisfied with stories, how things have gone with others. Unfold your own myth.",a:"Rumi"},
             {t:"I wish I could show you when you are lonely or in darkness the astonishing light of your own being.",a:"Hafiz"},
             {t:"Fear is the cheapest room in the house. I would like to see you living in better conditions.",a:"Hafiz"},
+            {t:"Even after all this time the sun never says to the earth, 'You owe me.' Look what happens with a love like that. It lights the whole sky.",a:"Hafiz"},
             {t:"The sun is within me, and so is the moon.",a:"Kabir"},
             {t:"Wherever you stand, be the soul of that place.",a:"Rumi"},
             {t:"Be empty of worrying. Think of who created thought.",a:"Rumi"},
@@ -311,111 +307,152 @@
             {t:"If you want to know him, you must be him.",a:"Ibn Arabi"},
             {t:"Die before you die.",a:"Prophet Muhammad"},
             {t:"This place is a dream. Only a sleeper considers it real.",a:"Rumi"},
+            {t:"Do not feel lonely, the entire universe is inside you.",a:"Rumi"},
+            {t:"Respond to every call that excites your spirit.",a:"Rumi"},
+            {t:"Let the beauty of what you love be what you do.",a:"Rumi"},
+            {t:"There is a voice that doesn't use words. Listen.",a:"Rumi"},
+            {t:"Why do you stay in prison, when the door is so wide open?",a:"Rumi"},
+            {t:"Everything in the universe is a pitcher brimming with wisdom and beauty.",a:"Rumi"},
             {t:"The lion is most handsome when looking for food.",a:"Rumi"},
             {t:"Raise your words, not voice. It is rain that grows flowers, not thunder.",a:"Rumi"},
             {t:"Lovers don't finally meet somewhere. They're in each other all along.",a:"Rumi"},
             {t:"Seek the wisdom that will untie your knot. Seek the path that demands your whole being.",a:"Rumi"},
+            {t:"Be melting snow. Wash yourself of yourself.",a:"Rumi"},
+            {t:"Gamble everything for love, if you are a true human being.",a:"Rumi"},
             {t:"Observe the wonders as they occur around you. Don't claim them. Feel the artistry moving through and be silent.",a:"Rumi"},
             {t:"Dance, when you're broken open. Dance, if you've torn the bandage off. Dance in the middle of the fighting.",a:"Rumi"},
-            {t:"I count him braver who overcomes his desires than him who conquers his enemies; for the hardest victory is over self.",a:"Aristotle"},
+            {t:"He who knows others is wise; he who knows himself is enlightened.",a:"Lao Tzu"},
+            {t:"The truth is not always beautiful, nor beautiful words the truth.",a:"Lao Tzu"},
+            {t:"Act without expectation.",a:"Lao Tzu"},
+            {t:"If you are depressed you are living in the past. If you are anxious you are living in the future. If you are at peace you are living in the present.",a:"Lao Tzu"},
+            {t:"Be content with what you have; rejoice in the way things are. When you realize there is nothing lacking, the whole world belongs to you.",a:"Lao Tzu"},
+            {t:"Kindness in words creates confidence. Kindness in thinking creates profoundness. Kindness in giving creates love.",a:"Lao Tzu"},
+            {t:"Silence is a source of great strength.",a:"Lao Tzu"},
+            {t:"To lead people walk behind them.",a:"Lao Tzu"},
+            {t:"Care about what other people think and you will always be their prisoner.",a:"Lao Tzu"},
+            {t:"Do the difficult things while they are easy and do the great things while they are small.",a:"Lao Tzu"},
+            {t:"From wonder into wonder existence opens.",a:"Lao Tzu"},
+            {t:"For the things we have to learn before we can do them, we learn by doing them.",a:"Aristotle"},
             {t:"Knowing yourself is the beginning of all wisdom.",a:"Aristotle"},
             {t:"It is the mark of an educated mind to be able to entertain a thought without accepting it.",a:"Aristotle"},
+            {t:"Educating the mind without educating the heart is no education at all.",a:"Aristotle"},
+            {t:"Happiness depends upon ourselves.",a:"Aristotle"},
+            {t:"Excellence is never an accident. It is always the result of high intention, sincere effort, and intelligent execution.",a:"Aristotle"},
+            {t:"We are what we repeatedly do. Excellence, then, is not an act, but a habit.",a:"Aristotle"},
+            {t:"The energy of the mind is the essence of life.",a:"Aristotle"},
+            {t:"He who has overcome his fears will truly be free.",a:"Aristotle"},
+            {t:"The soul never thinks without a picture.",a:"Aristotle"},
+            {t:"Happiness is the meaning and the purpose of life, the whole aim and end of human existence.",a:"Aristotle"},
+            {t:"Patience is bitter, but its fruit is sweet.",a:"Aristotle"},
+            {t:"To perceive is to suffer.",a:"Aristotle"},
+            {t:"Those who know, do. Those that understand, teach.",a:"Aristotle"},
+            {t:"Whosoever is delighted in solitude is either a wild beast or a god.",a:"Aristotle"},
+            {t:"I count him braver who overcomes his desires than him who conquers his enemies; for the hardest victory is over self.",a:"Aristotle"},
             {t:"The unexamined life is not worth living.",a:"Socrates"},
-            {t:"Wonder is the beginning of wisdom.",a:"Socrates"},
+            {t:"True wisdom comes to each of us when we realize how little we understand about life, ourselves, and the world around us.",a:"Socrates"},
+            {t:"I cannot teach anybody anything. I can only make them think.",a:"Socrates"},
             {t:"To find yourself, think for yourself.",a:"Socrates"},
             {t:"He who is not contented with what he has, would not be contented with what he would like to have.",a:"Socrates"},
+            {t:"Wonder is the beginning of wisdom.",a:"Socrates"},
             {t:"Be kind, for everyone you meet is fighting a hard battle.",a:"Plato"},
             {t:"Wise men speak because they have something to say; Fools because they have to say something.",a:"Plato"},
+            {t:"Music is a moral law. It gives soul to the universe, wings to the mind, flight to the imagination, and charm and gaiety to life and to everything.",a:"Plato"},
+            {t:"We can easily forgive a child who is afraid of the dark; the real tragedy of life is when men are afraid of the light.",a:"Plato"},
+            {t:"The beginning is the most important part of the work.",a:"Plato"},
+            {t:"Love is a serious mental disease.",a:"Plato"},
+            {t:"Thinking: the talking of the soul with itself.",a:"Plato"},
             {t:"Courage is knowing what not to fear.",a:"Plato"},
-            {t:"At the touch of love everyone becomes a poet.",a:"Plato"},
-            {t:"You cannot shake hands with a clenched fist.",a:"Indira Gandhi"},
-            {t:"Happiness is when what you think, what you say, and what you do are in harmony.",a:"Mahatma Gandhi"},
-            {t:"The future depends on what you do today.",a:"Mahatma Gandhi"},
-            {t:"I think, therefore I am.",a:"René Descartes"},
-            {t:"That which does not kill us makes us stronger.",a:"Friedrich Nietzsche"},
-            {t:"It does not matter how slowly you go as long as you do not stop.",a:"Confucius"},
-            {t:"Real knowledge is to know the extent of one's ignorance.",a:"Confucius"},
-            {t:"Everything has beauty, but not everyone sees it.",a:"Confucius"},
-            {t:"Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment.",a:"Buddha"},
-            {t:"You, yourself, as much as anybody in the entire universe, deserve your love and affection.",a:"Buddha"},
-            {t:"Health is the greatest gift, contentment the greatest wealth, faithfulness the best relationship.",a:"Buddha"},
-            {t:"Your work is to discover your world and then with all your heart give yourself to it.",a:"Buddha"},
-            {t:"Look deep into nature, and then you will understand everything better.",a:"Albert Einstein"},
-            {t:"Imagination is more important than knowledge.",a:"Albert Einstein"},
-            {t:"Life is like riding a bicycle. To keep your balance, you must keep moving.",a:"Albert Einstein"},
-            {t:"Strive not to be a success, but rather to be of value.",a:"Albert Einstein"},
-            {t:"I have no special talent. I am only passionately curious.",a:"Albert Einstein"},
-            {t:"Peace cannot be kept by force; it can only be achieved by understanding.",a:"Albert Einstein"},
-            {t:"In the middle of difficulty lies opportunity.",a:"Albert Einstein"},
-            {t:"A person who never made a mistake never tried anything new.",a:"Albert Einstein"},
-            {t:"We cannot solve our problems with the same thinking we used when we created them.",a:"Albert Einstein"},
-            {t:"Only a life lived for others is a life worth living.",a:"Albert Einstein"},
+            {t:"The measure of a man is what he does with power.",a:"Plato"},
+            {t:"Ignorance, the root and stem of all evil.",a:"Plato"},
+            {t:"Good actions give strength to ourselves and inspire good actions in others.",a:"Plato"},
+            {t:"If you do not change direction, you may end up where you are heading.",a:"Lao Tzu"},
+            {t:"A journey of a thousand sites begins with a single click.",a:"Unknown"},
+            {t:"Life is what happens when you're busy making other plans.",a:"John Lennon"},
+            {t:"Get busy living or get busy dying.",a:"Stephen King"},
+            {t:"You only live once, but if you do it right, once is enough.",a:"Mae West"},
+            {t:"Many of life's failures are people who did not realize how close they were to success when they gave up.",a:"Thomas A. Edison"},
             {t:"If you want to live a happy life, tie it to a goal, not to people or things.",a:"Albert Einstein"},
-            {t:"Time is an illusion.",a:"Albert Einstein"},
-            {t:"God does not play dice.",a:"Albert Einstein"},
-            {t:"The true sign of intelligence is not knowledge but imagination.",a:"Albert Einstein"},
-            {t:"Everything must be made as simple as possible. But not simpler.",a:"Albert Einstein"},
-            {t:"Information is not knowledge.",a:"Albert Einstein"},
-            {t:"Coincidence is God's way of remaining anonymous.",a:"Albert Einstein"},
-            {t:"You cannot solve a problem with the same mind that created it.",a:"Albert Einstein"},
-            {t:"Logic will get you from A to B. Imagination will take you everywhere.",a:"Albert Einstein"},
-            {t:"The only source of knowledge is experience.",a:"Albert Einstein"},
-            {t:"Learn from yesterday, live for today, hope for tomorrow.",a:"Albert Einstein"},
-            {t:"It is not that I'm so smart. But I stay with the questions much longer.",a:"Albert Einstein"},
-            {t:"Creativity is contagious. Pass it on.",a:"Albert Einstein"},
-            {t:"The measure of intelligence is the ability to change.",a:"Albert Einstein"},
-            {t:"Great spirits have always encountered violent opposition from mediocre minds.",a:"Albert Einstein"},
-            {t:"Gravity is not responsible for people falling in love.",a:"Albert Einstein"},
-            {t:"Anyone who has never made a mistake has never tried anything new.",a:"Albert Einstein"},
-            {t:"A ship is always safe at shore but that is not what it’s built for.",a:"Albert Einstein"},
-            {t:"Education is what remains after one has forgotten what one has learned in school.",a:"Albert Einstein"},
-            {t:"If you can't explain it to a six year old, you don't understand it yourself.",a:"Albert Einstein"},
-            {t:"The world is a dangerous place to live; not because of the people who are evil, but because of the people who don't do anything about it.",a:"Albert Einstein"},
-            {t:"I live in that solitude which is painful in youth, but delicious in the years of maturity.",a:"Albert Einstein"},
-            {t:"Once we accept our limits, we go beyond them.",a:"Albert Einstein"},
-            {t:"The important thing is not to stop questioning.",a:"Albert Einstein"},
-            {t:"Only two things are infinite, the universe and human stupidity, and I'm not sure about the former.",a:"Albert Einstein"},
-            {t:"Reality is merely an illusion, albeit a very persistent one.",a:"Albert Einstein"},
-            {t:"Peace is not merely the absence of war but the presence of justice.",a:"Martin Luther King Jr."},
-            {t:"Darkness cannot drive out darkness; only light can do that. Hate cannot drive out hate; only love can do that.",a:"Martin Luther King Jr."},
-            {t:"The time is always right to do what is right.",a:"Martin Luther King Jr."},
-            {t:"In the end, we will remember not the words of our enemies, but the silence of our friends.",a:"Martin Luther King Jr."},
-            {t:"Faith is taking the first step even when you don't see the whole staircase.",a:"Martin Luther King Jr."},
+            {t:"Never let the fear of striking out keep you from playing the game.",a:"Babe Ruth"},
+            {t:"Money and success don’t change people; they merely amplify what is already there.",a:"Will Smith"},
+            {t:"Your time is limited, so don’t waste it living someone else’s life.",a:"Steve Jobs"},
+            {t:"Not how long, but how well you have lived is the main thing.",a:"Seneca"},
+            {t:"If life were predictable it would cease to be life, and be without flavor.",a:"Eleanor Roosevelt"},
+            {t:"The whole secret of a successful life is to find out what is one’s destiny to do, and then do it.",a:"Henry Ford"},
+            {t:"In order to write about life first you must live it.",a:"Ernest Hemingway"},
+            {t:"The big lesson in life, baby, is never be scared of anyone or anything.",a:"Frank Sinatra"},
+            {t:"Curiosity about life in all of its aspects, I think, is still the secret of great creative people.",a:"Leo Burnett"},
+            {t:"Life is not a problem to be solved, but a reality to be experienced.",a:"Søren Kierkegaard"},
+            {t:"Be yourself; everyone else is already taken.",a:"Oscar Wilde"},
+            {t:"The only impossible journey is the one you never begin.",a:"Tony Robbins"},
+            {t:"The purpose of our lives is to be happy.",a:"Dalai Lama"},
+            {t:"Life is really simple, but we insist on making it complicated.",a:"Confucius"},
+            {t:"May you live all the days of your life.",a:"Jonathan Swift"},
+            {t:"Life itself is the most wonderful fairy tale.",a:"Hans Christian Andersen"},
+            {t:"Do not let making a living prevent you from making a life.",a:"John Wooden"},
+            {t:"Life is ours to be spent, not to be saved.",a:"D. H. Lawrence"},
+            {t:"Love the life you live. Live the life you love.",a:"Bob Marley"},
+            {t:"Life is ten percent what happens to you and ninety percent how you respond to it.",a:"Charles Swindoll"},
+            {t:"Keep calm and carry on.",a:"Winston Churchill"},
+            {t:"Maybe that’s what life is… a wink of the eye and winking stars.",a:"Jack Kerouac"},
+            {t:"Life is a flower of which love is the honey.",a:"Victor Hugo"},
+            {t:"Live in the sunshine, swim the sea, drink the wild air.",a:"Ralph Waldo Emerson"},
+            {t:"The greatest pleasure of life is love.",a:"Euripides"},
+            {t:"Life is what we make it, always has been, always will be.",a:"Grandma Moses"},
+            {t:"Life's tragedy is that we get old too soon and wise too late.",a:"Benjamin Franklin"},
+            {t:"Life is about making an impact, not making an income.",a:"Kevin Kruse"},
+            {t:"Whatever the mind of man can conceive and believe, it can achieve.",a:"Napoleon Hill"},
+            {t:"Two roads diverged in a wood, and I—I took the one less traveled by, And that has made all the difference.",a:"Robert Frost"},
+            {t:"I attribute my success to this: I never gave or took any excuse.",a:"Florence Nightingale"},
+            {t:"You miss 100% of the shots you don't take.",a:"Wayne Gretzky"},
+            {t:"I've missed more than 9000 shots in my career. I've lost almost 300 games. 26 times I've been trusted to take the game winning shot and missed. I've failed over and over and over again in my life. And that is why I succeed.",a:"Michael Jordan"},
+            {t:"The most difficult thing is the decision to act, the rest is merely tenacity.",a:"Amelia Earhart"},
+            {t:"Every strike brings me closer to the next home run.",a:"Babe Ruth"},
+            {t:"Definiteness of purpose is the starting point of all achievement.",a:"W. Clement Stone"},
+            {t:"Life isn't about getting and having, it's about giving and being.",a:"Kevin Kruse"},
+            {t:"Life is what happens to you while you’re busy making other plans.",a:"John Lennon"},
+            {t:"We become what we think about.",a:"Earl Nightingale"},
+            {t:"Twenty years from now you will be more disappointed by the things that you didn’t do than by the ones you did do, so throw off the bowlines, sail away from safe harbor, catch the trade winds in your sails. Explore, Dream, Discover.",a:"Mark Twain"},
+            {t:"Life is 10% what happens to me and 90% of how I react to it.",a:"Charles Swindoll"},
+            {t:"The most common way people give up their power is by thinking they don’t have any.",a:"Alice Walker"},
+            {t:"The mind is everything. What you think you become.",a:"Buddha"},
+            {t:"The best time to plant a tree was 20 years ago. The second best time is now.",a:"Chinese Proverb"},
+            {t:"An unexamined life is not worth living.",a:"Socrates"},
+            {t:"Eighty percent of success is showing up.",a:"Woody Allen"},
+            {t:"Your time is limited, so don’t waste it living someone else’s life.",a:"Steve Jobs"},
+            {t:"Winning isn’t everything, but wanting to win is.",a:"Vince Lombardi"},
+            {t:"I am not a product of my circumstances. I am a product of my decisions.",a:"Stephen Covey"},
+            {t:"Every child is an artist. The problem is how to remain an artist once he grows up.",a:"Pablo Picasso"},
+            {t:"You can never cross the ocean until you have the courage to lose sight of the shore.",a:"Christopher Columbus"},
+            {t:"I’ve learned that people will forget what you said, people will forget what you did, but people will never forget how you made them feel.",a:"Maya Angelou"},
+            {t:"Either you run the day, or the day runs you.",a:"Jim Rohn"},
+            {t:"Whether you think you can or you think you can’t, you’re right.",a:"Henry Ford"},
+            {t:"The two most important days in your life are the day you are born and the day you find out why.",a:"Mark Twain"},
+            {t:"Whatever you can do, or dream you can, begin it. Boldness has genius, power and magic in it.",a:"Johann Wolfgang von Goethe"},
+            {t:"The best revenge is massive success.",a:"Frank Sinatra"},
+            {t:"People often say that motivation doesn’t last. Well, neither does bathing. That’s why we recommend it daily.",a:"Zig Ziglar"},
+            {t:"Life shrinks or expands in proportion to one's courage.",a:"Anais Nin"},
+            {t:"If you hear a voice within you say “you cannot paint,” then by all means paint and that voice will be silenced.",a:"Vincent Van Gogh"},
+            {t:"There is only one way to avoid criticism: do nothing, say nothing, and be nothing.",a:"Aristotle"},
+            {t:"Ask and it will be given to you; search, and you will find; knock and the door will be opened for you.",a:"Jesus"},
+            {t:"The only person you are destined to become is the person you decide to be.",a:"Ralph Waldo Emerson"},
+            {t:"Go confidently in the direction of your dreams. Live the life you have imagined.",a:"Henry David Thoreau"},
+            {t:"Few things can help an individual more than to place responsibility on him, and to let him know that you trust him.",a:"Booker T. Washington"},
+            {t:"Remember that not getting what you want is sometimes a wonderful stroke of luck.",a:"Dalai Lama"},
+            {t:"You can’t use up creativity. The more you use, the more you have.",a:"Maya Angelou"},
+            {t:"Dream big and dare to fail.",a:"Norman Vaughan"},
             {t:"Our lives begin to end the day we become silent about things that matter.",a:"Martin Luther King Jr."},
-            {t:"Love is the only force capable of transforming an enemy into a friend.",a:"Martin Luther King Jr."},
-            {t:"We must accept finite disappointment, but never lose infinite hope.",a:"Martin Luther King Jr."},
-            {t:"Change does not roll in on the wheels of inevitability, but comes through continuous struggle.",a:"Martin Luther King Jr."},
-            {t:"If you can't fly then run, if you can't run then walk, if you can't walk then crawl, but whatever you do you must keep moving forward.",a:"Martin Luther King Jr."},
-            {t:"Life's most persistent and urgent question is, 'What are you doing for others?'",a:"Martin Luther King Jr."},
-            {t:"I have decided to stick with love. Hate is too great a burden to bear.",a:"Martin Luther King Jr."},
-            {t:"Nothing in the world is more dangerous than sincere ignorance and conscientious stupidity.",a:"Martin Luther King Jr."},
-            {t:"We must learn to live together as brothers or perish together as fools.",a:"Martin Luther King Jr."},
-            {t:"Forgiveness is not an occasional act, it is a constant attitude.",a:"Martin Luther King Jr."},
-            {t:"Freedom is never voluntarily given by the oppressor; it must be demanded by the oppressed.",a:"Martin Luther King Jr."},
-            {t:"The ultimate measure of a man is not where he stands in moments of comfort and convenience, but where he stands at times of challenge and controversy.",a:"Martin Luther King Jr."},
-            {t:"Lightning makes no sound until it strikes.",a:"Martin Luther King Jr."},
-            {t:"A lie cannot live.",a:"Martin Luther King Jr."},
-            {t:"There comes a time when one must take a position that is neither safe, nor politic, nor popular, but he must take it because conscience tells him it is right.",a:"Martin Luther King Jr."},
-            {t:"He who passively accepts evil is as much involved in it as he who helps to perpetrate it.",a:"Martin Luther King Jr."},
-            {t:"We must build dikes of courage to hold back the flood of fear.",a:"Martin Luther King Jr."},
-            {t:"The quality, not the longevity, of one's life is what is important.",a:"Martin Luther King Jr."}
+            {t:"Do what you can, with what you have, where you are.",a:"Theodore Roosevelt"},
+            {t:"It’s not the years in your life that count. It’s the life in your years.",a:"Abraham Lincoln"},
+            {t:"Change your thoughts and you change your world.",a:"Norman Vincent Peale"},
+            {t:"The only way to do great work is to love what you do.",a:"Steve Jobs"},
+            {t:"If you can dream it, you can achieve it.",a:"Zig Ziglar"}
         ];
 
-        function init() {
-            render();
-            updateBanner();
-            if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
-        }
+        function init() { render(); updateBanner(); }
 
         function render() {
             ['red', 'yellow', 'green'].forEach(c => document.getElementById(`list-${c}`).innerHTML = '');
-            
-            notes.forEach(note => {
-                if(document.getElementById(`list-${note.cat}`)) {
-                    createNoteElement(note, `list-${note.cat}`, true);
-                }
-            });
-
+            notes.forEach(note => { if(document.getElementById(`list-${note.cat}`)) createNoteElement(note, `list-${note.cat}`, true); });
             document.getElementById('count-loop').innerText = notes.filter(n => n.cat === 'loop').length;
             document.getElementById('count-marker').innerText = notes.filter(n => n.cat === 'marker').length;
         }
@@ -424,14 +461,8 @@
             const container = document.getElementById(containerId);
             const div = document.createElement('div');
             div.className = `task-item ${note.cat} ${note.done ? 'done' : ''}`;
-            
             const check = isCheckable ? `<div class="check-circle" onclick="toggleDone(${note.id})"></div>` : '';
-            
-            div.innerHTML = `
-                ${check}
-                <div class="task-text">${note.text}</div>
-                <button class="icon-btn" style="font-size:0.9rem; opacity:0.5" onclick="deleteNote(${note.id})">✕</button>
-            `;
+            div.innerHTML = `${check}<div class="task-text">${note.text}</div><button class="icon-btn" style="font-size:0.9rem; opacity:0.5" onclick="deleteNote(${note.id})">✕</button>`;
             container.appendChild(div);
         }
 
@@ -439,47 +470,26 @@
             const page = document.getElementById(`${type === 'loop' ? 'loop' : 'marker'}-page`);
             const listId = `page-list-${type}`;
             const listContainer = document.getElementById(listId);
-            
             listContainer.innerHTML = '';
             const filtered = notes.filter(n => n.cat === type);
-            
-            if(filtered.length === 0) {
-                listContainer.innerHTML = `<div class="empty-msg" onclick="openModal('${type}')">No entries yet.<br>Tap to add.</div>`;
-            } else {
-                filtered.forEach(n => createNoteElement(n, listId, false));
-            }
-
+            if(filtered.length === 0) listContainer.innerHTML = `<div class="empty-msg" onclick="openModal('${type}')">No entries yet.<br>Tap to add.</div>`;
+            else filtered.forEach(n => createNoteElement(n, listId, false));
             page.classList.add('active');
         }
 
-        function closePage() {
-            document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
-            render();
-        }
+        function closePage() { document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active')); render(); }
 
         function openModal(forceCat) {
-            document.getElementById('modal-input').classList.add('active');
-            document.getElementById('input-text').focus();
-            if(forceCat) setCat(forceCat, null);
-            else setCat('red', document.querySelector('.pill'));
+            document.getElementById('modal-input').classList.add('active'); document.getElementById('input-text').focus();
+            if(forceCat) setCat(forceCat, null); else setCat('red', document.querySelector('.pill'));
         }
-
-        function closeModal() {
-            document.getElementById('modal-input').classList.remove('active');
-            document.getElementById('input-text').value = '';
-        }
+        function closeModal() { document.getElementById('modal-input').classList.remove('active'); document.getElementById('input-text').value = ''; }
 
         function setCat(cat, el) {
-            currentCat = cat;
-            const pills = document.querySelectorAll('.pill');
+            currentCat = cat; const pills = document.querySelectorAll('.pill');
             pills.forEach(p => p.classList.remove('selected'));
             if(el) el.classList.add('selected');
-            else {
-                pills.forEach(p => {
-                    if(p.innerText.toLowerCase().includes(cat === 'red' ? 'high' : cat === 'yellow' ? 'flow' : cat === 'green' ? 'gentle' : cat)) 
-                        p.classList.add('selected');
-                });
-            }
+            else pills.forEach(p => { if(p.innerText.toLowerCase().includes(cat)) p.classList.add('selected'); });
         }
 
         function saveNote() {
@@ -487,11 +497,9 @@
             if(!text) return;
             notes.push({ id: Date.now(), text, cat: currentCat, done: false });
             localStorage.setItem('auroraNotes', JSON.stringify(notes));
-            
-            if(document.getElementById('loop-page').classList.contains('active')) openPage('loop');
-            else if(document.getElementById('marker-page').classList.contains('active')) openPage('marker');
-            else render();
-            
+            const loopOpen = document.getElementById('loop-page').classList.contains('active');
+            const markerOpen = document.getElementById('marker-page').classList.contains('active');
+            if(loopOpen) openPage('loop'); else if(markerOpen) openPage('marker'); else render();
             closeModal();
         }
 
@@ -501,88 +509,43 @@
                 localStorage.setItem('auroraNotes', JSON.stringify(notes));
                 const loopOpen = document.getElementById('loop-page').classList.contains('active');
                 const markerOpen = document.getElementById('marker-page').classList.contains('active');
-                if(loopOpen) openPage('loop');
-                else if(markerOpen) openPage('marker');
-                else render();
+                if(loopOpen) openPage('loop'); else if(markerOpen) openPage('marker'); else render();
             }
         }
 
-        function toggleDone(id) {
-            const note = notes.find(n => n.id === id);
-            if(note) { note.done = !note.done; localStorage.setItem('auroraNotes', JSON.stringify(notes)); render(); }
-        }
+        function toggleDone(id) { const note = notes.find(n => n.id === id); if(note) { note.done = !note.done; localStorage.setItem('auroraNotes', JSON.stringify(notes)); render(); } }
 
-        function updateBanner() {
-            const q = library[Math.floor(Math.random() * library.length)];
-            document.getElementById('banner-text').innerText = `"${q.t}"`;
-            document.getElementById('banner-author').innerText = `- ${q.a}`;
-        }
-
-        function showQuote() {
-            const q = library[Math.floor(Math.random() * library.length)];
-            document.getElementById('modal-quote-text').innerText = `"${q.t}"`;
-            document.getElementById('modal-quote-author').innerText = `- ${q.a}`;
-            document.getElementById('modal-quote').classList.add('active');
-            updateBanner();
-        }
+        function updateBanner() { const q = library[Math.floor(Math.random() * library.length)]; document.getElementById('banner-text').innerText = `"${q.t}"`; document.getElementById('banner-author').innerText = `- ${q.a}`; }
+        function showQuote() { const q = library[Math.floor(Math.random() * library.length)]; document.getElementById('modal-quote-text').innerText = `"${q.t}"`; document.getElementById('modal-quote-author').innerText = `- ${q.a}`; document.getElementById('modal-quote').classList.add('active'); updateBanner(); }
         function closeQuote() { document.getElementById('modal-quote').classList.remove('active'); }
 
-        // --- TIMER & FIREFLIES ---
-        let timerInt;
-        let seconds = 300;
-        let isRunning = false;
-        let fireflyInterval;
-
+        // TIMER
+        let timerInt; let seconds = 300; let isRunning = false;
+        
         function spawnFireflies() {
-            const container = document.getElementById('fireflies');
-            container.classList.add('active');
-            container.innerHTML = '';
-            
-            // Create 20 fireflies with random starting positions
+            const container = document.getElementById('fireflies'); container.classList.add('active'); container.innerHTML = '';
             for(let i=0; i<30; i++) {
-                const fly = document.createElement('div');
-                fly.className = 'firefly';
-                // Randomize movement variables for CSS
-                fly.style.left = Math.random() * 100 + 'vw';
-                fly.style.top = Math.random() * 100 + 'vh';
-                fly.style.setProperty('--moveX', (Math.random() * 200 - 100) + 'px');
-                fly.style.setProperty('--moveY', (Math.random() * 200 - 100) + 'px');
-                fly.style.animationDuration = (6 + Math.random() * 6) + 's';
-                fly.style.animationDelay = (Math.random() * 5) + 's';
+                const fly = document.createElement('div'); fly.className = 'firefly';
+                fly.style.left = Math.random() * 100 + 'vw'; fly.style.top = Math.random() * 100 + 'vh';
+                fly.style.setProperty('--moveX', (Math.random() * 200 - 100) + 'px'); fly.style.setProperty('--moveY', (Math.random() * 200 - 100) + 'px');
+                fly.style.animationDuration = (6 + Math.random() * 6) + 's'; fly.style.animationDelay = (Math.random() * 5) + 's';
                 container.appendChild(fly);
             }
         }
-
-        function clearFireflies() {
-            document.getElementById('fireflies').classList.remove('active');
-            document.getElementById('fireflies').innerHTML = '';
-        }
+        function clearFireflies() { document.getElementById('fireflies').classList.remove('active'); document.getElementById('fireflies').innerHTML = ''; }
 
         function playSound(type) {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            if (!AudioContext) return;
-            const ctx = new AudioContext();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-
+            const AudioContext = window.AudioContext || window.webkitAudioContext; if (!AudioContext) return;
+            const ctx = new AudioContext(); const osc = ctx.createOscillator(); const gain = ctx.createGain();
+            osc.connect(gain); gain.connect(ctx.destination);
             if(type === 'ding') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, ctx.currentTime);
-                gain.gain.setValueAtTime(0, ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.05);
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1);
-                osc.start();
-                osc.stop(ctx.currentTime + 1);
+                osc.type = 'sine'; osc.frequency.setValueAtTime(800, ctx.currentTime);
+                gain.gain.setValueAtTime(0, ctx.currentTime); gain.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.05); gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1);
+                osc.start(); osc.stop(ctx.currentTime + 1);
             } else {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(200, ctx.currentTime);
-                gain.gain.setValueAtTime(0, ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.1);
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 4);
-                osc.start();
-                osc.stop(ctx.currentTime + 4);
+                osc.type = 'sine'; osc.frequency.setValueAtTime(200, ctx.currentTime);
+                gain.gain.setValueAtTime(0, ctx.currentTime); gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.1); gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 4);
+                osc.start(); osc.stop(ctx.currentTime + 4);
             }
         }
 
@@ -593,69 +556,38 @@
         }
 
         function startSequence() {
-            // Hide controls
-            document.getElementById('timer-setup').classList.add('hidden');
-            document.getElementById('timer-btn').parentElement.style.display = 'none';
+            document.getElementById('timer-setup').classList.add('hidden'); document.getElementById('timer-btn').parentElement.style.display = 'none';
             const display = document.getElementById('timer-display');
-            
-            let count = 3;
-            display.innerText = "Ready...";
-            
+            let count = 3; display.innerText = "Ready...";
             const countdown = setInterval(() => {
-                if(count > 0) {
-                    playSound('ding');
-                    display.innerText = count;
-                    count--;
-                } else {
-                    clearInterval(countdown);
-                    playSound('ding');
-                    startActualTimer();
-                }
+                if(count > 0) { playSound('ding'); display.innerText = count; count--; } 
+                else { clearInterval(countdown); playSound('ding'); startActualTimer(); }
             }, 1000);
         }
 
         function startActualTimer() {
-            const inputMin = parseInt(document.getElementById('custom-min').value) || 5;
-            seconds = inputMin * 60;
-            
-            document.getElementById('breath-circle').classList.add('active');
-            // Show Pause Button Logic could go here if we wanted pause functionality
-            
-            spawnFireflies();
-            
+            const inputMin = parseInt(document.getElementById('custom-min').value) || 5; seconds = inputMin * 60;
+            document.getElementById('breath-circle').classList.add('active'); spawnFireflies();
+            document.getElementById('timer-btn').innerText = "Pause"; document.getElementById('timer-btn').parentElement.style.display = 'flex';
             isRunning = true;
             timerInt = setInterval(() => {
-                if(seconds > 0) {
-                    seconds--;
-                    const m = Math.floor(seconds / 60);
-                    const s = seconds % 60;
-                    document.getElementById('timer-display').innerText = `${m < 10 ? '0':''}${m}:${s < 10 ? '0':''}${s}`;
-                } else {
-                    finishTimer();
-                }
+                if(seconds > 0) { seconds--; const m = Math.floor(seconds / 60); const s = seconds % 60; document.getElementById('timer-display').innerText = `${m < 10 ? '0':''}${m}:${s < 10 ? '0':''}${s}`; } 
+                else { finishTimer(); }
             }, 1000);
         }
 
         function finishTimer() {
-            clearInterval(timerInt); isRunning = false;
-            document.getElementById('timer-display').innerText = "00:00";
-            document.getElementById('breath-circle').classList.remove('active');
-            
-            clearFireflies();
-            playSound('gong'); 
-            alert("Focus Session Complete");
-            resetTimer();
+            clearInterval(timerInt); isRunning = false; document.getElementById('timer-display').innerText = "00:00";
+            document.getElementById('breath-circle').classList.remove('active'); clearFireflies(); playSound('gong'); 
+            alert("Focus Session Complete"); resetTimer();
         }
 
         function resetTimer() {
             clearInterval(timerInt); isRunning = false;
-            document.getElementById('breath-circle').classList.remove('active');
-            document.getElementById('timer-setup').classList.remove('hidden');
-            document.getElementById('timer-btn').parentElement.style.display = 'flex';
-            
-            const inputMin = document.getElementById('custom-min').value;
-            document.getElementById('timer-display').innerText = (inputMin < 10 ? "0" + inputMin : inputMin) + ":00";
-            
+            document.getElementById('breath-circle').classList.remove('active'); document.getElementById('timer-setup').classList.remove('hidden');
+            document.getElementById('timer-btn').parentElement.style.display = 'flex'; document.getElementById('timer-btn').innerText = "Start Focus";
+            document.getElementById('timer-btn').onclick = startSequence;
+            const inputMin = document.getElementById('custom-min').value; document.getElementById('timer-display').innerText = (inputMin < 10 ? "0" + inputMin : inputMin) + ":00";
             clearFireflies();
         }
 

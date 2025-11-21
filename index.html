@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,127 +11,336 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;1,300&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Merriweather:ital@0;1&display=swap" rel="stylesheet">
 
     <style>
+        /* --- YOUR ORIGINAL AURORA THEME --- */
         :root {
-            --bg-deep: #050508;
-            --text-main: #e0e0e0;
-            --text-muted: rgba(255, 255, 255, 0.5);
-            --gold: #d4af37;
-            --gold-glow: rgba(212, 175, 55, 0.3);
-            --mystic-purple: #4b0082;
-            --mystic-blue: #191970;
-            --red: #8B0000; --yellow: #B8860B; --green: #2F4F4F;
-            --font-serif: 'Merriweather', serif;
-            --font-ui: 'Rajdhani', sans-serif;
+            --bg-deep: #0b0c15;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(16px);
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            
+            /* Northern Lights Palette */
+            --aurora-green: #00ff9d;
+            --aurora-blue: #00d2ff;
+            --aurora-purple: #bd00ff;
+            --aurora-pink: #ff0055;
+            
+            /* Semantic Mapping */
+            --high: var(--aurora-pink);  
+            --med: var(--aurora-blue);   
+            --low: var(--aurora-green);  
+            --loop: #a8a8a8;
+            --perma: var(--aurora-purple);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; padding: 0; font-family: var(--font-ui); background-color: var(--bg-deep); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
 
-        /* AURORA ANIMATION */
-        .aurora-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(circle at 50% 50%, #0a0a10 0%, #000000 100%); overflow: hidden; }
-        .aurora-blob { position: absolute; filter: blur(90px); opacity: 0.3; animation: float 20s infinite ease-in-out alternate; }
-        .blob-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: var(--mystic-purple); animation-duration: 25s; }
-        .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: var(--mystic-blue); animation-duration: 30s; }
-        .blob-3 { top: 40%; left: 30%; width: 50vw; height: 50vw; background: var(--gold); opacity: 0.15; animation-duration: 22s; }
-        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(20px, 40px) scale(1.1); } }
+        body {
+            margin: 0; padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-        /* FIREFLIES */
+        /* --- BACKGROUND ANIMATION --- */
+        .aurora-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background: radial-gradient(circle at 10% 10%, rgba(11,12,21,1) 0%, rgba(22,25,40,1) 100%);
+            overflow: hidden;
+        }
+        .aurora-blob {
+            position: absolute; filter: blur(80px); opacity: 0.45;
+            animation: float 15s infinite ease-in-out alternate;
+        }
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--aurora-purple); animation-duration: 20s; }
+        .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: var(--aurora-blue); animation-duration: 25s; }
+        .blob-3 { top: 40%; left: 40%; width: 40vw; height: 40vw; background: var(--aurora-green); animation-duration: 18s; }
+
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.1); } }
+
+        /* --- FIREFLIES (ADDED FEATURE) --- */
         .firefly-container { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 999; display: none; }
         .firefly-container.active { display: block; }
         .firefly {
-            position: absolute; width: 3px; height: 3px; background: #ffd700;
-            border-radius: 50%; box-shadow: 0 0 15px #ffd700, 0 0 30px orange;
-            opacity: 0; animation: fly 8s infinite ease-in-out;
+            position: absolute; width: 4px; height: 4px; background: var(--aurora-green);
+            border-radius: 50%; box-shadow: 0 0 10px var(--aurora-green), 0 0 20px white;
+            opacity: 0; animation: fly 10s infinite alternate;
         }
         @keyframes fly {
-            0% { transform: translate(0,0) scale(0.5); opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { transform: translate(var(--moveX), var(--moveY)) scale(0.5); opacity: 0; }
+            0% { transform: translate(0,0) scale(0.5); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; }
+            100% { transform: translate(var(--moveX), var(--moveY)) scale(1); opacity: 0; }
         }
 
-        /* HEADER */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; position: sticky; top: 0; z-index: 50; background: rgba(5, 5, 8, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(212, 175, 55, 0.1); }
-        .brand-logo { font-family: var(--font-serif); font-weight: 700; font-size: 1.3rem; letter-spacing: 1px; color: var(--gold); display: flex; align-items: center; gap: 10px; }
-        .header-actions { display: flex; gap: 20px; }
-        .icon-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; opacity: 0.8; transition: 0.3s; }
-        .icon-btn:hover { transform: scale(1.1); opacity: 1; text-shadow: 0 0 10px var(--gold); }
+        /* --- HEADER --- */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 24px;
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(11, 12, 21, 0.75);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+        }
 
-        /* QUOTE BANNER */
-        .wisdom-banner { margin: 20px 20px 10px 20px; padding: 20px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 175, 55, 0.2); border-left: 3px solid var(--gold); border-radius: 12px; cursor: pointer; position: relative; overflow: hidden; }
-        .banner-text { font-family: var(--font-serif); font-style: italic; font-size: 1rem; line-height: 1.5; color: #ddd; }
-        .banner-author { display: block; margin-top: 8px; font-size: 0.75rem; text-transform: uppercase; color: var(--gold); text-align: right; letter-spacing: 1px; }
+        /* BRAND LOGO */
+        .brand-logo {
+            display: flex; align-items: center; gap: 8px;
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            user-select: none;
+        }
+        .logo-mind { font-weight: 700; font-size: 1.5rem; letter-spacing: 1px; color: #fff; }
+        .logo-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--aurora-green);
+            box-shadow: 0 0 10px var(--aurora-green);
+            animation: pulse-dot 3s infinite;
+        }
+        .logo-tasks { font-weight: 400; font-size: 1.5rem; letter-spacing: 2px; color: var(--text-muted); }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
 
-        /* LAYOUT */
-        .container { padding: 0 20px 100px 20px; }
-        .section-title { font-family: var(--font-serif); font-size: 1.2rem; color: var(--gold); margin: 30px 0 15px 0; border-bottom: 1px solid rgba(212, 175, 55, 0.1); padding-bottom: 5px; display: inline-block; }
-
-        /* MIND CARDS */
-        .mind-grid { display: flex; gap: 15px; }
-        .mind-card { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .mind-card h3 { margin: 5px 0 0 0; font-family: var(--font-serif); font-weight: 300; font-size: 1.1rem; color: #fff; }
-        .mind-card span { font-size: 1.8rem; display: block; text-shadow: 0 0 15px var(--gold-glow); }
-        .mind-count { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; }
-
-        /* TASKS */
-        .task-group { margin-bottom: 15px; }
-        .group-header { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
-        .task-item { background: rgba(30, 30, 35, 0.6); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 16px; display: flex; align-items: center; justify-content: space-between; transition: 0.2s; }
-        .task-item:first-child { border-top-left-radius: 12px; border-top-right-radius: 12px; }
-        .task-item:last-child { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border-bottom: none; }
-        .task-item.red { border-left: 3px solid #ff4444; }
-        .task-item.yellow { border-left: 3px solid #ffbb00; }
-        .task-item.green { border-left: 3px solid #00cc66; }
-        .task-item.loop { border-left: 3px solid #888; background: rgba(255,255,255,0.03); }
-        .task-item.marker { border-left: 3px solid var(--gold); background: rgba(212, 175, 55, 0.05); }
-        .task-text { flex: 1; font-size: 1rem; padding: 0 12px; font-family: var(--font-ui); }
-        .task-item.done { opacity: 0.4; text-decoration: line-through; filter: grayscale(100%); }
-        .check-circle { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--text-muted); cursor: pointer; }
-        .empty-msg { text-align: center; padding: 20px; color: var(--text-muted); font-style: italic; font-family: var(--font-serif); font-size: 0.9rem; border: 1px dashed rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer; }
-
-        /* FAB */
-        .fab { position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; border-radius: 50%; background: #111; color: var(--gold); border: 1px solid var(--gold); font-size: 32px; cursor: pointer; z-index: 90; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px var(--gold-glow); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); animation: breathe 4s infinite ease-in-out; }
-        .fab:hover { transform: scale(1.05); }
-        .fab:active { animation: jelly 0.5s; }
-        @keyframes breathe { 0%, 100% { box-shadow: 0 0 15px var(--gold-glow); } 50% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.5); } }
-        @keyframes jelly { 0% { transform: scale(1, 1); } 25% { transform: scale(0.9, 1.1); } 50% { transform: scale(1.1, 0.9); } 75% { transform: scale(0.95, 1.05); } 100% { transform: scale(1, 1); } }
-
-        /* SUB-PAGES */
-        .sub-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #08080a; z-index: 60; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
-        .sub-page.active { transform: translateX(0); }
-        .sub-content { padding: 20px; flex: 1; overflow-y: auto; }
-        .close-bar { width: 100%; padding: 15px; text-align: center; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; opacity: 0.7; margin-top: auto; cursor: pointer;}
-
-        /* TIMER CENTERED */
-        .timer-wrapper { flex: 1; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: absolute; top: 0; left: 0; height: 100%; }
-        .zen-circle { width: 220px; height: 220px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center; margin-bottom: 30px; position: relative; transition: all 0.5s; z-index: 10; }
-        .zen-circle.active { animation: zen-breathe 8s infinite ease-in-out; border-color: var(--gold); background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, rgba(0,0,0,0) 70%); }
-        .timer-text { font-size: 4.5rem; font-family: var(--font-ui); font-weight: 200; color: #fff; text-shadow: 0 0 20px rgba(0,0,0,0.5); z-index: 11; }
+        .header-actions { display: flex; align-items: center; gap: 20px; }
         
-        .timer-input-area { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px; z-index: 10; }
-        .t-input { background: transparent; border: none; border-bottom: 1px solid var(--gold); color: white; font-size: 2.5rem; width: 80px; text-align: center; font-family: var(--font-ui); outline: none; padding-bottom: 5px; }
-        @keyframes zen-breathe { 0% { transform: scale(1); box-shadow: 0 0 0 0 var(--gold-glow); } 40% { transform: scale(1.1); box-shadow: 0 0 60px 20px var(--gold-glow); } 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--gold-glow); } }
+        .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.7; transition: 0.3s; color: white; display: flex; align-items: center; justify-content: center; }
+        .icon-btn:hover { opacity: 1; transform: scale(1.1); text-shadow: 0 0 10px white; }
 
-        /* MODALS */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 100; display: none; justify-content: center; align-items: flex-end; }
-        .modal.active { display: flex; }
-        .modal.center { align-items: center; padding: 20px; }
-        .sheet { background: #15151a; width: 100%; padding: 30px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; border-top: 1px solid rgba(255,255,255,0.1); animation: slideUp 0.3s ease; }
-        .card-modal { background: #15151a; border: 1px solid var(--gold); padding: 30px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; animation: popIn 0.3s ease; box-shadow: 0 0 40px rgba(0,0,0,0.5); }
-        .pill-container { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
-        .pill { padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2); color: var(--text-muted); font-size: 0.9rem; cursor: pointer; white-space: nowrap; }
-        .pill.selected { background: var(--gold); color: black; border-color: var(--gold); font-weight: bold; }
-        textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 15px; border-radius: 12px; font-size: 1rem; font-family: var(--font-serif); resize: none; height: 120px; outline: none; margin-bottom: 20px; }
-        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; }
-        .btn-primary { background: var(--text-main); color: black; }
-        .btn-gold { background: var(--gold); color: black; }
-        .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); }
+        .scroll-icon-svg {
+            width: 24px; height: 24px;
+            fill: none; stroke: var(--aurora-blue); stroke-width: 2;
+            filter: drop-shadow(0 0 3px var(--aurora-blue));
+            animation: scroll-glow 3s infinite ease-in-out;
+        }
+        @keyframes scroll-glow {
+            0%, 100% { filter: drop-shadow(0 0 2px var(--aurora-blue)); transform: translateY(0); }
+            50% { filter: drop-shadow(0 0 8px var(--aurora-blue)); transform: translateY(-2px); }
+        }
 
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        /* --- MAIN CONTENT --- */
+        .container { padding: 24px; padding-bottom: 100px; max-width: 600px; margin: 0 auto; }
+        
+        .section-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;
+            color: var(--text-muted); margin: 30px 0 15px 5px; font-weight: 600;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .section-label::after { content: ''; height: 1px; background: var(--glass-border); flex: 1; }
+
+        /* --- GRID CARDS --- */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .card {
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            border-radius: 20px; padding: 20px; text-align: left;
+            backdrop-filter: var(--glass-blur);
+            transition: transform 0.2s; cursor: pointer;
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: space-between;
+            height: 120px;
+        }
+        .card:active { transform: scale(0.98); }
+        .card-icon { font-size: 1.8rem; margin-bottom: auto; display: block; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+        .card h3 { margin: 0; font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; }
+        .card p { margin: 2px 0 0; font-size: 0.8rem; color: var(--text-muted); }
+
+        /* --- TASK ITEMS --- */
+        .task-list { display: flex; flex-direction: column; gap: 12px; }
+        .task-item {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(22, 22, 30, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px; padding: 16px;
+            transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        
+        .task-item.red { border-left: 3px solid var(--high); box-shadow: -5px 0 15px -5px rgba(255, 0, 85, 0.2); }
+        .task-item.yellow { border-left: 3px solid var(--med); box-shadow: -5px 0 15px -5px rgba(0, 210, 255, 0.2); }
+        .task-item.green { border-left: 3px solid var(--low); box-shadow: -5px 0 15px -5px rgba(0, 255, 157, 0.2); }
+        .task-item.loop { border-left: 3px solid var(--loop); }
+        .task-item.marker { border-left: 3px solid var(--perma); background: rgba(189, 0, 255, 0.08); }
+
+        .task-text { flex: 1; font-size: 1rem; line-height: 1.4; padding: 0 10px; color: #eee; }
+        .task-actions { display: flex; gap: 12px; opacity: 0.5; transition: 0.2s; }
+        .task-item:hover .task-actions { opacity: 1; }
+        .task-item.done { opacity: 0.4; filter: grayscale(1); }
+        .task-item.done .task-text { text-decoration: line-through; }
+        
+        .check-circle {
+            width: 22px; height: 22px; border-radius: 50%;
+            border: 2px solid var(--glass-border);
+            background: transparent; cursor: pointer;
+            transition: 0.2s;
+        }
+        .task-item:hover .check-circle { border-color: var(--text-muted); }
+
+        /* --- EMPTY STATE --- */
+        .empty-msg { 
+            text-align: center; padding: 25px; border-radius: 16px; 
+            border: 1px dashed var(--glass-border); color: var(--text-muted); 
+            font-size: 0.9rem; cursor: pointer; transition: 0.2s;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* --- FAB (JELLY EFFECT ADDED) --- */
+        .fab {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: var(--text-main);
+            color: #000; border: none; font-size: 32px;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
+            cursor: pointer; z-index: 90;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: pulse-glow-white 3s infinite ease-in-out;
+        }
+        @keyframes pulse-glow-white {
+            0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.3); }
+            50% { box-shadow: 0 0 40px rgba(255,255,255,0.6); }
+        }
+        .fab:hover { transform: scale(1.1); }
+        .fab:active { animation: jelly 0.5s; }
+        @keyframes jelly { 
+            0% { transform: scale(1, 1); } 25% { transform: scale(0.9, 1.1); } 
+            50% { transform: scale(1.1, 0.9); } 75% { transform: scale(0.95, 1.05); } 
+            100% { transform: scale(1, 1); } 
+        }
+
+        /* --- MODAL SYSTEM --- */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px);
+            z-index: 100; display: none; opacity: 0; transition: opacity 0.3s;
+            align-items: flex-end;
+        }
+        .modal.active { display: flex; opacity: 1; }
+        .modal.center { align-items: center; justify-content: center; padding: 20px; }
+
+        .modal-sheet {
+            width: 100%; background: #16171f;
+            border-top-left-radius: 24px; border-top-right-radius: 24px;
+            padding: 30px 24px; border-top: 1px solid var(--glass-border);
+            transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 -10px 60px rgba(0,0,0,0.7);
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal.active .modal-sheet { transform: translateY(0); }
+
+        /* QUOTE MODAL CARD */
+        .quote-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 40px 30px;
+            max-width: 500px; width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            transform: scale(0.9); transition: transform 0.3s;
+        }
+        .modal.active .quote-card { transform: scale(1); }
+        
+        .quote-text {
+            font-family: 'Merriweather', serif;
+            font-style: italic; font-size: 1.4rem; line-height: 1.6;
+            margin-bottom: 20px; color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .quote-author {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem; text-transform: uppercase; letter-spacing: 2px;
+            color: var(--aurora-blue); display: block; margin-bottom: 30px;
+        }
+
+        /* INFO MODAL */
+        .info-row { display: flex; align-items: center; margin-bottom: 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; }
+        .info-row:last-child { border-bottom: none; }
+        .info-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 15px; flex-shrink: 0; }
+        .info-icon { font-size: 1.2rem; margin-right: 15px; width: 12px; text-align: center; display: flex; justify-content: center; }
+        .info-content h4 { margin: 0 0 4px 0; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; }
+        .info-content p { margin: 0; font-size: 0.9rem; color: var(--text-muted); line-height: 1.3; }
+
+        textarea {
+            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
+            color: white; padding: 16px; border-radius: 12px; font-size: 1rem;
+            margin: 20px 0; min-height: 120px; resize: none; outline: none; font-family: inherit;
+        }
+        textarea:focus { border-color: var(--aurora-blue); box-shadow: 0 0 15px rgba(0, 210, 255, 0.1); }
+
+        /* Color Pills */
+        .pill-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+        .pill {
+            flex: 0 0 auto; padding: 8px 16px; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05);
+            color: var(--text-muted); transition: 0.2s; display: flex; align-items: center; gap: 6px;
+        }
+        .pill-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .pill.selected { background: rgba(255,255,255,0.15); color: white; border-color: white; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
+
+        .btn-row { display: flex; gap: 12px; margin-top: 10px; }
+        .btn { flex: 1; padding: 16px; border-radius: 14px; font-weight: 600; font-size: 1rem; border: none; cursor: pointer; }
+        .btn-primary { background: white; color: black; box-shadow: 0 0 20px rgba(255,255,255,0.15); }
+        .btn-ghost { background: rgba(255,255,255,0.1); color: white; }
+
+        /* PAGE LAYERS (Centered Timer Fix) */
+        .page-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-deep); z-index: 60;
+            transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex; flex-direction: column;
+        }
+        .page-layer.active { transform: translateX(0); }
+        .page-content { padding: 24px; flex: 1; overflow-y: auto; }
+        
+        .timer-content { 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            height: 100%; flex: 1; position: relative; 
+        }
+        
+        /* TIMER STYLES */
+        .zen-circle {
+            width: 220px; height: 220px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,210,255,0.1) 0%, rgba(0,0,0,0) 70%);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex; justify-content: center; align-items: center;
+            margin-bottom: 30px; position: relative;
+            transition: all 0.5s;
+        }
+        .zen-circle.breathe { animation: breatheEffect 8s infinite ease-in-out; border-color: var(--aurora-blue); box-shadow: 0 0 40px var(--aurora-blue); }
+        .timer-digits { font-family: 'Rajdhani', sans-serif; font-size: 4.5rem; font-weight: 200; letter-spacing: 2px; font-variant-numeric: tabular-nums; text-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        
+        .timer-input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 30px; z-index: 10; }
+        .t-input { background: transparent; border: none; border-bottom: 1px solid var(--aurora-blue); color: white; font-size: 2rem; width: 60px; text-align: center; font-family: 'Rajdhani'; outline: none; padding-bottom: 5px; }
+
+        @keyframes breatheEffect {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 80px var(--aurora-purple); }
+        }
+
+        /* WELCOME OVERLAY */
+        .welcome-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(15px);
+            z-index: 9999; display: none; justify-content: center; align-items: center;
+            padding: 20px; opacity: 1; transition: opacity 0.6s ease;
+        }
+        .welcome-card {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px; padding: 30px; text-align: center;
+            max-width: 500px; width: 100%; color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .welcome-btn {
+            background: white; color: black; border: none;
+            padding: 15px 40px; font-size: 1.2rem; font-weight: bold;
+            border-radius: 50px; cursor: pointer; margin-top: 20px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+        }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -140,400 +348,249 @@
 
     <div class="aurora-bg"><div class="aurora-blob blob-1"></div><div class="aurora-blob blob-2"></div><div class="aurora-blob blob-3"></div></div>
     <div id="fireflies" class="firefly-container"></div>
+    
+    <div id="welcome-overlay" class="welcome-overlay"><div class="welcome-card"><h2 style="font-family: 'Rajdhani'; font-weight: 700; letter-spacing: 2px;">WELCOME</h2><p style="font-size: 1.1rem; line-height: 1.5; opacity: 0.8;">Balance your tasks with mindfulness.<br>A space for clarity and action.</p><button class="welcome-btn" onclick="closeWelcome()">Enter</button></div></div>
 
-    <div id="home-view">
+    <div id="app-home">
         <header>
-            <div class="brand-logo"><span>MIND</span><span style="font-weight:300; color:var(--text-muted)">TASKS</span></div>
-            <div class="header-actions"><button class="icon-btn" onclick="showInfo()">ℹ️</button><button class="icon-btn" onclick="openTimer()">⌛</button></div>
+            <div class="brand-logo">
+                <span class="logo-mind">MIND</span>
+                <div class="logo-dot"></div>
+                <span class="logo-tasks">TASKS</span>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" onclick="openInfo()">ℹ️</button>
+                <button class="icon-btn" onclick="openTimer()">⌛</button>
+                
+                <button class="icon-btn" onclick="showQuote()">
+                    <svg class="scroll-icon-svg" viewBox="0 0 24 24">
+                        <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 7H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 17H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 3V21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 3V21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
         </header>
 
-        <div class="wisdom-banner" onclick="showQuote()">
-            <div id="banner-text" class="banner-text">Loading wisdom...</div>
-            <span id="banner-author" class="banner-author"></span>
-        </div>
-
         <div class="container">
-            <div class="section-title">Inner Space</div>
-            <div class="mind-grid">
-                <div class="mind-card" onclick="openPage('loop')"><span>➿</span><h3>Loop</h3><div class="mind-count" id="count-loop">0</div></div>
-                <div class="mind-card" onclick="openPage('marker')"><span>✒️</span><h3>Perma</h3><div class="mind-count" id="count-marker">0</div></div>
+            <div class="section-label">Mind Space</div>
+            <div class="grid">
+                <div class="card" onclick="openList('loop')">
+                    <span class="card-icon" style="color: #a8a8a8">➿</span>
+                    <div><h3>Loops</h3><p id="count-loop">0 Active</p></div>
+                </div>
+                <div class="card" onclick="openList('marker')">
+                    <span class="card-icon" style="color: var(--aurora-purple)">✒️</span>
+                    <div><h3>Perma</h3><p id="count-marker">0 Truths</p></div>
+                </div>
             </div>
 
-            <div class="section-title">Action</div>
-            <div class="task-group"><div class="group-header" style="color: #ff6b6b">🔥 High Priority</div><div id="list-red"></div></div>
-            <div class="task-group"><div class="group-header" style="color: #ffd93d">⚡ Flow State</div><div id="list-yellow"></div></div>
-            <div class="task-group"><div class="group-header" style="color: #6bcb77">🍃 Gentle</div><div id="list-green"></div></div>
+            <div class="section-label"><span style="width: 8px; height: 8px; background: var(--aurora-pink); border-radius: 50%; margin-right:10px; box-shadow: 0 0 8px var(--aurora-pink);"></span>High Energy</div>
+            <div id="list-red" class="task-list"></div>
+
+            <div class="section-label"><span style="width: 8px; height: 8px; background: var(--aurora-blue); border-radius: 50%; margin-right:10px; box-shadow: 0 0 8px var(--aurora-blue);"></span>Flow State</div>
+            <div id="list-yellow" class="task-list"></div>
+
+            <div class="section-label"><span style="width: 8px; height: 8px; background: var(--aurora-green); border-radius: 50%; margin-right:10px; box-shadow: 0 0 8px var(--aurora-green);"></span>Gentle</div>
+            <div id="list-green" class="task-list"></div>
         </div>
+        
         <button class="fab" onclick="openModal()">+</button>
     </div>
 
-    <div id="loop-page" class="sub-page">
-        <div class="sub-page-content">
-            <header><button class="icon-btn" onclick="closePage()">←</button><div class="brand-logo">LOOPS</div><div></div></header>
-            <div class="sub-content"><p style="text-align:center; color:var(--text-muted); font-style:italic;">Traps for uninvited thoughts.</p><div id="page-list-loop"></div></div>
-            <div class="close-bar" onclick="closePage()">Return</div>
-        </div>
-    </div>
-    <div id="marker-page" class="sub-page">
-        <div class="sub-page-content">
-            <header><button class="icon-btn" onclick="closePage()">←</button><div class="brand-logo">PERMA</div><div></div></header>
-            <div class="sub-content"><p style="text-align:center; color:var(--text-muted); font-style:italic;">Deep truths scribed permanently.</p><div id="page-list-marker"></div></div>
-            <div class="close-bar" onclick="closePage()">Return</div>
-        </div>
+    <div id="page-layer" class="page-layer">
+        <header>
+            <button class="icon-btn" onclick="closePage()">← Back</button>
+            <div class="brand-logo" id="page-title" style="font-size: 1.2rem;">Title</div>
+            <div style="width: 30px;"></div> 
+        </header>
+        <div class="page-content" id="page-content-area"></div>
     </div>
 
-    <div id="timer-page" class="sub-page" style="background: #000;">
-        <header style="z-index:100; background:transparent; border:none;"><button class="icon-btn" onclick="closeTimer()">✕</button><div></div><div></div></header>
-        <div class="sub-page-content" style="justify-content: center; padding: 0;">
-            <div class="timer-wrapper">
-                <div class="zen-circle" id="breath-circle"><div class="timer-text" id="timer-display">05:00</div></div>
-                
-                <div class="timer-input-area" id="timer-setup">
-                    <input type="number" id="custom-min" class="t-input" value="5" min="1"> <span style="color:var(--text-muted); font-size: 1.2rem;">MINUTES</span>
-                </div>
-
-                <div style="display:flex; gap:10px; margin-top:20px;">
-                    <button class="btn btn-gold" style="padding: 15px 40px; border-radius: 50px;" id="timer-btn" onclick="startSequence()">Start Focus</button>
-                </div>
+    <div id="timer-layer" class="page-layer" style="background: #050505;">
+        <header>
+            <button class="icon-btn" onclick="closeTimer()">✕ Exit</button>
+            <div class="brand-logo">ZEN FOCUS</div>
+            <div></div>
+        </header>
+        <div class="timer-content">
+            <div class="zen-circle" id="breath-circle">
+                <div class="timer-digits" id="timer-display">05:00</div>
+            </div>
+            
+            <div class="timer-input-row" id="timer-setup">
+                <input type="number" id="custom-min" class="t-input" value="5" min="1"> <span style="color:var(--text-muted); font-family:'Rajdhani'; font-size: 1.2rem;">MIN</span>
+            </div>
+            
+            <p style="color: var(--text-muted); margin-bottom: 40px; font-family: 'Rajdhani', sans-serif; letter-spacing: 2px; font-weight: 600; text-shadow: 0 0 10px rgba(255,255,255,0.2);">CHANNEL YOUR FOCUS</p>
+            
+            <div id="timer-controls">
+                <button class="btn btn-primary" style="max-width: 200px; margin: 0 auto;" onclick="startSequence()" id="timer-btn">Start Focus</button>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="modal-input">
-        <div class="sheet">
-            <div class="pill-container" id="category-pills">
-                <div class="pill selected" onclick="setCat('red', this)">🔥 High</div>
-                <div class="pill" onclick="setCat('yellow', this)">⚡ Flow</div>
-                <div class="pill" onclick="setCat('green', this)">🍃 Gentle</div>
-                <div class="pill" onclick="setCat('loop', this)">➿ Loop</div>
-                <div class="pill" onclick="setCat('marker', this)">✒️ Perma</div>
+    <div class="modal" id="input-modal">
+        <div class="modal-sheet">
+            <h3 style="margin: 0 0 15px 0; font-weight: 400; font-family: 'Rajdhani', sans-serif; color: #fff;">ADD ENTRY</h3>
+            <div class="pill-container">
+                <div class="pill selected" onclick="setCategory('red', this)"><div class="pill-dot" style="background: var(--aurora-pink)"></div> High</div>
+                <div class="pill" onclick="setCategory('yellow', this)"><div class="pill-dot" style="background: var(--aurora-blue)"></div> Flow</div>
+                <div class="pill" onclick="setCategory('green', this)"><div class="pill-dot" style="background: var(--aurora-green)"></div> Low</div>
+                <div class="pill" onclick="setCategory('loop', this)"><div class="pill-dot" style="background: #a8a8a8"></div> Loop</div>
+                <div class="pill" onclick="setCategory('marker', this)"><div class="pill-dot" style="background: var(--aurora-purple)"></div> Perma</div>
             </div>
-            <textarea id="input-text" placeholder="Write here..."></textarea>
-            <div style="display:flex; gap:10px"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveNote()">Save</button></div>
+            <textarea id="input-text" placeholder="Type your thought..."></textarea>
+            <div class="btn-row">
+                <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveItem()">Save</button>
+            </div>
         </div>
     </div>
 
-    <div class="modal center" id="modal-quote" onclick="if(event.target === this) closeQuote()">
-        <div class="card-modal">
-            <div style="font-size:2rem; margin-bottom:10px">📜</div>
-            <div id="modal-quote-text" class="quote-text" style="font-size:1.2rem; font-style:italic; margin-bottom:15px; font-family:var(--font-serif); color:#fff;"></div>
-            <div id="modal-quote-author" class="quote-author" style="color:var(--gold); text-transform:uppercase; font-size:0.8rem; letter-spacing:1px;"></div>
-            <button class="btn btn-gold" style="margin-top:20px" onclick="closeQuote()">Absorb</button>
+    <div class="modal center" id="quote-modal" onclick="if(event.target === this) closeQuoteModal()">
+        <div class="quote-card">
+            <div style="font-size: 2.5rem; margin-bottom: 10px; opacity: 0.5;">📜</div>
+            <div id="modal-quote-text" class="quote-text"></div>
+            <div id="modal-quote-author" class="quote-author"></div>
+            <button class="btn btn-ghost" onclick="generateQuote()">Another One</button>
+            <button class="btn btn-primary" style="margin-top: 10px;" onclick="closeQuoteModal()">Absorb & Close</button>
         </div>
     </div>
 
-    <div class="modal center" id="modal-info" onclick="if(event.target === this) closeInfo()">
-        <div class="card-modal" style="text-align: left;">
-            <h3 style="text-align:center; color:var(--gold); margin-top:0; font-family:var(--font-serif)">Guide</h3>
-            <p style="color:#ddd; font-family:var(--font-ui)"><strong>🔥 High:</strong> Urgent fire. Do now.</p>
-            <p style="color:#ddd; font-family:var(--font-ui)"><strong>⚡ Flow:</strong> Steady work. Do soon.</p>
-            <p style="color:#ddd; font-family:var(--font-ui)"><strong>🍃 Gentle:</strong> Relaxed tasks. No rush.</p>
-            <hr style="opacity:0.2">
-            <p style="color:#ddd; font-family:var(--font-ui)"><strong>➿ Loop:</strong> Capture repetitive thoughts.</p>
-            <p style="color:#ddd; font-family:var(--font-ui)"><strong>✒️ Perma:</strong> Scribe deep realizations.</p>
-            <button class="btn btn-ghost" style="margin-top:10px; width:100%" onclick="closeInfo()">Close</button>
+    <div class="modal" id="info-modal" onclick="if(event.target === this) closeInfo()">
+        <div class="modal-sheet">
+            <h3 style="margin: 0 0 20px 0; font-family: 'Rajdhani', sans-serif; text-align: center; color: #fff;">GUIDE</h3>
+            <div class="info-row"><div class="info-dot" style="background: var(--aurora-pink); box-shadow: 0 0 8px var(--aurora-pink);"></div><div class="info-content"><h4>High Energy</h4><p>Urgent tasks. Do these when your energy is at its peak.</p></div></div>
+            <div class="info-row"><div class="info-dot" style="background: var(--aurora-blue); box-shadow: 0 0 8px var(--aurora-blue);"></div><div class="info-content"><h4>Flow State</h4><p>Important, steady work. Requires focus but not panic.</p></div></div>
+            <div class="info-row"><div class="info-dot" style="background: var(--aurora-green); box-shadow: 0 0 8px var(--aurora-green);"></div><div class="info-content"><h4>Gentle</h4><p>Low stakes. Do these when you need to relax or wind down.</p></div></div>
+            <div class="info-row"><div class="info-icon">➿</div><div class="info-content"><h4>Mental Loops</h4><p>Catch repetitive, unhelpful thoughts here to get them out of your head.</p></div></div>
+            <div class="info-row"><div class="info-icon" style="color: var(--aurora-purple)">✒️</div><div class="info-content"><h4>Perma Truths</h4><p>Deep realizations or affirmations you want to keep forever.</p></div></div>
+            <button class="btn btn-primary" style="margin-top: 20px;" onclick="closeInfo()">Got it</button>
         </div>
     </div>
 
     <script>
-        /* --- CACHE KILLER --- */
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for(let registration of registrations) { registration.unregister(); } 
-            });
-        }
+        /* CACHE KILLER */
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(function(registrations) { for(let registration of registrations) { registration.unregister(); } }); }
 
-        let notes = JSON.parse(localStorage.getItem('auroraNotes')) || [];
-        let currentCat = 'red';
-        
-        // --- FULL LIBRARY (EXPANDED) ---
+        // WELCOME
+        if (!localStorage.getItem('hasVisited')) { document.getElementById('welcome-overlay').style.display = 'flex'; }
+        function closeWelcome() { localStorage.setItem('hasVisited', 'true'); document.getElementById('welcome-overlay').style.opacity = '0'; setTimeout(() => { document.getElementById('welcome-overlay').style.display = 'none'; }, 600); }
+
+        // DATA
+        let items = JSON.parse(localStorage.getItem('auroraNotes')) || [];
+        let currentCategory = 'red';
+        let activePage = null;
+        let timerInt; let seconds = 300; let isRunning = false;
+
+        // 168 QUOTE LIBRARY
         const library = [
-            {t:"The wound is the place where the Light enters you.",a:"Rumi"},
-            {t:"What you seek is seeking you.",a:"Rumi"},
-            {t:"Stop acting so small. You are the universe in ecstatic motion.",a:"Rumi"},
-            {t:"Silence is the language of God, all else is poor translation.",a:"Rumi"},
-            {t:"Sell your cleverness and buy bewilderment.",a:"Rumi"},
-            {t:"Knock, And He'll open the door.",a:"Rumi"},
-            {t:"You were born with wings, why prefer to crawl through life?",a:"Rumi"},
-            {t:"Don't be satisfied with stories, how things have gone with others. Unfold your own myth.",a:"Rumi"},
-            {t:"I wish I could show you when you are lonely or in darkness the astonishing light of your own being.",a:"Hafiz"},
-            {t:"Fear is the cheapest room in the house. I would like to see you living in better conditions.",a:"Hafiz"},
-            {t:"Even after all this time the sun never says to the earth, 'You owe me.' Look what happens with a love like that. It lights the whole sky.",a:"Hafiz"},
-            {t:"The sun is within me, and so is the moon.",a:"Kabir"},
-            {t:"Wherever you stand, be the soul of that place.",a:"Rumi"},
-            {t:"Be empty of worrying. Think of who created thought.",a:"Rumi"},
-            {t:"Your heart is the size of an ocean. Go find yourself in its hidden depths.",a:"Rumi"},
-            {t:"Let yourself be silently drawn by the strange pull of what you really love. It will not lead you astray.",a:"Rumi"},
-            {t:"Travel brings power and love back into your life.",a:"Rumi"},
-            {t:"The mind creates the abyss, the heart crosses it.",a:"Nisargadatta Maharaj"},
-            {t:"Wisdom is knowing I am nothing, Love is knowing I am everything.",a:"Nisargadatta Maharaj"},
-            {t:"Everything happens on its own. You are doing nothing.",a:"Nisargadatta Maharaj"},
-            {t:"Once you realize that the road is the goal and that you are always on the road, not to reach a goal, but to enjoy its beauty and its wisdom, life ceases to be a task and becomes natural and simple.",a:"Nisargadatta Maharaj"},
-            {t:"Arise, awake, and stop not till the goal is reached.",a:"Swami Vivekananda"},
-            {t:"You have to grow from the inside out. None can teach you, none can make you spiritual. There is no other teacher but your own soul.",a:"Swami Vivekananda"},
-            {t:"All power is within you; you can do anything and everything.",a:"Swami Vivekananda"},
-            {t:"In a conflict between the heart and the brain, follow your heart.",a:"Swami Vivekananda"},
-            {t:"Your own Self-Realization is the greatest service you can render the world.",a:"Ramana Maharshi"},
-            {t:"Be as you are.",a:"Ramana Maharshi"},
-            {t:"There is no greater mystery than this: that we keep seeking reality though in fact we are reality.",a:"Ramana Maharshi"},
-            {t:"The degree of freedom from unwanted thoughts and the degree of concentration on a single thought are the measures to gauge spiritual progress.",a:"Ramana Maharshi"},
-            {t:"Faith is the bird that feels the light when the dawn is still dark.",a:"Rabindranath Tagore"},
-            {t:"Clouds come floating into my life, no longer to carry rain or usher storm, but to add color to my sunset sky.",a:"Rabindranath Tagore"},
-            {t:"Let your life lightly dance on the edges of Time like dew on the tip of a leaf.",a:"Rabindranath Tagore"},
-            {t:"Love is an endless mystery, for it has nothing else to explain it.",a:"Rabindranath Tagore"},
-            {t:"Everything comes to us that belongs to us if we create the capacity to receive it.",a:"Rabindranath Tagore"},
-            {t:"The butterfly counts not months but moments, and has time enough.",a:"Rabindranath Tagore"},
-            {t:"The eye through which I see God is the same eye through which God sees me.",a:"Meister Eckhart"},
-            {t:"If the only prayer you ever say in your entire life is thank you, it will be enough.",a:"Meister Eckhart"},
-            {t:"Nature does not hurry, yet everything is accomplished.",a:"Lao Tzu"},
-            {t:"To the mind that is still, the whole universe surrenders.",a:"Lao Tzu"},
-            {t:"The journey of a thousand miles begins with a single step.",a:"Lao Tzu"},
-            {t:"When I let go of what I am, I become what I might be.",a:"Lao Tzu"},
-            {t:"Knowing others is intelligence; knowing yourself is true wisdom.",a:"Lao Tzu"},
-            {t:"Peace comes from within. Do not seek it without.",a:"Buddha"},
-            {t:"The mind is everything. What you think you become.",a:"Buddha"},
-            {t:"Three things cannot be long hidden: the sun, the moon, and the truth.",a:"Buddha"},
-            {t:"Start by doing what's necessary; then do what's possible; and suddenly you are doing the impossible.",a:"St. Francis of Assisi"},
-            {t:"Preach the Gospel at all times. Use words if necessary.",a:"St. Francis of Assisi"},
-            {t:"All shall be well, and all shall be well, and all manner of thing shall be well.",a:"Julian of Norwich"},
-            {t:"Let nothing disturb you, let nothing frighten you. All things are passing away: God never changes.",a:"St. Teresa of Avila"},
-            {t:"In the evening of life, we will be judged on love alone.",a:"St. John of the Cross"},
-            {t:"Silence is God's first language.",a:"St. John of the Cross"},
-            {t:"Simplicity is the ultimate sophistication.",a:"Leonardo da Vinci"},
-            {t:"He who has a why to live can bear almost any how.",a:"Friedrich Nietzsche"},
-            {t:"In the midst of winter, I found there was, within me, an invincible summer.",a:"Albert Camus"},
-            {t:"Be the change that you wish to see in the world.",a:"Mahatma Gandhi"},
-            {t:"Where there is love there is life.",a:"Mahatma Gandhi"},
-            {t:"Live as if you were to die tomorrow. Learn as if you were to live forever.",a:"Mahatma Gandhi"},
-            {t:"The weak can never forgive. Forgiveness is the attribute of the strong.",a:"Mahatma Gandhi"},
-            {t:"If you want to know him, you must be him.",a:"Ibn Arabi"},
-            {t:"Die before you die.",a:"Prophet Muhammad"},
-            {t:"This place is a dream. Only a sleeper considers it real.",a:"Rumi"},
-            {t:"Do not feel lonely, the entire universe is inside you.",a:"Rumi"},
-            {t:"Respond to every call that excites your spirit.",a:"Rumi"},
-            {t:"Let the beauty of what you love be what you do.",a:"Rumi"},
-            {t:"There is a voice that doesn't use words. Listen.",a:"Rumi"},
-            {t:"Why do you stay in prison, when the door is so wide open?",a:"Rumi"},
-            {t:"Everything in the universe is a pitcher brimming with wisdom and beauty.",a:"Rumi"},
-            {t:"The lion is most handsome when looking for food.",a:"Rumi"},
-            {t:"Raise your words, not voice. It is rain that grows flowers, not thunder.",a:"Rumi"},
-            {t:"Lovers don't finally meet somewhere. They're in each other all along.",a:"Rumi"},
-            {t:"Seek the wisdom that will untie your knot. Seek the path that demands your whole being.",a:"Rumi"},
-            {t:"Be melting snow. Wash yourself of yourself.",a:"Rumi"},
-            {t:"Gamble everything for love, if you are a true human being.",a:"Rumi"},
-            {t:"Observe the wonders as they occur around you. Don't claim them. Feel the artistry moving through and be silent.",a:"Rumi"},
-            {t:"Dance, when you're broken open. Dance, if you've torn the bandage off. Dance in the middle of the fighting.",a:"Rumi"},
-            {t:"It is not the mountain we conquer but ourselves.",a:"Edmund Hillary"},
-            {t:"He who knows others is wise; he who knows himself is enlightened.",a:"Lao Tzu"},
-            {t:"The truth is not always beautiful, nor beautiful words the truth.",a:"Lao Tzu"},
-            {t:"Simplicity is the ultimate sophistication.",a:"Leonardo da Vinci"},
-            {t:"Peace comes from within. Do not seek it without.",a:"Buddha"},
-            {t:"You, yourself, as much as anybody in the entire universe, deserve your love and affection.",a:"Buddha"},
-            {t:"The mind is everything. What you think you become.",a:"Buddha"},
-            {t:"Three things cannot be long hidden: the sun, the moon, and the truth.",a:"Buddha"},
-            {t:"No one saves us but ourselves. No one can and no one may. We ourselves must walk the path.",a:"Buddha"},
-            {t:"Pain is inevitable. Suffering is optional.",a:"Haruki Murakami"},
-            {t:"Act without expectation.",a:"Lao Tzu"},
-            {t:"If you are depressed you are living in the past. If you are anxious you are living in the future. If you are at peace you are living in the present.",a:"Lao Tzu"},
-            {t:"Be content with what you have; rejoice in the way things are. When you realize there is nothing lacking, the whole world belongs to you.",a:"Lao Tzu"},
-            {t:"The journey of a thousand miles begins with a single step.",a:"Lao Tzu"},
-            {t:"Kindness in words creates confidence. Kindness in thinking creates profoundness. Kindness in giving creates love.",a:"Lao Tzu"},
-            {t:"Silence is a source of great strength.",a:"Lao Tzu"},
-            {t:"To lead people walk behind them.",a:"Lao Tzu"},
-            {t:"Care about what other people think and you will always be their prisoner.",a:"Lao Tzu"},
-            {t:"Do the difficult things while they are easy and do the great things while they are small.",a:"Lao Tzu"},
-            {t:"From wonder into wonder existence opens.",a:"Lao Tzu"},
-            {t:"When I let go of what I am, I become what I might be.",a:"Lao Tzu"},
-            {t:"For the things we have to learn before we can do them, we learn by doing them.",a:"Aristotle"},
-            {t:"Knowing yourself is the beginning of all wisdom.",a:"Aristotle"},
-            {t:"It is the mark of an educated mind to be able to entertain a thought without accepting it.",a:"Aristotle"},
-            {t:"Educating the mind without educating the heart is no education at all.",a:"Aristotle"},
-            {t:"Happiness depends upon ourselves.",a:"Aristotle"},
-            {t:"Excellence is never an accident. It is always the result of high intention, sincere effort, and intelligent execution.",a:"Aristotle"},
-            {t:"We are what we repeatedly do. Excellence, then, is not an act, but a habit.",a:"Aristotle"},
-            {t:"The energy of the mind is the essence of life.",a:"Aristotle"},
-            {t:"He who has overcome his fears will truly be free.",a:"Aristotle"},
-            {t:"The soul never thinks without a picture.",a:"Aristotle"},
-            {t:"Happiness is the meaning and the purpose of life, the whole aim and end of human existence.",a:"Aristotle"},
-            {t:"Patience is bitter, but its fruit is sweet.",a:"Aristotle"},
-            {t:"To perceive is to suffer.",a:"Aristotle"},
-            {t:"Those who know, do. Those that understand, teach.",a:"Aristotle"},
-            {t:"Whosoever is delighted in solitude is either a wild beast or a god.",a:"Aristotle"},
-            {t:"I count him braver who overcomes his desires than him who conquers his enemies; for the hardest victory is over self.",a:"Aristotle"},
-            {t:"The unexamined life is not worth living.",a:"Socrates"},
-            {t:"True wisdom comes to each of us when we realize how little we understand about life, ourselves, and the world around us.",a:"Socrates"},
-            {t:"I cannot teach anybody anything. I can only make them think.",a:"Socrates"},
-            {t:"To find yourself, think for yourself.",a:"Socrates"},
-            {t:"He who is not contented with what he has, would not be contented with what he would like to have.",a:"Socrates"},
-            {t:"Wonder is the beginning of wisdom.",a:"Socrates"},
-            {t:"Be kind, for everyone you meet is fighting a hard battle.",a:"Plato"},
-            {t:"Wise men speak because they have something to say; Fools because they have to say something.",a:"Plato"},
-            {t:"Music is a moral law. It gives soul to the universe, wings to the mind, flight to the imagination, and charm and gaiety to life and to everything.",a:"Plato"},
-            {t:"We can easily forgive a child who is afraid of the dark; the real tragedy of life is when men are afraid of the light.",a:"Plato"},
-            {t:"The beginning is the most important part of the work.",a:"Plato"},
-            {t:"Love is a serious mental disease.",a:"Plato"},
-            {t:"Thinking: the talking of the soul with itself.",a:"Plato"},
-            {t:"Courage is knowing what not to fear.",a:"Plato"},
-            {t:"The measure of a man is what he does with power.",a:"Plato"},
-            {t:"Ignorance, the root and stem of all evil.",a:"Plato"},
-            {t:"Good actions give strength to ourselves and inspire good actions in others.",a:"Plato"},
-            {t:"If you do not change direction, you may end up where you are heading.",a:"Lao Tzu"},
-            {t:"A journey of a thousand sites begins with a single click.",a:"Unknown"},
-            {t:"Life is what happens when you're busy making other plans.",a:"John Lennon"},
-            {t:"Get busy living or get busy dying.",a:"Stephen King"},
-            {t:"You only live once, but if you do it right, once is enough.",a:"Mae West"},
-            {t:"Many of life's failures are people who did not realize how close they were to success when they gave up.",a:"Thomas A. Edison"},
-            {t:"If you want to live a happy life, tie it to a goal, not to people or things.",a:"Albert Einstein"},
-            {t:"Never let the fear of striking out keep you from playing the game.",a:"Babe Ruth"},
-            {t:"Money and success don’t change people; they merely amplify what is already there.",a:"Will Smith"},
-            {t:"Your time is limited, so don’t waste it living someone else’s life.",a:"Steve Jobs"},
-            {t:"Not how long, but how well you have lived is the main thing.",a:"Seneca"},
-            {t:"If life were predictable it would cease to be life, and be without flavor.",a:"Eleanor Roosevelt"},
-            {t:"The whole secret of a successful life is to find out what is one’s destiny to do, and then do it.",a:"Henry Ford"},
-            {t:"In order to write about life first you must live it.",a:"Ernest Hemingway"},
-            {t:"The big lesson in life, baby, is never be scared of anyone or anything.",a:"Frank Sinatra"},
-            {t:"Curiosity about life in all of its aspects, I think, is still the secret of great creative people.",a:"Leo Burnett"},
-            {t:"Life is not a problem to be solved, but a reality to be experienced.",a:"Søren Kierkegaard"},
-            {t:"Be yourself; everyone else is already taken.",a:"Oscar Wilde"},
-            {t:"The only impossible journey is the one you never begin.",a:"Tony Robbins"},
-            {t:"The purpose of our lives is to be happy.",a:"Dalai Lama"},
-            {t:"Life is really simple, but we insist on making it complicated.",a:"Confucius"},
-            {t:"May you live all the days of your life.",a:"Jonathan Swift"},
-            {t:"Life itself is the most wonderful fairy tale.",a:"Hans Christian Andersen"},
-            {t:"Do not let making a living prevent you from making a life.",a:"John Wooden"},
-            {t:"Life is ours to be spent, not to be saved.",a:"D. H. Lawrence"},
-            {t:"Love the life you live. Live the life you love.",a:"Bob Marley"},
-            {t:"Life is ten percent what happens to you and ninety percent how you respond to it.",a:"Charles Swindoll"},
-            {t:"Keep calm and carry on.",a:"Winston Churchill"},
-            {t:"Maybe that’s what life is… a wink of the eye and winking stars.",a:"Jack Kerouac"},
-            {t:"Life is a flower of which love is the honey.",a:"Victor Hugo"},
-            {t:"Live in the sunshine, swim the sea, drink the wild air.",a:"Ralph Waldo Emerson"},
-            {t:"The greatest pleasure of life is love.",a:"Euripides"},
-            {t:"Life is what we make it, always has been, always will be.",a:"Grandma Moses"},
-            {t:"Life's tragedy is that we get old too soon and wise too late.",a:"Benjamin Franklin"},
-            {t:"Life is about making an impact, not making an income.",a:"Kevin Kruse"},
-            {t:"Whatever the mind of man can conceive and believe, it can achieve.",a:"Napoleon Hill"},
-            {t:"Two roads diverged in a wood, and I—I took the one less traveled by, And that has made all the difference.",a:"Robert Frost"},
-            {t:"I attribute my success to this: I never gave or took any excuse.",a:"Florence Nightingale"},
-            {t:"You miss 100% of the shots you don't take.",a:"Wayne Gretzky"},
-            {t:"I've missed more than 9000 shots in my career. I've lost almost 300 games. 26 times I've been trusted to take the game winning shot and missed. I've failed over and over and over again in my life. And that is why I succeed.",a:"Michael Jordan"},
-            {t:"The most difficult thing is the decision to act, the rest is merely tenacity.",a:"Amelia Earhart"},
-            {t:"Every strike brings me closer to the next home run.",a:"Babe Ruth"},
-            {t:"Definiteness of purpose is the starting point of all achievement.",a:"W. Clement Stone"},
-            {t:"Life isn't about getting and having, it's about giving and being.",a:"Kevin Kruse"},
-            {t:"Life is what happens to you while you’re busy making other plans.",a:"John Lennon"},
-            {t:"We become what we think about.",a:"Earl Nightingale"},
-            {t:"Twenty years from now you will be more disappointed by the things that you didn’t do than by the ones you did do, so throw off the bowlines, sail away from safe harbor, catch the trade winds in your sails. Explore, Dream, Discover.",a:"Mark Twain"},
-            {t:"Life is 10% what happens to me and 90% of how I react to it.",a:"Charles Swindoll"},
-            {t:"The most common way people give up their power is by thinking they don’t have any.",a:"Alice Walker"},
-            {t:"The mind is everything. What you think you become.",a:"Buddha"},
-            {t:"The best time to plant a tree was 20 years ago. The second best time is now.",a:"Chinese Proverb"},
-            {t:"An unexamined life is not worth living.",a:"Socrates"},
-            {t:"Eighty percent of success is showing up.",a:"Woody Allen"},
-            {t:"Your time is limited, so don’t waste it living someone else’s life.",a:"Steve Jobs"},
-            {t:"Winning isn’t everything, but wanting to win is.",a:"Vince Lombardi"},
-            {t:"I am not a product of my circumstances. I am a product of my decisions.",a:"Stephen Covey"},
-            {t:"Every child is an artist. The problem is how to remain an artist once he grows up.",a:"Pablo Picasso"},
-            {t:"You can never cross the ocean until you have the courage to lose sight of the shore.",a:"Christopher Columbus"},
-            {t:"I’ve learned that people will forget what you said, people will forget what you did, but people will never forget how you made them feel.",a:"Maya Angelou"},
-            {t:"Either you run the day, or the day runs you.",a:"Jim Rohn"},
-            {t:"Whether you think you can or you think you can’t, you’re right.",a:"Henry Ford"},
-            {t:"The two most important days in your life are the day you are born and the day you find out why.",a:"Mark Twain"},
-            {t:"Whatever you can do, or dream you can, begin it. Boldness has genius, power and magic in it.",a:"Johann Wolfgang von Goethe"},
-            {t:"The best revenge is massive success.",a:"Frank Sinatra"},
-            {t:"People often say that motivation doesn’t last. Well, neither does bathing. That’s why we recommend it daily.",a:"Zig Ziglar"},
-            {t:"Life shrinks or expands in proportion to one's courage.",a:"Anais Nin"},
-            {t:"If you hear a voice within you say “you cannot paint,” then by all means paint and that voice will be silenced.",a:"Vincent Van Gogh"},
-            {t:"There is only one way to avoid criticism: do nothing, say nothing, and be nothing.",a:"Aristotle"},
-            {t:"Ask and it will be given to you; search, and you will find; knock and the door will be opened for you.",a:"Jesus"},
-            {t:"The only person you are destined to become is the person you decide to be.",a:"Ralph Waldo Emerson"},
-            {t:"Go confidently in the direction of your dreams. Live the life you have imagined.",a:"Henry David Thoreau"},
-            {t:"Few things can help an individual more than to place responsibility on him, and to let him know that you trust him.",a:"Booker T. Washington"},
-            {t:"Remember that not getting what you want is sometimes a wonderful stroke of luck.",a:"Dalai Lama"},
-            {t:"You can’t use up creativity. The more you use, the more you have.",a:"Maya Angelou"},
-            {t:"Dream big and dare to fail.",a:"Norman Vaughan"},
-            {t:"Our lives begin to end the day we become silent about things that matter.",a:"Martin Luther King Jr."},
-            {t:"Do what you can, with what you have, where you are.",a:"Theodore Roosevelt"},
-            {t:"It’s not the years in your life that count. It’s the life in your years.",a:"Abraham Lincoln"},
-            {t:"Change your thoughts and you change your world.",a:"Norman Vincent Peale"},
-            {t:"The only way to do great work is to love what you do.",a:"Steve Jobs"},
-            {t:"If you can dream it, you can achieve it.",a:"Zig Ziglar"}
+            {t:"The wound is the place where the Light enters you.",a:"Rumi"},{t:"What you seek is seeking you.",a:"Rumi"},{t:"Stop acting so small. You are the universe in ecstatic motion.",a:"Rumi"},{t:"Silence is the language of God, all else is poor translation.",a:"Rumi"},{t:"Sell your cleverness and buy bewilderment.",a:"Rumi"},{t:"Stay where you are. Inside you is a fountain. Don't run around with an empty bucket.",a:"Rumi"},{t:"Knock, And He'll open the door.",a:"Rumi"},{t:"You were born with wings, why prefer to crawl through life?",a:"Rumi"},{t:"There is a voice that doesn’t use words. Listen.",a:"Rumi"},
+            {t:"I wish I could show you when you are lonely or in darkness the astonishing light of your own being.",a:"Hafiz"},{t:"Fear is the cheapest room in the house. I would like to see you living in better conditions.",a:"Hafiz"},{t:"Even after all this time the sun never says to the earth, 'You owe me.'",a:"Hafiz"},
+            {t:"Faith is the bird that feels the light when the dawn is still dark.",a:"Rabindranath Tagore"},{t:"Clouds come floating into my life, no longer to carry rain or usher storm, but to add color to my sunset sky.",a:"Rabindranath Tagore"},{t:"Let your life lightly dance on the edges of Time like dew on the tip of a leaf.",a:"Rabindranath Tagore"},{t:"Love is an endless mystery, for it has nothing else to explain it.",a:"Rabindranath Tagore"},{t:"Everything comes to us that belongs to us if we create the capacity to receive it.",a:"Rabindranath Tagore"},
+            {t:"The mind creates the abyss, the heart crosses it.",a:"Nisargadatta Maharaj"},{t:"Wisdom is knowing I am nothing, Love is knowing I am everything.",a:"Nisargadatta Maharaj"},{t:"Everything happens on its own. You are doing nothing.",a:"Nisargadatta Maharaj"},{t:"Love says 'I am everything'. Wisdom says 'I am nothing'. Between the two, my life flows.",a:"Nisargadatta Maharaj"},{t:"Once you realize that the road is the goal and that you are always on the road, not to reach a goal, but to enjoy its beauty and its wisdom, life ceases to be a task and becomes natural and simple.",a:"Nisargadatta Maharaj"},
+            {t:"Arise, awake, and stop not till the goal is reached.",a:"Swami Vivekananda"},{t:"You have to grow from the inside out. None can teach you, none can make you spiritual.",a:"Swami Vivekananda"},{t:"All power is within you; you can do anything and everything.",a:"Swami Vivekananda"},{t:"The world is the great gymnasium where we come to make ourselves strong.",a:"Swami Vivekananda"},{t:"In a conflict between the heart and the brain, follow your heart.",a:"Swami Vivekananda"},
+            {t:"Your own Self-Realization is the greatest service you can render the world.",a:"Ramana Maharshi"},{t:"The degree of freedom from unwanted thoughts and the degree of concentration on a single thought are the measures to gauge spiritual progress.",a:"Ramana Maharshi"},{t:"There is no greater mystery than this: that we keep seeking reality though in fact we are reality.",a:"Ramana Maharshi"},{t:"Wanting to reform the world without discovering one's true self is like trying to cover the world with leather to avoid the pain of walking on stones and thorns.",a:"Ramana Maharshi"},{t:"Be as you are.",a:"Ramana Maharshi"},
+            {t:"To the mind that is still, the whole universe surrenders.",a:"Lao Tzu"},{t:"Nature does not hurry, yet everything is accomplished.",a:"Lao Tzu"},{t:"The journey of a thousand miles begins with a single step.",a:"Lao Tzu"},{t:"He who knows, does not speak. He who speaks, does not know.",a:"Lao Tzu"},{t:"When I let go of what I am, I become what I might be.",a:"Lao Tzu"},{t:"Knowing others is intelligence; knowing yourself is true wisdom.",a:"Lao Tzu"},{t:"If you correct your mind, the rest of your life will fall into place.",a:"Lao Tzu"},
+            {t:"Peace comes from within. Do not seek it without.",a:"Buddha"},{t:"You, yourself, as much as anybody in the entire universe, deserve your love and affection.",a:"Buddha"},{t:"The mind is everything. What you think you become.",a:"Buddha"},{t:"Three things cannot be long hidden: the sun, the moon, and the truth.",a:"Buddha"},{t:"No one saves us but ourselves. No one can and no one may.",a:"Buddha"},
+            {t:"The eye through which I see God is the same eye through which God sees me.",a:"Meister Eckhart"},{t:"Let nothing disturb you, let nothing frighten you. All things are passing away: God never changes.",a:"St. Teresa of Avila"},{t:"In the evening of life, we will be judged on love alone.",a:"St. John of the Cross"},{t:"Preach the Gospel at all times. Use words if necessary.",a:"St. Francis of Assisi"},{t:"All shall be well, and all shall be well, and all manner of thing shall be well.",a:"Julian of Norwich"},
+            {t:"He who has a why to live can bear almost any how.",a:"Friedrich Nietzsche"},{t:"That which does not kill us makes us stronger.",a:"Friedrich Nietzsche"},{t:"In the midst of winter, I found there was, within me, an invincible summer.",a:"Albert Camus"},{t:"Be the change that you wish to see in the world.",a:"Mahatma Gandhi"},{t:"Where there is love there is life.",a:"Mahatma Gandhi"},{t:"You must be the change you wish to see in the world.",a:"Mahatma Gandhi"},{t:"The weak can never forgive. Forgiveness is the attribute of the strong.",a:"Mahatma Gandhi"},
+            {t:"Knowing yourself is the beginning of all wisdom.",a:"Aristotle"},{t:"It is the mark of an educated mind to be able to entertain a thought without accepting it.",a:"Aristotle"},{t:"Happiness depends upon ourselves.",a:"Aristotle"},{t:"We are what we repeatedly do. Excellence, then, is not an act, but a habit.",a:"Aristotle"},
+            {t:"The unexamined life is not worth living.",a:"Socrates"},{t:"Wonder is the beginning of wisdom.",a:"Socrates"},{t:"To find yourself, think for yourself.",a:"Socrates"},
+            {t:"Be kind, for everyone you meet is fighting a hard battle.",a:"Plato"},{t:"Courage is knowing what not to fear.",a:"Plato"},{t:"At the touch of love everyone becomes a poet.",a:"Plato"},
+            {t:"Simplicity is the ultimate sophistication.",a:"Leonardo da Vinci"},{t:"Learning never exhausts the mind.",a:"Leonardo da Vinci"},{t:"Time stays long enough for those who use it.",a:"Leonardo da Vinci"},
+            {t:"Imagination is more important than knowledge.",a:"Albert Einstein"},{t:"Life is like riding a bicycle. To keep your balance, you must keep moving.",a:"Albert Einstein"},{t:"Look deep into nature, and then you will understand everything better.",a:"Albert Einstein"},{t:"Strive not to be a success, but rather to be of value.",a:"Albert Einstein"},
+            {t:"Darkness cannot drive out darkness; only light can do that.",a:"Martin Luther King Jr."},{t:"The time is always right to do what is right.",a:"Martin Luther King Jr."},{t:"Faith is taking the first step even when you don't see the whole staircase.",a:"Martin Luther King Jr."},{t:"Life's most persistent and urgent question is, 'What are you doing for others?'",a:"Martin Luther King Jr."},
+            {t:"It is not the mountain we conquer but ourselves.",a:"Edmund Hillary"},{t:"The only way to do great work is to love what you do.",a:"Steve Jobs"},{t:"Change your thoughts and you change your world.",a:"Norman Vincent Peale"},{t:"Do what you can, with what you have, where you are.",a:"Theodore Roosevelt"},{t:"Dream big and dare to fail.",a:"Norman Vaughan"},
+            {t:"If you can't fly then run, if you can't run then walk.",a:"Martin Luther King Jr."},{t:"Believe you can and you're halfway there.",a:"Theodore Roosevelt"},{t:"Act as if what you do makes a difference. It does.",a:"William James"},{t:"Success is not final, failure is not fatal: it is the courage to continue that counts.",a:"Winston Churchill"},{t:"You are never too old to set another goal or to dream a new dream.",a:"C.S. Lewis"},
+            {t:"It always seems impossible until it's done.",a:"Nelson Mandela"},{t:"Keep your face always toward the sunshine and shadows will fall behind you.",a:"Walt Whitman"},{t:"Limit your 'always' and your 'nevers'.",a:"Amy Poehler"},{t:"Spread love everywhere you go.",a:"Mother Teresa"},{t:"Motivation comes from working on things we care about.",a:"Sheryl Sandberg"},
+            {t:"If you look at what you have in life, you'll always have more.",a:"Oprah Winfrey"},{t:"Life is 10% what happens to you and 90% how you react to it.",a:"Charles R. Swindoll"},{t:"Do not go where the path may lead, go instead where there is no path and leave a trail.",a:"Ralph Waldo Emerson"},{t:"The best way to predict the future is to create it.",a:"Peter Drucker"},{t:"You miss 100% of the shots you don't take.",a:"Wayne Gretzky"},
+            {t:"The only limit to our realization of tomorrow will be our doubts of today.",a:"Franklin D. Roosevelt"},{t:"Do not wait to strike till the iron is hot, but make it hot by striking.",a:"William Butler Yeats"},{t:"Whether you think you can or you think you can't, you're right.",a:"Henry Ford"},{t:"The best revenge is massive success.",a:"Frank Sinatra"},{t:"People often say that motivation doesn't last. Well, neither does bathing. That's why we recommend it daily.",a:"Zig Ziglar"},
+            {t:"Life shrinks or expands in proportion to one's courage.",a:"Anais Nin"},{t:"If you hear a voice within you say 'you cannot paint,' then by all means paint and that voice will be silenced.",a:"Vincent Van Gogh"},{t:"There is only one way to avoid criticism: do nothing, say nothing, and be nothing.",a:"Aristotle"},{t:"Ask and it will be given to you; search, and you will find; knock and the door will be opened for you.",a:"Jesus"},{t:"The only person you are destined to become is the person you decide to be.",a:"Ralph Waldo Emerson"},
+            {t:"Go confidently in the direction of your dreams. Live the life you have imagined.",a:"Henry David Thoreau"},{t:"Few things can help an individual more than to place responsibility on him, and to let him know that you trust him.",a:"Booker T. Washington"},{t:"Remember that not getting what you want is sometimes a wonderful stroke of luck.",a:"Dalai Lama"},{t:"You can't use up creativity. The more you use, the more you have.",a:"Maya Angelou"},{t:"It's not the years in your life that count. It's the life in your years.",a:"Abraham Lincoln"},
+            {t:"Change your thoughts and you change your world.",a:"Norman Vincent Peale"},{t:"The only way to do great work is to love what you do.",a:"Steve Jobs"},{t:"If you can dream it, you can achieve it.",a:"Zig Ziglar"},{t:"The future belongs to those who believe in the beauty of their dreams.",a:"Eleanor Roosevelt"},{t:"Tell me and I forget. Teach me and I remember. Involve me and I learn.",a:"Benjamin Franklin"},
+            {t:"It is during our darkest moments that we must focus to see the light.",a:"Aristotle"},{t:"Whoever is happy will make others happy too.",a:"Anne Frank"},{t:"Do not let making a living prevent you from making a life.",a:"John Wooden"},{t:"Life is ours to be spent, not to be saved.",a:"D. H. Lawrence"},{t:"Love the life you live. Live the life you love.",a:"Bob Marley"}
         ];
 
-        function init() { render(); updateBanner(); }
-
+        // --- RENDER ---
         function render() {
-            ['red', 'yellow', 'green'].forEach(c => document.getElementById(`list-${c}`).innerHTML = '');
-            notes.forEach(note => { if(document.getElementById(`list-${note.cat}`)) createNoteElement(note, `list-${note.cat}`, true); });
-            document.getElementById('count-loop').innerText = notes.filter(n => n.cat === 'loop').length;
-            document.getElementById('count-marker').innerText = notes.filter(n => n.cat === 'marker').length;
-        }
+            ['red', 'yellow', 'green'].forEach(cat => {
+                const container = document.getElementById(`list-${cat}`);
+                if(container) {
+                    container.innerHTML = '';
+                    const filtered = items.filter(i => i.cat === cat);
+                    if (filtered.length === 0) {
+                        let msg = "Empty";
+                        if(cat === 'red') msg = "No fires. Tap + to add.";
+                        if(cat === 'yellow') msg = "Flow is clear. Tap + to add.";
+                        if(cat === 'green') msg = "Peaceful. Tap + to add.";
+                        container.innerHTML = `<div class="empty-msg" onclick="openModal('${cat}')">${msg}</div>`;
+                    } else {
+                        filtered.forEach(item => {
+                            const div = document.createElement('div');
+                            div.className = `task-item ${cat} ${item.done ? 'done' : ''}`;
+                            div.innerHTML = `<div class="check-circle" onclick="toggleDone(${item.id})"></div><div class="task-text">${item.text}</div><button class="icon-btn" style="font-size:0.9rem; opacity:0.5" onclick="deleteItem(${item.id})">✕</button>`;
+                            container.appendChild(div);
+                        });
+                    }
+                }
+            });
+            
+            document.getElementById('count-loop').innerText = `${items.filter(i => i.cat === 'loop').length} Active`;
+            document.getElementById('count-marker').innerText = `${items.filter(i => i.cat === 'marker').length} Truths`;
 
-        function createNoteElement(note, containerId, isCheckable) {
-            const container = document.getElementById(containerId);
-            const div = document.createElement('div');
-            div.className = `task-item ${note.cat} ${note.done ? 'done' : ''}`;
-            const check = isCheckable ? `<div class="check-circle" onclick="toggleDone(${note.id})"></div>` : '';
-            div.innerHTML = `${check}<div class="task-text">${note.text}</div><button class="icon-btn" style="font-size:0.9rem; opacity:0.5" onclick="deleteNote(${note.id})">✕</button>`;
-            container.appendChild(div);
-        }
-
-        function openPage(type) {
-            const page = document.getElementById(`${type === 'loop' ? 'loop' : 'marker'}-page`);
-            const listId = `page-list-${type}`;
-            const listContainer = document.getElementById(listId);
-            listContainer.innerHTML = '';
-            const filtered = notes.filter(n => n.cat === type);
-            if(filtered.length === 0) listContainer.innerHTML = `<div class="empty-msg" onclick="openModal('${type}')">No entries yet.<br>Tap to add.</div>`;
-            else filtered.forEach(n => createNoteElement(n, listId, false));
-            page.classList.add('active');
-        }
-
-        function closePage() { document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active')); render(); }
-
-        function openModal(forceCat) {
-            document.getElementById('modal-input').classList.add('active'); document.getElementById('input-text').focus();
-            if(forceCat) setCat(forceCat, null); else setCat('red', document.querySelector('.pill'));
-        }
-        function closeModal() { document.getElementById('modal-input').classList.remove('active'); document.getElementById('input-text').value = ''; }
-
-        function setCat(cat, el) {
-            currentCat = cat; const pills = document.querySelectorAll('.pill');
-            pills.forEach(p => p.classList.remove('selected'));
-            if(el) el.classList.add('selected');
-            else pills.forEach(p => { if(p.innerText.toLowerCase().includes(cat)) p.classList.add('selected'); });
-        }
-
-        function saveNote() {
-            const text = document.getElementById('input-text').value.trim();
-            if(!text) return;
-            notes.push({ id: Date.now(), text, cat: currentCat, done: false });
-            localStorage.setItem('auroraNotes', JSON.stringify(notes));
-            const loopOpen = document.getElementById('loop-page').classList.contains('active');
-            const markerOpen = document.getElementById('marker-page').classList.contains('active');
-            if(loopOpen) openPage('loop'); else if(markerOpen) openPage('marker'); else render();
-            closeModal();
-        }
-
-        function deleteNote(id) {
-            if(confirm("Remove this entry?")) {
-                notes = notes.filter(n => n.id !== id);
-                localStorage.setItem('auroraNotes', JSON.stringify(notes));
-                const loopOpen = document.getElementById('loop-page').classList.contains('active');
-                const markerOpen = document.getElementById('marker-page').classList.contains('active');
-                if(loopOpen) openPage('loop'); else if(markerOpen) openPage('marker'); else render();
+            if(activePage) {
+                const container = document.getElementById(`page-list-${activePage}`);
+                container.innerHTML = '';
+                const filtered = items.filter(i => i.cat === activePage);
+                if (filtered.length === 0) {
+                    container.innerHTML = `<div class="empty-msg" onclick="openModal('${activePage}')">Nothing here yet.<br>Tap to add.</div>`;
+                } else {
+                    filtered.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = `task-item ${item.cat} ${item.done ? 'done' : ''}`;
+                        div.innerHTML = `<div class="task-text">${item.text}</div><button class="icon-btn" style="font-size:0.9rem; opacity:0.5" onclick="deleteItem(${item.id})">✕</button>`;
+                        container.appendChild(div);
+                    });
+                }
             }
         }
 
-        function toggleDone(id) { const note = notes.find(n => n.id === id); if(note) { note.done = !note.done; localStorage.setItem('auroraNotes', JSON.stringify(notes)); render(); } }
+        // --- LOGIC ---
+        function openModal(preSelectCat) {
+            document.getElementById('input-modal').classList.add('active');
+            document.getElementById('input-text').focus();
+            if(preSelectCat) {
+                const pills = document.querySelectorAll('.pill');
+                pills.forEach(p => {
+                    if(p.innerHTML.toLowerCase().includes(preSelectCat === 'red' ? 'high' : preSelectCat === 'yellow' ? 'flow' : preSelectCat === 'green' ? 'gentle' : preSelectCat === 'loop' ? 'loop' : 'perma')) {
+                        setCategory(preSelectCat, p);
+                    }
+                });
+            } else setCategory('red', document.querySelector('.pill'));
+        }
+        function closeModal() { document.getElementById('input-modal').classList.remove('active'); document.getElementById('input-text').value = ''; }
+        function setCategory(cat, el) { currentCategory = cat; document.querySelectorAll('.pill').forEach(p => p.classList.remove('selected')); el.classList.add('selected'); }
+        function saveItem() {
+            const text = document.getElementById('input-text').value.trim();
+            if(!text) return;
+            items.push({ id: Date.now(), text, cat: currentCategory, done: false });
+            localStorage.setItem('auroraNotes', JSON.stringify(items));
+            render(); closeModal();
+        }
+        function deleteItem(id) { if(confirm("Dissolve this thought?")) { items = items.filter(i => i.id !== id); localStorage.setItem('auroraNotes', JSON.stringify(items)); render(); } }
+        function toggleDone(id) { const item = items.find(i => i.id === id); if(item) { item.done = !item.done; localStorage.setItem('auroraNotes', JSON.stringify(items)); render(); } }
+        function openList(type) {
+            activePage = type;
+            document.getElementById(`${type === 'loop' ? 'loop' : 'marker'}-page`).classList.add('active');
+            render();
+        }
+        function closePage() { document.getElementById('page-layer').classList.remove('active'); document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active')); activePage = null; render(); }
 
-        function updateBanner() { const q = library[Math.floor(Math.random() * library.length)]; document.getElementById('banner-text').innerText = `"${q.t}"`; document.getElementById('banner-author').innerText = `- ${q.a}`; }
-        function showQuote() { const q = library[Math.floor(Math.random() * library.length)]; document.getElementById('modal-quote-text').innerText = `"${q.t}"`; document.getElementById('modal-quote-author').innerText = `- ${q.a}`; document.getElementById('modal-quote').classList.add('active'); updateBanner(); }
-        function closeQuote() { document.getElementById('modal-quote').classList.remove('active'); }
-
-        // TIMER
-        let timerInt; let seconds = 300; let isRunning = false;
-        
+        // --- TIMER & FIREFLIES ---
         function spawnFireflies() {
             const container = document.getElementById('fireflies'); container.classList.add('active'); container.innerHTML = '';
             for(let i=0; i<30; i++) {
@@ -545,7 +602,7 @@
             }
         }
         function clearFireflies() { document.getElementById('fireflies').classList.remove('active'); document.getElementById('fireflies').innerHTML = ''; }
-
+        
         function playSound(type) {
             const AudioContext = window.AudioContext || window.webkitAudioContext; if (!AudioContext) return;
             const ctx = new AudioContext(); const osc = ctx.createOscillator(); const gain = ctx.createGain();
@@ -562,10 +619,7 @@
         }
 
         function openTimer() { document.getElementById('timer-page').classList.add('active'); }
-        function closeTimer() { 
-            document.getElementById('timer-page').classList.remove('active'); 
-            resetTimer();
-        }
+        function closeTimer() { document.getElementById('timer-page').classList.remove('active'); resetTimer(); }
 
         function startSequence() {
             document.getElementById('timer-setup').classList.add('hidden'); document.getElementById('timer-btn').parentElement.style.display = 'none';
@@ -579,7 +633,7 @@
 
         function startActualTimer() {
             const inputMin = parseInt(document.getElementById('custom-min').value) || 5; seconds = inputMin * 60;
-            document.getElementById('breath-circle').classList.add('active'); spawnFireflies();
+            document.getElementById('breath-circle').classList.add('breathe'); spawnFireflies();
             document.getElementById('timer-btn').innerText = "Pause"; document.getElementById('timer-btn').parentElement.style.display = 'flex';
             isRunning = true;
             timerInt = setInterval(() => {
@@ -590,21 +644,31 @@
 
         function finishTimer() {
             clearInterval(timerInt); isRunning = false; document.getElementById('timer-display').innerText = "00:00";
-            document.getElementById('breath-circle').classList.remove('active'); clearFireflies(); playSound('gong'); 
+            document.getElementById('breath-circle').classList.remove('breathe'); clearFireflies(); playSound('gong'); 
             alert("Focus Session Complete"); resetTimer();
         }
 
         function resetTimer() {
             clearInterval(timerInt); isRunning = false;
-            document.getElementById('breath-circle').classList.remove('active'); document.getElementById('timer-setup').classList.remove('hidden');
+            document.getElementById('breath-circle').classList.remove('breathe'); document.getElementById('timer-setup').classList.remove('hidden');
             document.getElementById('timer-btn').parentElement.style.display = 'flex'; document.getElementById('timer-btn').innerText = "Start Focus";
             document.getElementById('timer-btn').onclick = startSequence;
             const inputMin = document.getElementById('custom-min').value; document.getElementById('timer-display').innerText = (inputMin < 10 ? "0" + inputMin : inputMin) + ":00";
             clearFireflies();
         }
+        
+        function toggleTimer() { if(!isRunning) startSequence(); } // Fallback
 
-        function showInfo() { document.getElementById('modal-info').classList.add('active'); }
-        function closeInfo() { document.getElementById('modal-info').classList.remove('active'); }
+        // --- EXTRAS ---
+        function showQuote() { generateQuote(); document.getElementById('quote-modal').classList.add('active'); }
+        function closeQuote() { document.getElementById('quote-modal').classList.remove('active'); }
+        function generateQuote() {
+            const random = library[Math.floor(Math.random() * library.length)];
+            document.getElementById('modal-quote-text').innerText = random.t;
+            document.getElementById('modal-quote-author').innerText = random.a;
+        }
+        function openInfo() { document.getElementById('info-modal').classList.add('active'); }
+        function closeInfo() { document.getElementById('info-modal').classList.remove('active'); }
 
         init();
     </script>

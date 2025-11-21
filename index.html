@@ -14,9 +14,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Merriweather:ital@0;1&display=swap" rel="stylesheet">
 
     <style>
-        /* --- THEME VARIABLES --- */
+        /* --- ORIGINAL AURORA THEME VARIABLES --- */
         :root {
             --bg-deep: #0b0c15;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(16px);
             --text-main: #ffffff;
             --text-muted: rgba(255, 255, 255, 0.6);
             
@@ -61,8 +64,8 @@
 
         @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.1); } }
 
-        /* --- FIREFLIES --- */
-        .firefly-container { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 999; display: none; }
+        /* --- FIREFLIES (Fixed Z-Index) --- */
+        .firefly-container { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 9999; display: none; }
         .firefly-container.active { display: block; }
         .firefly {
             position: absolute; width: 4px; height: 4px; background: var(--aurora-green);
@@ -81,7 +84,7 @@
             position: sticky; top: 0; z-index: 50;
             background: rgba(11, 12, 21, 0.75);
             backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid var(--glass-border);
             box-shadow: 0 4px 30px rgba(0,0,0,0.1);
         }
 
@@ -108,7 +111,7 @@
             50% { filter: drop-shadow(0 0 8px var(--aurora-blue)); transform: translateY(-2px); }
         }
 
-        /* --- BANNER --- */
+        /* --- QUOTE BANNER --- */
         .wisdom-banner {
             margin: 20px 24px 10px 24px; padding: 20px;
             background: rgba(255, 255, 255, 0.05);
@@ -117,7 +120,7 @@
             backdrop-filter: blur(10px);
         }
         .banner-text { font-family: 'Merriweather', serif; font-style: italic; font-size: 1rem; line-height: 1.5; color: #eee; }
-        .banner-author { display: block; margin-top: 8px; font-size: 0.75rem; text-transform: uppercase; color: var(--aurora-blue); text-align: right; letter-spacing: 1px; font-weight: bold; }
+        .banner-author { display: block; margin-top: 8px; font-size: 0.75rem; text-transform: uppercase; color: var(--aurora-blue); text-align: right; letter-spacing: 1px; font-weight: bold; font-family: 'Rajdhani'; }
 
         /* --- MAIN CONTENT --- */
         .container { padding: 24px; padding-bottom: 100px; max-width: 600px; margin: 0 auto; }
@@ -142,17 +145,16 @@
         .card h3 { margin: 0; font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; color: white; }
         .card p { margin: 2px 0 0; font-size: 0.8rem; color: var(--text-muted); }
 
-        /* --- TASK ITEMS (BIGGER LOOK) --- */
+        /* --- TASK ITEMS --- */
         .task-list { display: flex; flex-direction: column; gap: 12px; }
         
-        /* This styling restores the "Glass Card" look for tasks */
         .task-item {
             display: flex; align-items: center; justify-content: space-between;
-            background: rgba(22, 22, 30, 0.8); /* Darker for contrast */
+            background: rgba(22, 22, 30, 0.8); /* Darker for readability */
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px; padding: 18px 20px; /* Bigger padding */
+            border-radius: 16px; padding: 18px 20px; 
             transition: all 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Slight shadow for depth */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
             position: relative; overflow: hidden;
         }
         
@@ -162,7 +164,7 @@
         .task-item.loop { border-left: 4px solid var(--loop); }
         .task-item.marker { border-left: 4px solid var(--perma); background: rgba(189, 0, 255, 0.08); }
 
-        .task-text { flex: 1; font-size: 1.1rem; /* Bigger Font */ line-height: 1.4; padding: 0 15px; color: #fff; font-weight: 400; }
+        .task-text { flex: 1; font-size: 1.1rem; line-height: 1.4; padding: 0 15px; color: #fff; font-weight: 400; }
         .task-actions { display: flex; gap: 15px; opacity: 0.5; transition: 0.2s; }
         .task-item:hover .task-actions { opacity: 1; }
         .task-item.done { opacity: 0.5; filter: grayscale(1); }
@@ -183,7 +185,7 @@
             background: rgba(255,255,255,0.02);
         }
 
-        /* --- FAB --- */
+        /* --- FAB (JELLY) --- */
         .fab {
             position: fixed; bottom: 30px; right: 30px;
             width: 60px; height: 60px; border-radius: 50%;
@@ -212,20 +214,20 @@
         .page-layer.active { transform: translateX(0); }
         .page-content { padding: 24px; flex: 1; overflow-y: auto; }
         
-        /* PAGE HEADERS */
         .page-header-row { display: flex; align-items: center; margin-bottom: 20px; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .back-btn { background: none; border: none; color: white; font-size: 1.5rem; margin-right: 15px; cursor: pointer; opacity: 0.8; }
         .page-title-text { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; color: white; margin: 0; }
         .bottom-close { margin-top: auto; width: 100%; padding: 16px; background: rgba(255,255,255,0.1); border: none; color: white; font-family: 'Rajdhani', sans-serif; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; }
 
-        /* --- TIMER --- */
+        /* --- TIMER & CENTERED CONTENT --- */
         .timer-content { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; flex: 1; position: relative; }
+        
         .zen-circle {
             width: 220px; height: 220px; border-radius: 50%;
             background: radial-gradient(circle, rgba(0,210,255,0.1) 0%, rgba(0,0,0,0) 70%);
             border: 1px solid rgba(255,255,255,0.1);
             display: flex; justify-content: center; align-items: center;
-            margin-bottom: 40px; position: relative; transition: all 0.5s; z-index: 10;
+            margin-bottom: 30px; position: relative; transition: all 0.5s; z-index: 10;
         }
         .zen-circle.breathe { animation: breatheEffect 8s infinite ease-in-out; border-color: var(--aurora-blue); box-shadow: 0 0 40px var(--aurora-blue); }
         .timer-digits { font-family: 'Rajdhani', sans-serif; font-size: 4.5rem; font-weight: 200; letter-spacing: 2px; font-variant-numeric: tabular-nums; text-shadow: 0 0 20px rgba(0,0,0,0.5); z-index: 11; }
@@ -233,7 +235,7 @@
         .timer-input-area { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px; z-index: 10; }
         .t-input { background: transparent; border: none; border-bottom: 1px solid var(--aurora-blue); color: white; font-size: 2rem; width: 60px; text-align: center; font-family: 'Rajdhani'; outline: none; padding-bottom: 5px; }
         
-        @keyframes breatheEffect { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 80px var(--aurora-purple); } }
+        @keyframes breatheEffect { 0% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 80px var(--aurora-purple); } }
 
         /* --- MODALS --- */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px); z-index: 100; display: none; justify-content: center; align-items: flex-end; }
@@ -244,7 +246,7 @@
         .quote-card { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px 30px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: popIn 0.3s ease; }
         .info-card { background: #16171f; border-radius: 24px; padding: 30px; max-width: 400px; width: 100%; border: 1px solid var(--glass-border); text-align: left; animation: popIn 0.3s ease; }
 
-        /* WELCOME OVERLAY */
+        /* --- WELCOME OVERLAY --- */
         .welcome-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 1; transition: opacity 0.6s ease; }
         .welcome-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 30px; text-align: center; max-width: 500px; width: 100%; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .welcome-btn { background: white; color: black; border: none; padding: 15px 40px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; margin-top: 20px; box-shadow: 0 0 20px rgba(255,255,255,0.4); }
@@ -261,22 +263,35 @@
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .hidden { display: none !important; }
+        
+        /* INFO GUIDE STYLES */
+        .info-row { display: flex; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; }
+        .info-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 15px; flex-shrink: 0; }
+        .info-icon { font-size: 1.2rem; margin-right: 15px; width: 12px; text-align: center; }
+        .info-content h4 { margin: 0 0 4px 0; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; }
+        .info-content p { margin: 0; font-size: 0.9rem; color: var(--text-muted); }
+
+        /* QUOTE STYLES */
+        .quote-text { font-family: 'Merriweather', serif; font-style: italic; font-size: 1.4rem; line-height: 1.6; margin-bottom: 20px; color: #fff; }
+        .quote-author { font-family: 'Rajdhani', sans-serif; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--aurora-blue); display: block; margin-bottom: 30px; }
     </style>
 </head>
 <body>
 
     <div class="aurora-bg"><div class="aurora-blob blob-1"></div><div class="aurora-blob blob-2"></div><div class="aurora-blob blob-3"></div></div>
     <div id="fireflies" class="firefly-container"></div>
+    
     <div id="welcome-overlay" class="welcome-overlay"><div class="welcome-card"><h2 style="font-family:'Rajdhani'; font-weight:700; letter-spacing:2px;">WELCOME</h2><p style="font-size:1.1rem; line-height:1.5; opacity:0.8;">Balance your tasks with mindfulness.<br>A space for clarity and action.</p><button class="welcome-btn" onclick="closeWelcome()">Enter</button></div></div>
 
     <div id="app-home">
         <header>
-            <div class="brand-logo">
-                <span class="logo-mind">MIND</span><div class="logo-dot"></div><span class="logo-tasks">TASKS</span>
-            </div>
+            <div class="brand-logo"><span class="logo-mind">MIND</span><div class="logo-dot"></div><span class="logo-tasks">TASKS</span></div>
             <div class="header-actions">
-                <button class="icon-btn" onclick="openInfo()">ℹ️</button>
+                <button class="icon-btn" onclick="showInfo()">ℹ️</button>
                 <button class="icon-btn" onclick="openTimer()">⌛</button>
+                <button class="icon-btn" onclick="showQuote()">
+                    <svg class="scroll-icon-svg" viewBox="0 0 24 24"><path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 7H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 17H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 3V21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 3V21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
             </div>
         </header>
 
@@ -312,10 +327,11 @@
     </div>
 
     <div id="page-layer" class="page-layer">
-        <div class="page-header-row">
-            <button class="back-btn" onclick="closePage()">←</button>
-            <h1 class="page-title-text" id="page-title">Title</h1>
-        </div>
+        <header>
+            <button class="icon-btn" onclick="closePage()">← Back</button>
+            <div class="brand-logo" id="page-title" style="font-size: 1.2rem;">Title</div>
+            <div style="width: 30px;"></div> 
+        </header>
         <div class="page-content" id="page-content-area"></div>
         <button class="bottom-close" onclick="closePage()">Close</button>
     </div>
@@ -347,14 +363,14 @@
         <div class="modal-sheet">
             <h3 style="margin: 0 0 15px 0; font-weight: 400; font-family: 'Rajdhani', sans-serif; color: #fff;">ADD ENTRY</h3>
             <div class="pill-container">
-                <div class="pill selected" onclick="setCategory('red', this)"><div style="width:8px; height:8px; background:var(--aurora-pink); border-radius:50%; margin-right:5px;"></div> High</div>
-                <div class="pill" onclick="setCategory('yellow', this)"><div style="width:8px; height:8px; background:var(--aurora-blue); border-radius:50%; margin-right:5px;"></div> Flow</div>
-                <div class="pill" onclick="setCategory('green', this)"><div style="width:8px; height:8px; background:var(--aurora-green); border-radius:50%; margin-right:5px;"></div> Low</div>
-                <div class="pill" onclick="setCategory('loop', this)">➿ Loop</div>
-                <div class="pill" onclick="setCategory('marker', this)">✒️ Perma</div>
+                <div class="pill selected" onclick="setCategory('red', this)"><div class="pill-dot" style="background: var(--aurora-pink)"></div> High</div>
+                <div class="pill" onclick="setCategory('yellow', this)"><div class="pill-dot" style="background: var(--aurora-blue)"></div> Flow</div>
+                <div class="pill" onclick="setCategory('green', this)"><div class="pill-dot" style="background: var(--aurora-green)"></div> Low</div>
+                <div class="pill" onclick="setCategory('loop', this)"><div class="pill-dot" style="background: #a8a8a8"></div> Loop</div>
+                <div class="pill" onclick="setCategory('marker', this)"><div class="pill-dot" style="background: var(--aurora-purple)"></div> Perma</div>
             </div>
-            <textarea id="input-text" placeholder="Type your thought..."></textarea>
-            <div style="display:flex; gap:10px">
+            <textarea id="input-text" placeholder="Write here..."></textarea>
+            <div class="btn-row">
                 <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
                 <button class="btn btn-primary" onclick="saveItem()">Save</button>
             </div>
@@ -366,7 +382,7 @@
             <div style="font-size: 2.5rem; margin-bottom: 10px; opacity: 0.5;">📜</div>
             <div id="modal-quote-text" class="quote-text"></div>
             <div id="modal-quote-author" class="quote-author"></div>
-            <button class="btn btn-ghost" style="margin-top:15px; width:100%;" onclick="generateQuote()">Another One</button>
+            <button class="btn btn-ghost" onclick="generateQuote()">Another One</button>
             <button class="btn btn-primary" style="margin-top: 10px;" onclick="closeQuoteModal()">Absorb & Close</button>
         </div>
     </div>
@@ -385,7 +401,11 @@
 
     <script>
         /* CACHE KILLER */
-        if ('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(function(registrations) { for(let registration of registrations) { registration.unregister(); } }); }
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) { registration.unregister(); } 
+            });
+        }
 
         // WELCOME
         if (!localStorage.getItem('hasVisited')) { document.getElementById('welcome-overlay').style.display = 'flex'; }
@@ -397,7 +417,7 @@
         let activePage = null;
         let timerInt; let seconds = 300; let isRunning = false;
 
-        // 168 QUOTES
+        // 168 QUOTE LIBRARY
         const library = [
             {t:"The wound is the place where the Light enters you.",a:"Rumi"},{t:"What you seek is seeking you.",a:"Rumi"},{t:"Stop acting so small. You are the universe in ecstatic motion.",a:"Rumi"},{t:"Silence is the language of God, all else is poor translation.",a:"Rumi"},{t:"Sell your cleverness and buy bewilderment.",a:"Rumi"},{t:"Knock, And He'll open the door.",a:"Rumi"},{t:"You were born with wings, why prefer to crawl through life?",a:"Rumi"},{t:"Don't be satisfied with stories, how things have gone with others. Unfold your own myth.",a:"Rumi"},{t:"I wish I could show you when you are lonely or in darkness the astonishing light of your own being.",a:"Hafiz"},{t:"Fear is the cheapest room in the house. I would like to see you living in better conditions.",a:"Hafiz"},{t:"The sun is within me, and so is the moon.",a:"Kabir"},{t:"Wherever you stand, be the soul of that place.",a:"Rumi"},{t:"Be empty of worrying. Think of who created thought.",a:"Rumi"},{t:"Your heart is the size of an ocean. Go find yourself in its hidden depths.",a:"Rumi"},{t:"Let yourself be silently drawn by the strange pull of what you really love. It will not lead you astray.",a:"Rumi"},{t:"Travel brings power and love back into your life.",a:"Rumi"},{t:"The mind creates the abyss, the heart crosses it.",a:"Nisargadatta Maharaj"},{t:"Wisdom is knowing I am nothing, Love is knowing I am everything.",a:"Nisargadatta Maharaj"},{t:"Everything happens on its own. You are doing nothing.",a:"Nisargadatta Maharaj"},{t:"Once you realize that the road is the goal and that you are always on the road, not to reach a goal, but to enjoy its beauty and its wisdom, life ceases to be a task and becomes natural and simple.",a:"Nisargadatta Maharaj"},
             {t:"Arise, awake, and stop not till the goal is reached.",a:"Swami Vivekananda"},{t:"You have to grow from the inside out. None can teach you, none can make you spiritual.",a:"Swami Vivekananda"},{t:"All power is within you; you can do anything and everything.",a:"Swami Vivekananda"},{t:"In a conflict between the heart and the brain, follow your heart.",a:"Swami Vivekananda"},{t:"Your own Self-Realization is the greatest service you can render the world.",a:"Ramana Maharshi"},{t:"Be as you are.",a:"Ramana Maharshi"},{t:"There is no greater mystery than this: that we keep seeking reality though in fact we are reality.",a:"Ramana Maharshi"},{t:"The degree of freedom from unwanted thoughts and the degree of concentration on a single thought are the measures to gauge spiritual progress.",a:"Ramana Maharshi"},{t:"Faith is the bird that feels the light when the dawn is still dark.",a:"Rabindranath Tagore"},{t:"Clouds come floating into my life, no longer to carry rain or usher storm, but to add color to my sunset sky.",a:"Rabindranath Tagore"},{t:"Let your life lightly dance on the edges of Time like dew on the tip of a leaf.",a:"Rabindranath Tagore"},{t:"Love is an endless mystery, for it has nothing else to explain it.",a:"Rabindranath Tagore"},{t:"Everything comes to us that belongs to us if we create the capacity to receive it.",a:"Rabindranath Tagore"},{t:"The butterfly counts not months but moments, and has time enough.",a:"Rabindranath Tagore"},{t:"The eye through which I see God is the same eye through which God sees me.",a:"Meister Eckhart"},{t:"If the only prayer you ever say in your entire life is thank you, it will be enough.",a:"Meister Eckhart"},
@@ -460,7 +480,7 @@
 
         // LOGIC
         function openModal(preSelectCat) {
-            document.getElementById('modal-input').classList.add('active');
+            document.getElementById('input-modal').classList.add('active');
             document.getElementById('input-text').focus();
             if(preSelectCat) {
                 const pills = document.querySelectorAll('.pill');
@@ -471,16 +491,29 @@
                 });
             } else setCategory('red', document.querySelector('.pill'));
         }
-        function closeModal() { document.getElementById('modal-input').classList.remove('active'); document.getElementById('input-text').value = ''; }
-        function setCategory(cat, el) { currentCategory = cat; document.querySelectorAll('.pill').forEach(p => p.classList.remove('selected')); el.classList.add('selected'); }
-        function saveItem() {
+        function closeModal() { document.getElementById('input-modal').classList.remove('active'); document.getElementById('input-text').value = ''; }
+
+        function setCategory(cat, el) {
+            currentCat = cat; const pills = document.querySelectorAll('.pill');
+            pills.forEach(p => p.classList.remove('selected'));
+            if(el) el.classList.add('selected');
+            else {
+                pills.forEach(p => {
+                    if(p.innerText.toLowerCase().includes(cat === 'red' ? 'high' : cat === 'yellow' ? 'flow' : cat === 'green' ? 'gentle' : cat)) 
+                        p.classList.add('selected');
+                });
+            }
+        }
+
+        function saveNote() {
             const text = document.getElementById('input-text').value.trim();
             if(!text) return;
-            items.push({ id: Date.now(), text, cat: currentCategory, done: false });
+            items.push({ id: Date.now(), text, cat: currentCat, done: false });
             localStorage.setItem('auroraNotes', JSON.stringify(items));
             if(activePage) openPage(activePage); else render();
             closeModal();
         }
+
         function deleteItem(id) {
             if(confirm("Dissolve this thought?")) {
                 items = items.filter(i => i.id !== id);
@@ -488,6 +521,7 @@
                 if(activePage) openPage(activePage); else render();
             }
         }
+
         function toggleDone(id) { const item = items.find(i => i.id === id); if(item) { item.done = !item.done; localStorage.setItem('auroraNotes', JSON.stringify(items)); render(); } }
 
         function openList(type) {
@@ -511,7 +545,7 @@
         function openInfo() { document.getElementById('info-modal').classList.add('active'); }
         function closeInfo() { document.getElementById('info-modal').classList.remove('active'); }
 
-        // TIMER
+        // TIMER & FIREFLIES
         function spawnFireflies() {
             const container = document.getElementById('fireflies'); container.classList.add('active'); container.innerHTML = '';
             for(let i=0; i<30; i++) {
@@ -523,7 +557,7 @@
             }
         }
         function clearFireflies() { document.getElementById('fireflies').classList.remove('active'); document.getElementById('fireflies').innerHTML = ''; }
-
+        
         function playSound(type) {
             const AudioContext = window.AudioContext || window.webkitAudioContext; if (!AudioContext) return;
             const ctx = new AudioContext(); const osc = ctx.createOscillator(); const gain = ctx.createGain();

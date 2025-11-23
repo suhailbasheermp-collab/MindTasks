@@ -37,147 +37,72 @@
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-deep); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
 
-        body {
-            margin: 0; padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* --- AURORA BACKGROUND --- */
-        .aurora-bg {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
-            background: radial-gradient(circle at 10% 10%, rgba(11,12,21,1) 0%, rgba(22,25,40,1) 100%);
-            overflow: hidden;
-        }
-        .aurora-blob {
-            position: absolute; filter: blur(80px); opacity: 0.45;
-            animation: float 15s infinite ease-in-out alternate;
-        }
+        /* BACKGROUND */
+        .aurora-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(circle at 10% 10%, rgba(11,12,21,1) 0%, rgba(22,25,40,1) 100%); overflow: hidden; }
+        .aurora-blob { position: absolute; filter: blur(80px); opacity: 0.45; animation: float 15s infinite ease-in-out alternate; }
         .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--aurora-purple); animation-duration: 20s; }
         .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: var(--aurora-blue); animation-duration: 25s; }
         .blob-3 { top: 40%; left: 40%; width: 40vw; height: 40vw; background: var(--aurora-green); animation-duration: 18s; }
-
         @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.1); } }
 
-        /* --- FIREFLIES --- */
+        /* FIREFLIES */
         .firefly-container { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 200; display: none; }
         .firefly-container.active { display: block; }
-        .firefly {
-            position: absolute; width: 4px; height: 4px; background: var(--aurora-green);
-            border-radius: 50%; box-shadow: 0 0 10px var(--aurora-green), 0 0 20px white;
-            opacity: 0; animation: fly 10s infinite alternate;
-        }
-        @keyframes fly {
-            0% { transform: translate(0,0) scale(0.5); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; }
-            100% { transform: translate(var(--moveX), var(--moveY)) scale(1); opacity: 0; }
-        }
+        .firefly { position: absolute; width: 4px; height: 4px; background: var(--aurora-green); border-radius: 50%; box-shadow: 0 0 10px var(--aurora-green), 0 0 20px white; opacity: 0; animation: fly 10s infinite alternate; }
+        @keyframes fly { 0% { transform: translate(0,0) scale(0.5); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(var(--moveX), var(--moveY)) scale(1); opacity: 0; } }
 
-        /* --- HEADER --- */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 24px;
-            position: sticky; top: 0; z-index: 50;
-            background: rgba(11, 12, 21, 0.75);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass-border);
-            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-        }
-        .brand-logo {
-            display: flex; align-items: center; gap: 8px;
-            font-family: 'Rajdhani', sans-serif; text-transform: uppercase; user-select: none;
-        }
+        /* HEADER */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 24px; position: sticky; top: 0; z-index: 50; background: rgba(11, 12, 21, 0.75); backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border); box-shadow: 0 4px 30px rgba(0,0,0,0.1); }
+        .brand-logo { display: flex; align-items: center; gap: 8px; font-family: 'Rajdhani', sans-serif; text-transform: uppercase; user-select: none; }
         .logo-mind { font-weight: 700; font-size: 1.5rem; letter-spacing: 1px; color: #fff; }
         .logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--aurora-green); box-shadow: 0 0 10px var(--aurora-green); animation: pulse-dot 3s infinite; }
         .logo-tasks { font-weight: 400; font-size: 1.5rem; letter-spacing: 2px; color: var(--text-muted); }
         @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
-
         .header-actions { display: flex; align-items: center; gap: 20px; }
         .icon-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.7; transition: 0.3s; color: white; display: flex; align-items: center; justify-content: center; }
         .icon-btn:hover { opacity: 1; transform: scale(1.1); text-shadow: 0 0 10px white; }
 
-        /* --- BANNER --- */
-        .wisdom-banner {
-            margin: 20px 24px 10px 24px; padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid var(--aurora-blue);
-            border-radius: 16px; cursor: pointer; position: relative; overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
+        /* BANNER */
+        .wisdom-banner { margin: 20px 24px 10px 24px; padding: 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid var(--aurora-blue); border-radius: 16px; cursor: pointer; position: relative; overflow: hidden; backdrop-filter: blur(10px); }
         .banner-text { font-family: 'Merriweather', serif; font-style: italic; font-size: 1rem; line-height: 1.5; color: #eee; }
         .banner-author { display: block; margin-top: 8px; font-size: 0.75rem; text-transform: uppercase; color: var(--aurora-blue); text-align: right; letter-spacing: 1px; font-weight: bold; font-family: 'Rajdhani'; }
 
-        /* --- MAIN CONTENT --- */
+        /* MAIN UI */
         .container { padding: 24px; padding-bottom: 100px; max-width: 600px; margin: 0 auto; }
-        
-        .section-label {
-            font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;
-            color: var(--text-muted); margin: 30px 0 15px 5px; font-weight: 600;
-            display: flex; align-items: center; gap: 10px;
-        }
+        .section-label { font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin: 30px 0 15px 5px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .section-label::after { content: ''; height: 1px; background: var(--glass-border); flex: 1; }
-
-        /* --- CARDS --- */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .card {
-            background: var(--glass-bg); border: 1px solid var(--glass-border);
-            border-radius: 20px; padding: 20px; text-align: left;
-            backdrop-filter: var(--glass-blur);
-            transition: transform 0.2s; cursor: pointer;
-            position: relative; overflow: hidden;
-            display: flex; flex-direction: column; justify-content: space-between;
-            height: 120px;
-        }
+        .card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 20px; text-align: left; backdrop-filter: var(--glass-blur); transition: transform 0.2s; cursor: pointer; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; height: 120px; }
         .card:active { transform: scale(0.98); }
         .card-icon { font-size: 1.8rem; margin-bottom: auto; display: block; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
         .card h3 { margin: 0; font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; color: white; }
         .card p { margin: 2px 0 0; font-size: 0.8rem; color: var(--text-muted); }
 
-        /* --- TASKS --- */
         .task-list { display: flex; flex-direction: column; gap: 12px; }
-        .task-item {
-            display: flex; align-items: center; justify-content: space-between;
-            background: rgba(22, 22, 30, 0.8);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px; padding: 18px 20px;
-            transition: all 0.3s ease; position: relative; overflow: hidden;
-        }
+        .task-item { display: flex; align-items: center; justify-content: space-between; background: rgba(22, 22, 30, 0.8); border: 1px solid var(--glass-border); border-radius: 16px; padding: 18px 20px; transition: all 0.3s ease; position: relative; overflow: hidden; }
         .task-item.red { border-left: 4px solid var(--high); }
         .task-item.yellow { border-left: 4px solid var(--med); }
         .task-item.green { border-left: 4px solid var(--low); }
         .task-item.loop { border-left: 4px solid var(--loop); }
         .task-item.marker { border-left: 4px solid var(--perma); background: rgba(189, 0, 255, 0.08); }
-
-        .task-text { flex: 1; font-size: 1.1rem; line-height: 1.4; padding: 0 15px; color: #fff; font-weight: 400; }
+        .task-text { flex: 1; font-size: 1.1rem; line-height: 1.4; padding: 0 10px; color: #fff; font-weight: 400; }
         .task-actions { display: flex; gap: 15px; opacity: 0.5; transition: 0.2s; }
         .task-item:hover .task-actions { opacity: 1; }
         .task-item.done { opacity: 0.5; filter: grayscale(1); }
         .task-item.done .task-text { text-decoration: line-through; }
-        
         .check-circle { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--glass-border); background: transparent; cursor: pointer; transition: 0.2s; }
         .task-item:hover .check-circle { border-color: var(--text-muted); }
+        .empty-msg { text-align: center; padding: 30px; border-radius: 16px; border: 1px dashed var(--glass-border); color: var(--text-muted); font-size: 0.95rem; cursor: pointer; transition: 0.2s; background: rgba(255,255,255,0.02); }
 
-        .empty-msg { text-align: center; padding: 25px; border-radius: 16px; border: 1px dashed var(--glass-border); color: var(--text-muted); font-size: 0.9rem; cursor: pointer; transition: 0.2s; background: rgba(0,0,0,0.2); }
-
-        /* --- FAB --- */
-        .fab {
-            position: fixed; bottom: 30px; right: 30px;
-            width: 60px; height: 60px; border-radius: 50%;
-            background: var(--text-main); color: #000; border: none; font-size: 32px;
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
-            cursor: pointer; z-index: 90;
-            display: flex; align-items: center; justify-content: center;
-            transition: transform 0.3s; animation: pulse-glow-white 3s infinite ease-in-out;
-        }
+        .fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: var(--text-main); color: #000; border: none; font-size: 32px; box-shadow: 0 0 25px rgba(255, 255, 255, 0.25); cursor: pointer; z-index: 90; display: flex; align-items: center; justify-content: center; transition: transform 0.3s; animation: pulse-glow-white 3s infinite ease-in-out; }
         @keyframes pulse-glow-white { 0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.3); } 50% { box-shadow: 0 0 40px rgba(255,255,255,0.6); } }
         .fab:hover { transform: scale(1.1); }
         .fab:active { animation: jelly 0.5s; }
         @keyframes jelly { 0% { transform: scale(1, 1); } 25% { transform: scale(0.9, 1.1); } 50% { transform: scale(1.1, 0.9); } 75% { transform: scale(0.95, 1.05); } 100% { transform: scale(1, 1); } }
 
-        /* --- PAGE LAYERS --- */
+        /* --- PAGES --- */
         .page-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-deep); z-index: 60; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; }
         .page-layer.active { transform: translateX(0); }
         .page-content { padding: 24px; flex: 1; overflow-y: auto; }
@@ -185,6 +110,9 @@
         .back-btn { background: none; border: none; color: white; font-size: 1.5rem; margin-right: 15px; cursor: pointer; opacity: 0.8; }
         .page-title-text { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; color: white; margin: 0; }
         .bottom-close { margin-top: auto; width: 100%; padding: 16px; background: rgba(255,255,255,0.1); border: none; color: white; font-family: 'Rajdhani', sans-serif; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; }
+        .sub-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #08080a; z-index: 60; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
+        .sub-page.active { transform: translateX(0); }
+        .sub-content { padding: 20px; flex: 1; overflow-y: auto; }
 
         /* --- TIMER --- */
         .timer-content { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; flex: 1; position: relative; }
@@ -202,11 +130,9 @@
         .sheet { width: 100%; background: #16171f; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 30px 24px; border-top: 1px solid var(--glass-border); animation: slideUp 0.3s ease; }
         .card-modal { background: #15151a; border: 1px solid var(--aurora-blue); padding: 30px; border-radius: 16px; width: 100%; max-width: 400px; text-align: center; animation: popIn 0.3s ease; box-shadow: 0 0 40px rgba(0,0,0,0.5); }
         .info-card { background: #16171f; border-radius: 24px; padding: 30px; max-width: 400px; width: 100%; border: 1px solid var(--glass-border); text-align: left; animation: popIn 0.3s ease; }
-        
         .quote-text { font-family: 'Merriweather', serif; font-style: italic; font-size: 1.4rem; line-height: 1.6; margin-bottom: 20px; color: #fff; }
         .quote-author { font-family: 'Rajdhani', sans-serif; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--aurora-blue); display: block; margin-bottom: 30px; }
 
-        /* INPUTS */
         .pill-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
         .pill { flex: 0 0 auto; padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text-muted); }
         .pill.selected { background: rgba(255,255,255,0.15); color: white; border-color: white; }
@@ -215,16 +141,16 @@
         .btn-primary { background: white; color: black; box-shadow: 0 0 20px rgba(255,255,255,0.15); }
         .btn-ghost { background: rgba(255,255,255,0.1); color: white; }
 
-        /* WELCOME */
-        .welcome-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 1; transition: opacity 0.6s ease; }
-        .welcome-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 30px; text-align: center; max-width: 500px; width: 100%; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .enter-btn { background: white; color: black; border: none; padding: 15px 40px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; margin-top: 20px; box-shadow: 0 0 20px rgba(255,255,255,0.4); animation: breathe 2s infinite; }
-
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .hidden { display: none !important; }
         
-        /* INFO STYLES */
+        /* --- WELCOME --- */
+        .welcome-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 9999; display: none; justify-content: center; align-items: center; padding: 20px; opacity: 1; transition: opacity 0.6s ease; }
+        .welcome-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 30px; text-align: center; max-width: 500px; width: 100%; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .enter-btn { background: white; color: black; border: none; padding: 15px 40px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; margin-top: 20px; box-shadow: 0 0 20px rgba(255,255,255,0.4); animation: breathe 2s infinite; }
+
+        /* --- INFO --- */
         .info-row { display: flex; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; }
         .info-dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 15px; flex-shrink: 0; }
         .info-icon { font-size: 1.2rem; margin-right: 15px; width: 12px; text-align: center; }
@@ -238,9 +164,9 @@
     <div id="fireflies" class="firefly-container"></div>
     <div id="welcome-overlay" class="welcome-overlay"><div class="welcome-card"><h2 style="font-family:'Rajdhani'; font-weight:700; letter-spacing:2px;">WELCOME</h2><p style="font-size:1.1rem; line-height:1.5; opacity:0.8;">Balance your tasks with mindfulness.<br>A space for clarity and action.</p><button class="enter-btn" onclick="closeWelcome()">Enter</button></div></div>
 
-    <div id="app-home">
+    <div id="home-view">
         <header>
-            <div class="brand-logo"><span>MIND</span><div class="logo-dot"></div><span class="logo-tasks">TASKS</span></div>
+            <div class="brand-logo"><span class="logo-mind">MIND</span><div class="logo-dot"></div><span class="logo-tasks">TASKS</span></div>
             <div class="header-actions">
                 <button class="icon-btn" onclick="openInfo()">ℹ️</button>
                 <button class="icon-btn" onclick="openTimer()">⌛</button>
@@ -287,6 +213,9 @@
         <button class="bottom-close" onclick="closePage()">Close</button>
     </div>
 
+    <div id="loop-page" class="sub-page"><div class="sub-page-content"><header><button class="icon-btn" onclick="closePage()">←</button><div class="brand-logo">LOOPS</div><div></div></header><div class="sub-content"><p style="text-align:center; color:var(--text-muted); font-style:italic;">Traps for uninvited thoughts.</p><div id="page-list-loop"></div></div><div class="close-bar" onclick="closePage()">Return</div></div></div>
+    <div id="marker-page" class="sub-page"><div class="sub-page-content"><header><button class="icon-btn" onclick="closePage()">←</button><div class="brand-logo">PERMA</div><div></div></header><div class="sub-content"><p style="text-align:center; color:var(--text-muted); font-style:italic;">Deep truths scribed permanently.</p><div id="page-list-marker"></div></div><div class="close-bar" onclick="closePage()">Return</div></div></div>
+
     <div id="timer-layer" class="page-layer" style="background: #050505;">
         <header>
             <button class="icon-btn" onclick="closeTimer()">✕ Exit</button>
@@ -297,63 +226,45 @@
             <div class="zen-circle" id="breath-circle">
                 <div class="timer-digits" id="timer-display">05:00</div>
             </div>
-            <div class="timer-input-area" id="timer-setup">
-                <input type="number" id="custom-min" class="t-input" value="5" min="1"> <span style="color:var(--text-muted); font-family:'Rajdhani'; font-size: 1.2rem;">MIN</span>
-            </div>
+            <div class="timer-input-area" id="timer-setup"><input type="number" id="custom-min" class="t-input" value="5" min="1"> <span style="color:var(--text-muted); font-family:'Rajdhani'; font-size: 1.2rem;">MIN</span></div>
             <p style="color: var(--text-muted); margin-bottom: 40px; font-family: 'Rajdhani', sans-serif; letter-spacing: 2px; font-weight: 600; text-shadow: 0 0 10px rgba(255,255,255,0.2);">CHANNEL YOUR FOCUS</p>
-            <div style="display:flex; gap:10px; width:100%; justify-content:center;">
-                <button class="btn btn-primary" style="max-width: 200px;" onclick="startSequence()" id="timer-btn">Start Focus</button>
-            </div>
+            <div style="display:flex; gap:10px; width:100%; justify-content:center;"><button class="btn btn-primary" style="max-width: 200px;" onclick="startSequence()" id="timer-btn">Start Focus</button></div>
         </div>
     </div>
 
-    <div class="modal" id="input-modal">
-        <div class="modal-sheet">
-            <h3 style="margin: 0 0 15px 0; font-weight: 400; font-family: 'Rajdhani', sans-serif; color: #fff;">ADD ENTRY</h3>
-            <div class="pill-container" id="category-pills">
-                <div class="pill selected" onclick="setCat('red', this)">🔥 High</div>
-                <div class="pill" onclick="setCat('yellow', this)">⚡ Flow</div>
-                <div class="pill" onclick="setCat('green', this)">🍃 Gentle</div>
-                <div class="pill" onclick="setCat('loop', this)">➿ Loop</div>
-                <div class="pill" onclick="setCat('marker', this)">✒️ Perma</div>
-            </div>
-            <textarea id="input-text" placeholder="Type your thought..."></textarea>
-            <div class="btn-row">
-                <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="saveItem()">Save</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal center" id="quote-modal" onclick="if(event.target === this) closeQuoteModal()">
-        <div class="quote-card">
-            <div style="font-size: 2.5rem; margin-bottom: 10px; opacity: 0.5;">📜</div>
-            <div id="modal-quote-text" class="quote-text"></div>
-            <div id="modal-quote-author" class="quote-author"></div>
-            <button class="btn btn-ghost" style="margin-top:15px; width:100%; border:1px solid rgba(255,255,255,0.2);" onclick="generateQuote()">Another One</button>
-            <button class="btn btn-primary" style="margin-top: 10px; background:var(--aurora-blue); color:black;" onclick="closeQuoteModal()">Absorb & Close</button>
-        </div>
-    </div>
-
-    <div class="modal center" id="info-modal" onclick="if(event.target === this) closeInfo()">
-        <div class="info-card">
-            <h3 style="margin: 0 0 20px 0; font-family: 'Rajdhani', sans-serif; text-align: center; color: #fff;">GUIDE</h3>
-            <div class="info-row"><div class="info-dot" style="background: var(--aurora-pink); box-shadow: 0 0 8px var(--aurora-pink);"></div><div class="info-content"><h4>High Energy</h4><p>Urgent tasks. Do these when your energy is at its peak.</p></div></div>
-            <div class="info-row"><div class="info-dot" style="background: var(--aurora-blue); box-shadow: 0 0 8px var(--aurora-blue);"></div><div class="info-content"><h4>Flow State</h4><p>Important, steady work. Requires focus but not panic.</p></div></div>
-            <div class="info-row"><div class="info-dot" style="background: var(--aurora-green); box-shadow: 0 0 8px var(--aurora-green);"></div><div class="info-content"><h4>Gentle</h4><p>Low stakes. Do these when you need to relax or wind down.</p></div></div>
-            <div class="info-row"><div class="info-icon">➿</div><div class="info-content"><h4>Mental Loops</h4><p>Catch repetitive, unhelpful thoughts here to get them out of your head.</p></div></div>
-            <div class="info-row"><div class="info-icon" style="color: var(--aurora-purple)">✒️</div><div class="info-content"><h4>Perma Truths</h4><p>Deep realizations or affirmations you want to keep forever.</p></div></div>
-            <button class="btn btn-primary" style="margin-top: 20px;" onclick="closeInfo()">Got it</button>
-        </div>
-    </div>
+    <div class="modal" id="input-modal"><div class="sheet"><h3 style="margin: 0 0 15px 0; font-weight: 400; font-family: 'Rajdhani', sans-serif; color: white;">ADD ENTRY</h3><div class="pill-container" id="category-pills"><div class="pill selected" onclick="setCat('red', this)">🔥 High</div><div class="pill" onclick="setCat('yellow', this)">⚡ Flow</div><div class="pill" onclick="setCat('green', this)">🍃 Gentle</div><div class="pill" onclick="setCat('loop', this)">➿ Loop</div><div class="pill" onclick="setCat('marker', this)">✒️ Perma</div></div><textarea id="input-text" placeholder="Write here..."></textarea><div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveNote()">Save</button></div></div></div>
+    
+    <div class="modal center" id="quote-modal" onclick="if(event.target === this) closeQuoteModal()"><div class="quote-card"><div style="font-size: 2.5rem; margin-bottom: 10px; opacity: 0.5;">📜</div><div id="modal-quote-text" class="quote-text"></div><div id="modal-quote-author" class="quote-author"></div><button class="btn btn-ghost" style="margin-top:15px; width:100%; border:1px solid rgba(255,255,255,0.2);" onclick="generateQuote()">Another One</button><button class="btn btn-primary" style="margin-top: 10px; background:var(--aurora-blue); color:black;" onclick="closeQuoteModal()">Absorb & Close</button></div></div>
+    
+    <div class="modal center" id="info-modal" onclick="if(event.target === this) closeInfo()"><div class="info-card"><h3 style="margin: 0 0 20px 0; font-family: 'Rajdhani', sans-serif; text-align: center; color: #fff;">GUIDE</h3><div class="info-row"><div class="info-dot" style="background: var(--aurora-pink); box-shadow: 0 0 8px var(--aurora-pink);"></div><div class="info-content"><h4>High Energy</h4><p>Urgent tasks. Do these when your energy is at its peak.</p></div></div><div class="info-row"><div class="info-dot" style="background: var(--aurora-blue); box-shadow: 0 0 8px var(--aurora-blue);"></div><div class="info-content"><h4>Flow State</h4><p>Important, steady work. Requires focus but not panic.</p></div></div><div class="info-row"><div class="info-dot" style="background: var(--aurora-green); box-shadow: 0 0 8px var(--aurora-green);"></div><div class="info-content"><h4>Gentle</h4><p>Low stakes. Do these when you need to relax or wind down.</p></div></div><div class="info-row"><div class="info-icon">➿</div><div class="info-content"><h4>Mental Loops</h4><p>Catch repetitive, unhelpful thoughts here to get them out of your head.</p></div></div><div class="info-row"><div class="info-icon" style="color: var(--aurora-purple)">✒️</div><div class="info-content"><h4>Perma Truths</h4><p>Deep realizations or affirmations you want to keep forever.</p></div></div><button class="btn btn-primary" style="margin-top: 20px;" onclick="closeInfo()">Got it</button></div></div>
+    
+    <div class="modal center" id="exit-modal" onclick="if(event.target === this) closeExit()"><div class="info-card" style="text-align:center"><h3 style="margin-bottom:15px">Exit Mind & Tasks?</h3><div class="btn-row"><button class="btn btn-ghost" onclick="closeExit()">Stay</button><button class="btn btn-primary" style="background:var(--aurora-pink); color:white;" onclick="confirmExit()">Exit</button></div></div></div>
 
     <script>
         /* CACHE KILLER */
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for(let registration of registrations) { registration.unregister(); } 
-            });
-        }
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(function(registrations) { for(let registration of registrations) { registration.unregister(); } }); }
+        
+        // --- EXIT LOGIC (Back Button) ---
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            const openSubPage = document.querySelector('.sub-page.active');
+            const openPageLayer = document.querySelector('.page-layer.active');
+            const openModal = document.querySelector('.modal.active');
+
+            if (openSubPage || openPageLayer || openModal) {
+                if(openSubPage) closePage();
+                if(openPageLayer) closeTimer(); // Timer uses page-layer in this version
+                if(openModal) {
+                    if(openModal.id === 'exit-modal') closeExit();
+                    else { closeModal(); closeQuoteModal(); closeInfo(); }
+                }
+                history.pushState(null, null, location.href);
+            } else {
+                document.getElementById('exit-modal').classList.add('active');
+            }
+        };
+        function closeExit() { document.getElementById('exit-modal').classList.remove('active'); history.pushState(null, null, location.href); }
+        function confirmExit() { history.back(); history.back(); } // Try double back to exit app wrapper
 
         // WELCOME
         if (!localStorage.getItem('hasVisited')) { document.getElementById('welcome-overlay').style.display = 'flex'; }
@@ -361,10 +272,9 @@
 
         // DATA
         let items = JSON.parse(localStorage.getItem('auroraNotes')) || [];
-        let currentCategory = 'red';
+        let currentCat = 'red';
         let activePage = null;
-        let timerInt; let seconds = 300; let isRunning = false;
-
+        
         // 168 QUOTES
         const library = [
             {t:"The wound is the place where the Light enters you.",a:"Rumi"},{t:"What you seek is seeking you.",a:"Rumi"},{t:"Stop acting so small. You are the universe in ecstatic motion.",a:"Rumi"},{t:"Silence is the language of God, all else is poor translation.",a:"Rumi"},{t:"Sell your cleverness and buy bewilderment.",a:"Rumi"},{t:"Knock, And He'll open the door.",a:"Rumi"},{t:"You were born with wings, why prefer to crawl through life?",a:"Rumi"},{t:"Don't be satisfied with stories, how things have gone with others. Unfold your own myth.",a:"Rumi"},{t:"I wish I could show you when you are lonely or in darkness the astonishing light of your own being.",a:"Hafiz"},{t:"Fear is the cheapest room in the house. I would like to see you living in better conditions.",a:"Hafiz"},{t:"The sun is within me, and so is the moon.",a:"Kabir"},{t:"Wherever you stand, be the soul of that place.",a:"Rumi"},{t:"Be empty of worrying. Think of who created thought.",a:"Rumi"},{t:"Your heart is the size of an ocean. Go find yourself in its hidden depths.",a:"Rumi"},{t:"Let yourself be silently drawn by the strange pull of what you really love. It will not lead you astray.",a:"Rumi"},{t:"Travel brings power and love back into your life.",a:"Rumi"},{t:"The mind creates the abyss, the heart crosses it.",a:"Nisargadatta Maharaj"},{t:"Wisdom is knowing I am nothing, Love is knowing I am everything.",a:"Nisargadatta Maharaj"},{t:"Everything happens on its own. You are doing nothing.",a:"Nisargadatta Maharaj"},{t:"Once you realize that the road is the goal and that you are always on the road, not to reach a goal, but to enjoy its beauty and its wisdom, life ceases to be a task and becomes natural and simple.",a:"Nisargadatta Maharaj"},
@@ -410,13 +320,13 @@
             document.getElementById('count-marker').innerText = `${items.filter(i => i.cat === 'marker').length} Truths`;
 
             if(activePage) {
-                const container = document.getElementById(`page-content-area`);
+                const container = document.getElementById(activePage === 'loop' ? `page-list-loop` : `page-list-marker`);
                 container.innerHTML = '';
                 const filtered = items.filter(i => i.cat === activePage);
                 if (filtered.length === 0) {
-                    container.innerHTML = `<div class="empty-msg" onclick="openModal('${activePage}')">No entries yet.<br>Tap to add.</div>`;
+                    container.innerHTML = `<div class="empty-msg" onclick="openModal('${activePage}')">Nothing here yet.<br>Tap to add.</div>`;
                 } else {
-                    filtered.forEach(item => createNoteElement(item, 'page-content-area', false));
+                    filtered.forEach(item => createNoteElement(item, activePage === 'loop' ? `page-list-loop` : `page-list-marker`, false));
                 }
             }
         }
@@ -439,14 +349,11 @@
         // --- NAVIGATION ---
         function openList(type) {
             activePage = type;
-            const layer = document.getElementById('page-layer');
-            const title = document.getElementById('page-title');
-            if(type === 'loop') title.innerHTML = `<span class="logo-mind">MENTAL</span><div class="logo-dot"></div><span class="logo-tasks">LOOPS</span>`;
-            else title.innerHTML = `<span class="logo-mind">PERMA</span><div class="logo-dot"></div><span class="logo-tasks">TRUTHS</span>`;
+            const layer = document.getElementById(type === 'loop' ? 'loop-page' : 'marker-page');
             layer.classList.add('active');
             render();
         }
-        function closePage() { document.getElementById('page-layer').classList.remove('active'); activePage = null; render(); }
+        function closePage() { document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active')); activePage = null; render(); }
 
         // --- MODALS ---
         function openModal(preSelectCat) {
@@ -480,7 +387,7 @@
             if(!text) return;
             items.push({ id: Date.now(), text, cat: currentCat, done: false });
             localStorage.setItem('auroraNotes', JSON.stringify(items));
-            if(activePage) openPage(activePage); else render();
+            if(activePage) openList(activePage); else render();
             closeModal();
         }
 
@@ -488,14 +395,25 @@
             if(confirm("Dissolve this thought?")) {
                 items = items.filter(i => i.id !== id);
                 localStorage.setItem('auroraNotes', JSON.stringify(items));
-                if(activePage) openPage(activePage); else render();
+                if(activePage) openList(activePage); else render();
             }
         }
 
         function toggleDone(id) { const item = items.find(i => i.id === id); if(item) { item.done = !item.done; localStorage.setItem('auroraNotes', JSON.stringify(items)); render(); } }
-        function save() { localStorage.setItem('auroraNotes', JSON.stringify(items)); render(); }
 
-        // --- TIMER & FIREFLIES ---
+        // QUOTES
+        function updateBanner() { const q = library[Math.floor(Math.random() * library.length)]; document.getElementById('banner-text').innerText = `"${q.t}"`; document.getElementById('banner-author').innerText = `- ${q.a}`; }
+        function showQuote() { generateQuote(); document.getElementById('quote-modal').classList.add('active'); }
+        function closeQuoteModal() { document.getElementById('quote-modal').classList.remove('active'); }
+        function generateQuote() { const q = library[Math.floor(Math.random() * library.length)]; document.getElementById('modal-quote-text').innerText = q.t; document.getElementById('modal-quote-author').innerText = q.a; updateBanner(); }
+        
+        // INFO
+        function openInfo() { document.getElementById('info-modal').classList.add('active'); }
+        function closeInfo() { document.getElementById('info-modal').classList.remove('active'); }
+
+        // TIMER & FIREFLIES
+        let timerInt; let seconds = 300; let isRunning = false;
+
         function spawnFireflies() {
             const container = document.getElementById('fireflies'); container.classList.add('active'); container.innerHTML = '';
             for(let i=0; i<30; i++) {
@@ -507,7 +425,7 @@
             }
         }
         function clearFireflies() { document.getElementById('fireflies').classList.remove('active'); document.getElementById('fireflies').innerHTML = ''; }
-
+        
         function playSound(type) {
             const AudioContext = window.AudioContext || window.webkitAudioContext; if (!AudioContext) return;
             const ctx = new AudioContext(); const osc = ctx.createOscillator(); const gain = ctx.createGain();
@@ -563,15 +481,6 @@
         }
         
         function toggleTimer() { if(!isRunning) startSequence(); }
-
-        // --- EXTRAS ---
-        function updateBanner() { const q = library[Math.floor(Math.random() * library.length)]; document.getElementById('banner-text').innerText = `"${q.t}"`; document.getElementById('banner-author').innerText = `- ${q.a}`; }
-        function showQuote() { generateQuote(); document.getElementById('quote-modal').classList.add('active'); }
-        function closeQuoteModal() { document.getElementById('quote-modal').classList.remove('active'); }
-        function generateQuote() { const q = library[Math.floor(Math.random() * library.length)]; document.getElementById('modal-quote-text').innerText = q.t; document.getElementById('modal-quote-author').innerText = q.a; updateBanner(); }
-
-        function openInfo() { document.getElementById('info-modal').classList.add('active'); }
-        function closeInfo() { document.getElementById('info-modal').classList.remove('active'); }
 
         init();
     </script>
